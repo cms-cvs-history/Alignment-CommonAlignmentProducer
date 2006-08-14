@@ -7,13 +7,13 @@
     string Propagator = "PropagatorWithMaterial" 
     string TTRHBuilder = "WithoutRefit"
 
-    untracked uint32 maxLoops = 4
+    untracked uint32 maxLoops = 1
     string src = "AlignmentTracks"
 
     string algorithm = "CSA06AlignmentAlgorithm"
 
-    string parameterSelector = "111111"
-    string alignableSelector = "PixelHalfBarrelLadders"
+    string parameterSelector = "111000"
+    string alignableSelector = "PixelHalfBarrelLayers"
     int32 nFixAlignables = 1
 
     double randomShift = 0.05
