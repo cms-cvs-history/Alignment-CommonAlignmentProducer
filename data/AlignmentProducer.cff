@@ -1,0 +1,25 @@
+
+  include "Alignment/CommonAlignmentProducer/data/AlignmentProducer.cfi"
+
+  looper = AlignmentProducer
+  {
+    string Fitter = "KFFittingSmoother"   
+    string Propagator = "PropagatorWithMaterial" 
+    string TTRHBuilder = "WithoutRefit"
+
+    untracked uint32 maxLoops = 4
+    string src = "AlignmentTracks"
+
+    string algorithm = "CSA06AlignmentAlgorithm"
+
+    string parameterSelector = "111111"
+    string alignableSelector = "PixelHalfBarrelLadders"
+    int32 nFixAlignables = 1
+
+    double randomShift = 0.05
+    double randomRotation = 0.
+
+    # parameters for CSA06AlignmentAlgorithm
+    include "Alignment/CSA06AlignmentAlgorithm/data/CSA06AlignmentAlgorithm.cfi"
+
+  }  

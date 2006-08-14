@@ -1,0 +1,56 @@
+
+ es_module = KFUpdatorESProducer
+  {
+    string ComponentName = "KFUpdator"   
+  }
+
+  es_module = Chi2MeasurementEstimatorESProducer
+  {
+    string ComponentName = "Chi2"   
+    double MaxChi2 = 30. 
+    double nSigma = 3.
+  }
+
+  es_module = KFTrajectoryFitterESProducer 
+  {
+    string ComponentName = "KFFitter"   
+    string  Propagator = "PropagatorWithMaterial" 
+    string Updator = "KFUpdator"
+    string Estimator = "Chi2"
+  }
+
+  es_module = KFTrajectorySmootherESProducer 
+  {
+    string ComponentName = "KFSmoother"   
+    string Propagator = "PropagatorWithMaterialOpposite" 
+    string Updator = "KFUpdator"
+    string Estimator = "Chi2"
+
+  }
+
+  es_module = KFFittingSmootherESProducer 
+  {
+    string ComponentName = "KFFittingSmoother"   
+    string  Fitter = "KFFitter" 
+    string Smoother = "KFSmoother"
+
+  }
+
+  es_module mat1 = PropagatorWithMaterialESProducer {
+    string ComponentName = "PropagatorWithMaterial"
+    string PropagationDirection = "alongMomentum"	
+    double Mass = 0.105
+  }
+  es_module mat2 = PropagatorWithMaterialESProducer {
+    string ComponentName = "PropagatorWithMaterialOpposite"
+    string PropagationDirection = "oppositeToMomentum"	
+    double Mass = 0.105
+  }
+
+
+  # stripCPE
+  include "RecoLocalTracker/SiStripRecHitConverter/data/StripCPEfromTrackAngle.cfi"
+  # pixelCPE
+  include "RecoLocalTracker/SiPixelRecHits/data/PixelCPEParmError.cfi"
+  # TransientTrackingBuilder
+  include "RecoTracker/TransientTrackingRecHit/data/TransientTrackingRecHitBuilderWithoutRefit.cfi"
