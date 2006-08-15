@@ -19,7 +19,7 @@
     double randomShift = 0.05 
     double randomRotation = 0.
 
-    # parameters for CSA06AlignmentAlgorithm bla
+    # parameters for CSA06AlignmentAlgorithm
     include "Alignment/CSA06AlignmentAlgorithm/data/CSA06AlignmentAlgorithm.cfi"
 
   }  
