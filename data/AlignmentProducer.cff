@@ -14,7 +14,8 @@
 
     string parameterSelector = "111000"
     string alignableSelector = "PixelHalfBarrelLayers"
-    int32 nFixAlignables = 1
+    # string alignableSelector = "AllDets"
+    int32 nFixAlignables = 0
 
     double randomShift = 0.05 
     double randomRotation = 0.
