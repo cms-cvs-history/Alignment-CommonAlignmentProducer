@@ -16,10 +16,10 @@
     string alignableSelector = "PixelHalfBarrelLayers"
     int32 nFixAlignables = 1
 
-    double randomShift = 0.05
+    double randomShift = 0.05 
     double randomRotation = 0.
 
-    # parameters for CSA06AlignmentAlgorithm
+    # parameters for CSA06AlignmentAlgorithm bla
     include "Alignment/CSA06AlignmentAlgorithm/data/CSA06AlignmentAlgorithm.cfi"
 
   }  
