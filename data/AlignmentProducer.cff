@@ -55,15 +55,9 @@
     untracked uint32 authenticationMethod = 1
     untracked string catalog = "file:condbcatalog.xml"
     VPSet toPut = {
-	  { 
-		untracked string containerName = "Alignments" 
-		string tag = "Alignments_init" 
-	  },
-	  { 
-		untracked string containerName = "AlignmentErrors" 
-		string tag = "AlignmentErrors_init" 
-	  }
+    { untracked string containerName = "Alignments" 
+      string tag = "Alignments_init" },
+    { untracked string containerName = "AlignmentErrors" 
+      string tag = "AlignmentErrors_init" }
     }
   }
-
-
