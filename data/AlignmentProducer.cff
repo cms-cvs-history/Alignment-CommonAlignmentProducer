@@ -1,26 +1,69 @@
 
   include "Alignment/CommonAlignmentProducer/data/AlignmentProducer.cfi"
 
+# misalignment scenarios
+  include "Alignment/TrackerAlignment/data/Scenarios.cff"
+
+  replace TrackerShortTermScenario.TPBs.scale = 10.
+  replace TrackerShortTermScenario.TPEs.scale = 10.
+
   looper = AlignmentProducer
   {
     string Fitter = "KFFittingSmoother"   
     string Propagator = "PropagatorWithMaterial" 
     string TTRHBuilder = "WithoutRefit"
 
+    bool debug = false
+
     untracked uint32 maxLoops = 1
     string src = "AlignmentTracks"
 
-    string algorithm = "CSA06AlignmentAlgorithm"
-
+    # dof to be aligned x,y,z,alpha,beta,gamma in local frame   
     string parameterSelector = "111000"
+
+    # selection of alignables to be aligned
     string alignableSelector = "PixelHalfBarrelLayers"
     # string alignableSelector = "AllDets"
+
+    # number of selected alignables to be kept fixed
     int32 nFixAlignables = 0
 
-    double randomShift = 0.05 
+    # simple misalignment applied to selected alignables and dof
+    double randomShift = 0.02
     double randomRotation = 0.
+
+    # misalignment scenario
+    bool doMisalignmentScenario = false
+    PSet MisalignmentScenario = {
+     using TrackerShortTermScenario
+    }
+
+    # alignment algorithm
+    string algorithm = "CSA06AlignmentAlgorithm"
 
     # parameters for CSA06AlignmentAlgorithm
     include "Alignment/CSA06AlignmentAlgorithm/data/CSA06AlignmentAlgorithm.cfi"
+    # do we save to DB?
+    bool saveToDB = true
 
   }  
+
+# Database output service
+  service = PoolDBOutputService  {
+    string connect = "sqlite_file:Alignments.db"    
+    string timetype = "runnumber"    
+    untracked uint32 authenticationMethod = 1
+    untracked string catalog = "file:condbcatalog.xml"
+    VPSet toPut = {
+	  { 
+		untracked string containerName = "Alignments" 
+		string tag = "Alignments_init" 
+	  },
+	  { 
+		untracked string containerName = "AlignmentErrors" 
+		string tag = "AlignmentErrors_init" 
+	  }
+    }
+  }
+
+
