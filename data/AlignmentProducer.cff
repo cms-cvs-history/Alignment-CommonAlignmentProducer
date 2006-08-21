@@ -4,8 +4,8 @@
 # misalignment scenarios
   include "Alignment/TrackerAlignment/data/Scenarios.cff"
 
-  replace TrackerShortTermScenario.TPBs.scale = 10.
-  replace TrackerShortTermScenario.TPEs.scale = 10.
+#  replace TrackerShortTermScenario.TPBs.scale = 10.
+#  replace TrackerShortTermScenario.TPEs.scale = 10.
 
   looper = AlignmentProducer
   {
@@ -42,7 +42,35 @@
     string algorithm = "CSA06AlignmentAlgorithm"
 
     # parameters for CSA06AlignmentAlgorithm
-    include "Alignment/CSA06AlignmentAlgorithm/data/CSA06AlignmentAlgorithm.cfi"
+# include "Alignment/CSA06AlignmentAlgorithm/data/CSA06AlignmentAlgorithm.cfi"
+
+    PSet CSA06AlignmentAlgorithm = {
+
+      bool verbosity = false
+      string outpath = "./"
+
+      string outfile        = "CSA06AlignmentEvents.root"
+      string outfile2       = "CSA06AlignmentAlignables.root"
+      string trueFile       = "IOTruePositions.root"
+      string misalignedFile = "IOMisalignedPositions.root"
+      string alignedFile    = "IOAlignedPositions.root"
+      string iterationFile  = "IOIteration.root"
+      string uvarFile       = "IOUserVariables.root"
+      string parameterFile  = "IOAlignmentParameters.root"
+
+      string apeParam = "linear"  // linear or exponential
+      vdouble apeSPar = { 0.0, 0.0, 3. }
+      vdouble apeRPar = { 0.0,  0.0, 3. }
+
+      int32 minimumNumberOfHits = 50
+      double maxRelParameterError = 1.0
+   
+      bool collectorActive = false
+      int32 collectorNJobs = 0
+      string collectorPath = ""
+
+    }
+
     # do we save to DB?
     bool saveToDB = true
 
