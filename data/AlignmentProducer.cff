@@ -33,7 +33,6 @@ looper = AlignmentProducer
     PSet MisalignmentScenario = { using TrackerShortTermScenario }
 	
     # alignment algorithm name
-    string algoName = "CSA06AlignmentAlgorithm"
 	PSet algoConfig = {
 		using DefaultRefitter
 		using CSA06AlignmentAlgorithm
