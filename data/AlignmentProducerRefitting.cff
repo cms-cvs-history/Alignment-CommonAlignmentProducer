@@ -29,6 +29,3 @@ include "RecoLocalTracker/SiPixelRecHits/data/PixelCPEParmError.cfi"
 #TransientTrackingBuilder
 # include "RecoTracker/TransientTrackingRecHit/data/TransientTrackingRecHitBuilder.cfi"
   include "RecoTracker/TransientTrackingRecHit/data/TransientTrackingRecHitBuilderWithoutRefit.cfi"
-
-
-

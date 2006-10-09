@@ -1,14 +1,14 @@
 
-include "Alignment/CommonAlignmentProducer/data/AlignmentProducer.cfi"
+include "Alignment/CommonAlignmentProducer/data/AlignmentProducerRefitting.cff"
 
 # misalignment scenarios
 include "Alignment/TrackerAlignment/data/Scenarios.cff"
+#  replace TrackerShortTermScenario.TPBs.scale = 10.
+#  replace TrackerShortTermScenario.TPEs.scale = 10.
 
 # algorithms
 include "Alignment/CommonAlignmentProducer/data/Algorithms.cff"
 
-#  replace TrackerShortTermScenario.TPBs.scale = 10.
-#  replace TrackerShortTermScenario.TPEs.scale = 10.
 
 looper = AlignmentProducer
 {
