@@ -1,0 +1,12 @@
+# AlCaReco for track based alignment using ZMuMu events
+
+  block OutCSA06ZMuMu = {
+    untracked vstring outputCommands = { 
+       "drop *" , "keep *_AlCaRecoCSA06ZMuMu_*_*"  
+    }
+    untracked PSet SelectEvents = {
+      vstring SelectEvents = { "pathCSA06ZMuMu" }
+    }
+
+  }
+
