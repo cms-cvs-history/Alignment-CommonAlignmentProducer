@@ -1,56 +1,30 @@
+# adapted from RecoTracker/TrackProducer/data/CTFFinalFitWithMaterial.cff
 
- es_module = KFUpdatorESProducer
-  {
-    string ComponentName = "KFUpdator"   
-  }
+# KFUpdatoerESProducer
+include "TrackingTools/KalmanUpdators/data/KFUpdatorESProducer.cfi"
 
-  es_module = Chi2MeasurementEstimatorESProducer
-  {
-    string ComponentName = "Chi2"   
-    double MaxChi2 = 30. 
-    double nSigma = 3.
-  }
+# Chi2MeasurementEstimatorESProducer
+include "TrackingTools/KalmanUpdators/data/Chi2MeasurementEstimatorESProducer.cfi"
 
-  es_module = KFTrajectoryFitterESProducer 
-  {
-    string ComponentName = "KFFitter"   
-    string  Propagator = "PropagatorWithMaterial" 
-    string Updator = "KFUpdator"
-    string Estimator = "Chi2"
-  }
+# KFTrajectoryFitterESProducer
+include "TrackingTools/TrackFitters/data/KFTrajectoryFitterESProducer.cfi"
 
-  es_module = KFTrajectorySmootherESProducer 
-  {
-    string ComponentName = "KFSmoother"   
-    string Propagator = "PropagatorWithMaterialOpposite" 
-    string Updator = "KFUpdator"
-    string Estimator = "Chi2"
+# KFTrajectorySmootherESProducer
+include "TrackingTools/TrackFitters/data/KFTrajectorySmootherESProducer.cfi"
 
-  }
+# KFFittingSmootherESProducer
+include "TrackingTools/TrackFitters/data/KFFittingSmootherESProducer.cfi"
 
-  es_module = KFFittingSmootherESProducer 
-  {
-    string ComponentName = "KFFittingSmoother"   
-    string  Fitter = "KFFitter" 
-    string Smoother = "KFSmoother"
+# PropagatorWithMaterialESProducer
+include "TrackingTools/MaterialEffects/data/MaterialPropagator.cfi"
 
-  }
-
-  es_module mat1 = PropagatorWithMaterialESProducer {
-    string ComponentName = "PropagatorWithMaterial"
-    string PropagationDirection = "alongMomentum"	
-    double Mass = 0.105
-  }
-  es_module mat2 = PropagatorWithMaterialESProducer {
-    string ComponentName = "PropagatorWithMaterialOpposite"
-    string PropagationDirection = "oppositeToMomentum"	
-    double Mass = 0.105
-  }
-
-
-  # stripCPE
-  include "RecoLocalTracker/SiStripRecHitConverter/data/StripCPEfromTrackAngle.cfi"
-  # pixelCPE
-  include "RecoLocalTracker/SiPixelRecHits/data/PixelCPEParmError.cfi"
-  # TransientTrackingBuilder
+# PropagatorWithMaterialESProducer
+include "TrackingTools/MaterialEffects/data/OppositeMaterialPropagator.cfi"
+# stripCPE
+include "RecoLocalTracker/SiStripRecHitConverter/data/StripCPEfromTrackAngle.cfi"
+include "RecoLocalTracker/SiStripRecHitConverter/data/SiStripRecHitMatcher.cfi"
+# pixelCPE
+include "RecoLocalTracker/SiPixelRecHits/data/PixelCPEParmError.cfi"
+#TransientTrackingBuilder
+# include "RecoTracker/TransientTrackingRecHit/data/TransientTrackingRecHitBuilder.cfi"
   include "RecoTracker/TransientTrackingRecHit/data/TransientTrackingRecHitBuilderWithoutRefit.cfi"
