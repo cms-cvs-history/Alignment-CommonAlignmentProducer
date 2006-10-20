@@ -1,0 +1,82 @@
+
+include "Alignment/CommonAlignmentProducer/data/AlignmentProducerRefitting.cff"
+
+# misalignment scenarios
+include "Alignment/TrackerAlignment/data/Scenarios.cff"
+#  replace TrackerShortTermScenario.TPBs.scale = 10.
+#  replace TrackerShortTermScenario.TPEs.scale = 10.
+
+# algorithms
+include "Alignment/CommonAlignmentProducer/data/Algorithms.cff"
+
+
+looper = AlignmentProducer
+{
+    untracked uint32 maxLoops = 1
+	
+    # selection of alignables and their parameters to be aligned:
+    # comma separated pairs of detector parts/levels as defined in AlignmentParameterBuilder
+    # and of d.o.f. to be aligned (x,y,z,alpha,beta,gamma) in local frame   
+    PSet AlignmentParameterBuilder = {
+        vstring alignableParamSelector = {"PixelHalfBarrelLayers,111000" # cf. below: ,pixelSelection",
+                                          #"BarrelDSRods,111000", could add more...
+                                          #"BarrelSSRods,101000"
+        }
+#NOT YET IMPLEMENTED!
+        # If a component in 'alignableParamSelector' contains a third comma-separated part,
+        # a PSet with that name is expected, defining exclusion ranges in eta, r, z and phi
+        PSet pixelSelection = {
+          # The global positions of the centres of the alignables with this selection
+          # must lie in the ranges defined by the following arrays.
+          # These arrays must have an even number of entries and the alignables are
+          # required to fulfil
+          # 'x'Range[0] < 'x' < 'x'Range[1] || 'x'Range[2] < 'x' < 'x'Range[3] || etc.
+          vdouble etaRanges =  {-2., -0.2, 0.2, 2.} # makes not much sense or pixel...
+          vdouble zRanges   =  {} # empty array means no restriction
+          vdouble rRanges   =  {0., 5.} # small radii only (i.e. first pixel layer)
+          # two phi-slices, note that it covers the +-pi sign flip:
+          vdouble phiRanges =  {.5, 1., 1.5, -0.5}
+        }
+# END NOT YET IMPLEMENTED!
+    }
+
+  
+    # number of selected alignables to be kept fixed
+    int32 nFixAlignables = 0
+	
+    # simple misalignment applied to selected alignables and dof
+    string parameterSelectorSimple = "111000"
+    double randomShift = 0.
+    double randomRotation = 0.
+	
+    # misalignment scenario
+    bool doMisalignmentScenario = false
+    PSet MisalignmentScenario = { using TrackerShortTermScenario }
+	
+    # alignment algorithm, defined in Algorithms.cff:
+	PSet algoConfig = {
+		using DefaultRefitter
+                # choose one algorithm
+		using CSA06AlignmentAlgorithm
+                # using MillePedeAlignmentAlgorithm
+    }
+
+	
+    # do we save to DB?
+    bool saveToDB = false
+
+}
+
+# Database output service
+service = PoolDBOutputService  {
+    string connect = "sqlite_file:Alignments.db"    
+    string timetype = "runnumber"    
+    untracked uint32 authenticationMethod = 1
+    untracked string catalog = "file:condbcatalog.xml"
+    VPSet toPut = {
+		{ untracked string containerName = "Alignments" 
+			string tag = "Alignments_init" },
+		{ untracked string containerName = "AlignmentErrors" 
+			string tag = "AlignmentErrors_init" }
+    }
+}
