@@ -18,7 +18,7 @@ looper = AlignmentProducer
     # comma separated pairs of detector parts/levels as defined in AlignmentParameterBuilder
     # and of d.o.f. to be aligned (x,y,z,alpha,beta,gamma) in local frame   
     PSet AlignmentParameterBuilder = {
-        vstring alignableParamSelector = {"PixelHalfBarrelLayers,111000" # cf. below: ,pixelSelection",
+        vstring alignableParamSelector = {"PixelHalfBarrelLayers,111000" # cf. below: ,pixelSelection,
                                           #"BarrelDSRods,111000", could add more...
                                           #"BarrelSSRods,101000"
         }
@@ -59,6 +59,7 @@ looper = AlignmentProducer
                 # choose one algorithm
 		using CSA06AlignmentAlgorithm
                 # using MillePedeAlignmentAlgorithm
+                # using KalmanAlignmentAlgorithm
     }
 
 	

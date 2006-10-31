@@ -21,3 +21,4 @@ block DefaultRefitter = {
 // Default algorithm configuration files
 include "Alignment/CSA06AlignmentAlgorithm/data/CSA06AlignmentAlgorithm.cfi"
 include "Alignment/MillePedeAlignmentAlgorithm/data/MillePedeAlignmentAlgorithm.cfi"
+include "Alignment/KalmanAlignmentAlgorithm/data/KalmanAlignmentAlgorithm.cfi"
