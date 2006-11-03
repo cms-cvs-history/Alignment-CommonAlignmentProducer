@@ -46,12 +46,24 @@ looper = AlignmentProducer
 	
     # simple misalignment applied to selected alignables and dof
     string parameterSelectorSimple = "111000"
-    double randomShift = 0.
+    double randomShift = 0.02
     double randomRotation = 0.
 	
+    # Misalignment from database
+    untracked bool applyDbAlignment = false
+
     # misalignment scenario
     bool doMisalignmentScenario = false
-    PSet MisalignmentScenario = { using TrackerShortTermScenario }
+    PSet MisalignmentScenario = { 
+      using TrackerShortTermScenario 
+
+      #untracked bool fixTPB = 0
+      #untracked bool fixTPE = 1
+      #untracked bool fixTIB = 1
+      #untracked bool fixTOB = 1
+      #untracked bool fixTID = 1
+      #untracked bool fixTEC = 1
+    }
 	
     # alignment algorithm, defined in Algorithms.cff:
 	PSet algoConfig = {
@@ -66,6 +78,29 @@ looper = AlignmentProducer
     # do we save to DB?
     bool saveToDB = false
 
+}
+
+# Database input service
+es_source = PoolDBESSource { 
+  VPSet toGet = {
+    { string record = "TrackerAlignmentRcd" string tag = "TrackerCSA06Scenario" },
+    { string record = "TrackerAlignmentErrorRcd" string tag = "TrackerCSA06ScenarioErrors" }
+  }
+  bool loadAll = true
+  string timetype = "runnumber" 
+  untracked uint32 authenticationMethod = 1 // 1
+  untracked uint32 messagelevel = 0 // 0
+
+# (a) sq lite files (has to match toGet tag's used above)
+# string connect = "sqlite_file:CSA06Scenario.db"
+# untracked string catalog = "file:condbcatalog.xml"
+# (b) ORACLE
+  string connect = "oracle://cms_orcoff_int2r/CMS_COND_ALIGNMENT"
+  untracked string catalog = "relationalcatalog_oracle://cms_orcoff_int2r/CMS_COND_GENERAL"
+  untracked bool siteLocalConfig = false // oracle
+# (c) FRONTIER
+# string connect = "frontier://cms_conditions_data/CMS_COND_ALIGNMENT"
+# untracked bool siteLocalConfig = true // frontier
 }
 
 # Database output service
