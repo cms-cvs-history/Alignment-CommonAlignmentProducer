@@ -13,37 +13,42 @@ include "Alignment/CommonAlignmentProducer/data/Algorithms.cff"
 looper = AlignmentProducer
 {
     untracked uint32 maxLoops = 1
-	
-    # selection of alignables and their parameters to be aligned:
-    # comma separated pairs of detector parts/levels as defined in AlignmentParameterBuilder
-    # and of d.o.f. to be aligned (x,y,z,alpha,beta,gamma) in local frame   
+
     PSet AlignmentParameterBuilder = {
-        vstring alignableParamSelector = {"PixelHalfBarrelLayers,111000" # cf. below: ,pixelSelection,
-                                          #"BarrelDSRods,111000", could add more...
+        # selection of alignables and their parameters:
+        # comma separated pairs of detector parts/levels as defined in AlignableSelector
+        # and of d.o.f. to be aligned (x,y,z,alpha,beta,gamma) in local frame
+        vstring alignableParamSelector = {"PixelHalfBarrelLayers,111000" # cf. below: ,pixelAliSel",
+                                          #,"BarrelDSRods,111000", #can add more...
                                           #"BarrelSSRods,101000"
         }
-#NOT YET IMPLEMENTED!
+        # Formerly predefined scenarios can be achieved by the following combined selections:
+        #
+        # "ScenarioA" -> "PixelHalfBarrelDets,111000","BarrelDSRods,111000","BarrelSSRods,101000"
+        # "ScenarioB" -> "PixelHalfBarrelLadders,111000","BarrelDSLayers,111000",
+        #                "BarrelSSLayers,110000"
+        # "CustomStripLayers" -> "BarrelDSLayers,111000","BarrelSSLayers,110000",
+        #                        "TIDLayers,111000","TECLayers,110000"
+        # "CustomStripRods" -> "BarrelDSRods,111000","BarrelSSRods,101000",
+        #                      "TIDRings,111000","TECPetals,110000"
+        # "CSA06Selection" -> "TOBDSRods,111111","TOBSSRodsLayers15,100111","TIBDSDets,111111"
+        #                     "TIBSSDets,100111"
+        #
         # If a component in 'alignableParamSelector' contains a third comma-separated part,
-        # a PSet with that name is expected, defining exclusion ranges in eta, r, z and phi
-        PSet pixelSelection = {
-          # The global positions of the centres of the alignables with this selection
-          # must lie in the ranges defined by the following arrays.
-          # These arrays must have an even number of entries and the alignables are
-          # required to fulfil
-          # 'x'Range[0] < 'x' < 'x'Range[1] || 'x'Range[2] < 'x' < 'x'Range[3] || etc.
-          vdouble etaRanges =  {-2., -0.2, 0.2, 2.} # makes not much sense or pixel...
-          vdouble zRanges   =  {} # empty array means no restriction
-          vdouble rRanges   =  {0., 5.} # small radii only (i.e. first pixel layer)
-          # two phi-slices, note that it covers the +-pi sign flip:
-          vdouble phiRanges =  {.5, 1., 1.5, -0.5}
-        }
-# END NOT YET IMPLEMENTED!
+        # a PSet with that name is expected, defining arrays for ranges in eta, r, z and phi.
+        # These arrays must have an even number of entries and the alignables are required to 
+        # fulfil ('x'Range[0] <= 'x' < 'x'Range[1]) || ('x'Range[2] <= 'x' < 'x'Range[3]) || etc.
+        # PSet pixelAliSel = { # name defined above
+        #   vdouble etaRanges =  {-2., -0.2, 0.2, 2.} # makes not much sense or pixel...
+        #   vdouble zRanges   =  {} # empty array means no restriction
+        #   vdouble rRanges   =  {0., 5.} # small radii only (i.e. first pixel layer)
+        #   vdouble phiRanges =  {1.5, -0.5} # q phi-slice covering the +-pi sign flip
+        # }
     }
-
   
     # number of selected alignables to be kept fixed
     int32 nFixAlignables = 0
-	
+
     # simple misalignment applied to selected alignables and dof
     string parameterSelectorSimple = "111000"
     double randomShift = 0.02
@@ -66,8 +71,8 @@ looper = AlignmentProducer
     }
 	
     # alignment algorithm, defined in Algorithms.cff:
-	PSet algoConfig = {
-		using DefaultRefitter
+    PSet algoConfig = {
+                using DefaultRefitter
                 # choose one algorithm
 		using CSA06AlignmentAlgorithm
                 # using MillePedeAlignmentAlgorithm
