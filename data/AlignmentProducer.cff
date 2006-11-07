@@ -17,7 +17,9 @@ looper = AlignmentProducer
     PSet AlignmentParameterBuilder = {
         PSet AlignmentParameterSelector = {
             # selection of alignables and their parameters:
-            # comma separated pairs of detector parts/levels as defined in AlignableSelector
+            # comma separated pairs of detector parts/levels as defined in AlinmentParameterSelector
+            # (note special meaning if the string contains "SS" or "DS" or ends with "Layers"
+            # followed by two digits)
             # and of d.o.f. to be aligned (x,y,z,alpha,beta,gamma) in local frame
             vstring alignableParamSelector = {
                     "PixelHalfBarrelLayers,111000" # cf. below: ,pixelAliSel",
