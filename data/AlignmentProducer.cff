@@ -15,47 +15,51 @@ looper = AlignmentProducer
     untracked uint32 maxLoops = 1
 
     PSet AlignmentParameterBuilder = {
-        # selection of alignables and their parameters:
-        # comma separated pairs of detector parts/levels as defined in AlignableSelector
-        # and of d.o.f. to be aligned (x,y,z,alpha,beta,gamma) in local frame
-        vstring alignableParamSelector = {"PixelHalfBarrelLayers,111000" # cf. below: ,pixelAliSel",
-                                          #,"BarrelDSRods,111000", #can add more...
-                                          #"BarrelSSRods,101000"
+        PSet AlignmentParameterSelector = {
+            # selection of alignables and their parameters:
+            # comma separated pairs of detector parts/levels as defined in AlignableSelector
+            # and of d.o.f. to be aligned (x,y,z,alpha,beta,gamma) in local frame
+            vstring alignableParamSelector = {
+                    "PixelHalfBarrelLayers,111000" # cf. below: ,pixelAliSel",
+                    #,"BarrelDSRods,111000", "TECDets,101010" #, #can add more...
+                    #"BarrelSSRods,101000"
+            }
+            # Old predefined scenarios can be achieved by the following combined selections:
+            #
+            # "ScenarioA" -> "PixelHalfBarrelDets,111000","BarrelDSRods,111000",
+            #                "BarrelSSRods,101000"
+            # "ScenarioB" -> "PixelHalfBarrelLadders,111000","BarrelDSLayers,111000",
+            #                "BarrelSSLayers,110000"
+            # "CustomStripLayers" -> "BarrelDSLayers,111000","BarrelSSLayers,110000",
+            #                        "TIDLayers,111000","TECLayers,110000"
+            # "CustomStripRods" -> "BarrelDSRods,111000","BarrelSSRods,101000",
+            #                      "TIDRings,111000","TECPetals,110000"
+            # "CSA06Selection" -> "TOBDSRods,111111","TOBSSRodsLayers15,100111",
+            #                     "TIBDSDets,111111","TIBSSDets,100111"
+            #
+            # If a component in 'alignableParamSelector' contains a third comma-separated
+            # part, a PSet with that name is expected, defining arrays for ranges in
+            # eta, r, z and phi. These arrays must have an even number of entries and
+            # the alignables are required to fulfil
+            # ('x'Range[0] <= 'x' < 'x'Range[1]) || ('x'Range[2] <= 'x' < 'x'Range[3]) || etc.
+            # PSet pixelAliSel = { # name defined above
+            #   vdouble etaRanges =  {-2., -0.2, 0.2, 2.} # makes not much sense or pixel...
+            #   vdouble zRanges   =  {} # empty array means no restriction
+            #   vdouble rRanges   =  {0., 5.} # small radii only (i.e. first pixel layer)
+            #   vdouble phiRanges =  {1.5, -0.5} # a phi-slice covering the +-pi sign flip
+            # }
         }
-        # Formerly predefined scenarios can be achieved by the following combined selections:
-        #
-        # "ScenarioA" -> "PixelHalfBarrelDets,111000","BarrelDSRods,111000","BarrelSSRods,101000"
-        # "ScenarioB" -> "PixelHalfBarrelLadders,111000","BarrelDSLayers,111000",
-        #                "BarrelSSLayers,110000"
-        # "CustomStripLayers" -> "BarrelDSLayers,111000","BarrelSSLayers,110000",
-        #                        "TIDLayers,111000","TECLayers,110000"
-        # "CustomStripRods" -> "BarrelDSRods,111000","BarrelSSRods,101000",
-        #                      "TIDRings,111000","TECPetals,110000"
-        # "CSA06Selection" -> "TOBDSRods,111111","TOBSSRodsLayers15,100111","TIBDSDets,111111"
-        #                     "TIBSSDets,100111"
-        #
-        # If a component in 'alignableParamSelector' contains a third comma-separated part,
-        # a PSet with that name is expected, defining arrays for ranges in eta, r, z and phi.
-        # These arrays must have an even number of entries and the alignables are required to 
-        # fulfil ('x'Range[0] <= 'x' < 'x'Range[1]) || ('x'Range[2] <= 'x' < 'x'Range[3]) || etc.
-        # PSet pixelAliSel = { # name defined above
-        #   vdouble etaRanges =  {-2., -0.2, 0.2, 2.} # makes not much sense or pixel...
-        #   vdouble zRanges   =  {} # empty array means no restriction
-        #   vdouble rRanges   =  {0., 5.} # small radii only (i.e. first pixel layer)
-        #   vdouble phiRanges =  {1.5, -0.5} # q phi-slice covering the +-pi sign flip
-        # }
     }
-  
     # number of selected alignables to be kept fixed
     int32 nFixAlignables = 0
 
-    # simple misalignment applied to selected alignables and dof
-    string parameterSelectorSimple = "111000"
+    # simple misalignment applied to selected alignables and selected dof
+    string parameterSelectorSimple = "111000" # "-1" means to move the active parameters
     double randomShift = 0.02
     double randomRotation = 0.
 	
     # Misalignment from database
-    untracked bool applyDbAlignment = false
+    untracked bool applyDbAlignment = false # if true, uncomment es_source = PoolDBESSource below
 
     # misalignment scenario
     bool doMisalignmentScenario = false
@@ -85,7 +89,8 @@ looper = AlignmentProducer
 
 }
 
-# Database input service
+# Database input service 
+# (uncomment if AlignmentProducer::AlignmentParameterBuilder::applyDbAlignment == false)
 es_source = PoolDBESSource { 
   VPSet toGet = {
     { string record = "TrackerAlignmentRcd" string tag = "TrackerCSA06Scenario" },
