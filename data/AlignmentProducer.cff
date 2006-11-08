@@ -14,17 +14,17 @@ looper = AlignmentProducer
 {
     untracked uint32 maxLoops = 1
 
-    PSet AlignmentParameterBuilder = {
-        PSet AlignmentParameterSelector = {
+    PSet ParameterBuilder = {
+        PSet Selector = {
             # selection of alignables and their parameters:
             # comma separated pairs of detector parts/levels as defined in AlinmentParameterSelector
             # (note special meaning if the string contains "SS" or "DS" or ends with "Layers"
             # followed by two digits)
             # and of d.o.f. to be aligned (x,y,z,alpha,beta,gamma) in local frame
-            vstring alignableParamSelector = {
-                    "PixelHalfBarrelLayers,111000" # cf. below: ,pixelAliSel",
-                    #,"BarrelDSRods,111000", "TECDets,101010" #, #can add more...
-                    #"BarrelSSRods,101000"
+            vstring alignParams = {
+                "PixelHalfBarrelLayers,111000" # cf. below: ,pixelAliSel",
+                #,"BarrelDSRods,111000", "TECDets,101010" #, #can add more...
+                # "BarrelSSRods,101000"
             }
             # Old predefined scenarios can be achieved by the following combined selections:
             #
@@ -60,13 +60,14 @@ looper = AlignmentProducer
     double randomShift = 0.02
     double randomRotation = 0.
 	
-    # Misalignment from database
-    untracked bool applyDbAlignment = false # if true, uncomment es_source = PoolDBESSource below
+    # Misalignment from database: if true, requires configuration of PoolDBESSource
+    # See DBConfiguration.cff for an example
+    untracked bool applyDbAlignment = false
 
     # misalignment scenario
     bool doMisalignmentScenario = false
     PSet MisalignmentScenario = { 
-      using TrackerShortTermScenario 
+      using TrackerShortTermScenario
 
       #untracked bool fixTPB = 0
       #untracked bool fixTPE = 1
@@ -86,45 +87,9 @@ looper = AlignmentProducer
     }
 
 	
-    # do we save to DB?
+    # Save alignment corrections to DB: if true, requires configuration of PoolDBOutputService
+    # See DBConfiguration.cff for an example
     bool saveToDB = false
 
 }
 
-# Database input service 
-# (uncomment if AlignmentProducer::AlignmentParameterBuilder::applyDbAlignment == false)
-es_source = PoolDBESSource { 
-  VPSet toGet = {
-    { string record = "TrackerAlignmentRcd" string tag = "TrackerCSA06Scenario" },
-    { string record = "TrackerAlignmentErrorRcd" string tag = "TrackerCSA06ScenarioErrors" }
-  }
-  bool loadAll = true
-  string timetype = "runnumber" 
-  untracked uint32 authenticationMethod = 1 // 1
-  untracked uint32 messagelevel = 0 // 0
-
-# (a) sq lite files (has to match toGet tag's used above)
-# string connect = "sqlite_file:CSA06Scenario.db"
-# untracked string catalog = "file:condbcatalog.xml"
-# (b) ORACLE
-  string connect = "oracle://cms_orcoff_int2r/CMS_COND_ALIGNMENT"
-  untracked string catalog = "relationalcatalog_oracle://cms_orcoff_int2r/CMS_COND_GENERAL"
-  untracked bool siteLocalConfig = false // oracle
-# (c) FRONTIER
-# string connect = "frontier://cms_conditions_data/CMS_COND_ALIGNMENT"
-# untracked bool siteLocalConfig = true // frontier
-}
-
-# Database output service
-service = PoolDBOutputService  {
-    string connect = "sqlite_file:Alignments.db"    
-    string timetype = "runnumber"    
-    untracked uint32 authenticationMethod = 1
-    untracked string catalog = "file:condbcatalog.xml"
-    VPSet toPut = {
-		{ untracked string containerName = "Alignments" 
-			string tag = "Alignments_init" },
-		{ untracked string containerName = "AlignmentErrors" 
-			string tag = "AlignmentErrors_init" }
-    }
-}
