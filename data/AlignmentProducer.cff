@@ -20,11 +20,12 @@ looper = AlignmentProducer
             # comma separated pairs of detector parts/levels as defined in AlinmentParameterSelector
             # (note special meaning if the string contains "SS" or "DS" or ends with "Layers"
             # followed by two digits)
-            # and of d.o.f. to be aligned (x,y,z,alpha,beta,gamma) in local frame
+            # and of d.o.f. to be aligned (x,y,z,alpha,beta,gamma) in local frame:
+	    # '0' means: deselect, '1' select. Others as 1, but might be interpreted in a special
+	    # way in the used algorithm (e.g. 'f' means fixed for millepede)
             vstring alignParams = {
-                "PixelHalfBarrelLayers,111000" # cf. below: ,pixelAliSel",
-                #,"BarrelDSRods,111000", "TECDets,101010" #, #can add more...
-                # "BarrelSSRods,101000"
+                "PixelHalfBarrelLayers,111000" # can add more:
+                #,"BarrelDSRods,111000,barrleSelDs", "BarrelSSRods,101000" # barrleSelDs: cf. below
             }
             # Old predefined scenarios can be achieved by the following combined selections:
             #
@@ -44,10 +45,10 @@ looper = AlignmentProducer
             # eta, r, z and phi. These arrays must have an even number of entries and
             # the alignables are required to fulfil
             # ('x'Range[0] <= 'x' < 'x'Range[1]) || ('x'Range[2] <= 'x' < 'x'Range[3]) || etc.
-            # PSet pixelAliSel = { # name defined above
-            #   vdouble etaRanges =  {-2., -0.2, 0.2, 2.} # makes not much sense or pixel...
+            # PSet barrleSelDs = { # name defined above
+            #   vdouble etaRanges =  {-2., -0.4, 0., 1.5}
             #   vdouble zRanges   =  {} # empty array means no restriction
-            #   vdouble rRanges   =  {0., 5.} # small radii only (i.e. first pixel layer)
+            #   vdouble rRanges   =  {}
             #   vdouble phiRanges =  {1.5, -0.5} # a phi-slice covering the +-pi sign flip
             # }
         }
@@ -56,7 +57,7 @@ looper = AlignmentProducer
     int32 nFixAlignables = 0
 
     # simple misalignment applied to selected alignables and selected dof
-    string parameterSelectorSimple = "111000" # "-1" means to move the active parameters
+    string parameterSelectorSimple = "-1" # means only active parameters, else use e.g. "111000"
     double randomShift = 0.02
     double randomRotation = 0.
 	
