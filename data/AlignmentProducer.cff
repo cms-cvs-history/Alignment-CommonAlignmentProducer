@@ -56,6 +56,9 @@ looper = AlignmentProducer
     # number of selected alignables to be kept fixed
     int32 nFixAlignables = 0
 
+    # include configuration for AlignmentParameterStore
+    include "Alignment/CommonAlignmentAlgorithm/data/AlignmentParameterStore.cfi"
+
     # simple misalignment applied to selected alignables and selected dof
     string parameterSelectorSimple = "-1" # means only active parameters, else use e.g. "111000"
     double randomShift = 0.02
