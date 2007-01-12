@@ -1,6 +1,4 @@
 
-include "Alignment/CommonAlignmentProducer/data/AlignmentProducerRefitting.cff"
-
 # misalignment scenarios
 include "Alignment/TrackerAlignment/data/Scenarios.cff"
 #  replace TrackerShortTermScenario.TPBs.scale = 10.
@@ -13,6 +11,7 @@ include "Alignment/CommonAlignmentProducer/data/Algorithms.cff"
 looper = AlignmentProducer
 {
     untracked uint32 maxLoops = 1
+    InputTag tkTag = TrackRefitter
 
     PSet ParameterBuilder = {
         PSet Selector = {
@@ -53,6 +52,7 @@ looper = AlignmentProducer
             # }
         }
     }
+
     # number of selected alignables to be kept fixed
     int32 nFixAlignables = 0
 
@@ -61,8 +61,8 @@ looper = AlignmentProducer
 
     # simple misalignment applied to selected alignables and selected dof
     string parameterSelectorSimple = "-1" # means only active parameters, else use e.g. "111000"
-    double randomShift = 0.0
-    double randomRotation = 0.
+    double randomShift    = 0.0
+    double randomRotation = 0.0
 	
     # Misalignment from database: if true, requires configuration of PoolDBESSource
     # See DBConfiguration.cff for an example
@@ -82,12 +82,10 @@ looper = AlignmentProducer
     }
 	
     # alignment algorithm, defined in Algorithms.cff:
-    PSet algoConfig = {
-                using DefaultRefitter
-                # choose one algorithm
+    PSet algoConfig = {        # choose one algorithm
 		using CSA06AlignmentAlgorithm
-                # using MillePedeAlignmentAlgorithm
-                # using KalmanAlignmentAlgorithm
+        # using MillePedeAlignmentAlgorithm
+        # using KalmanAlignmentAlgorithm
     }
 
 	
