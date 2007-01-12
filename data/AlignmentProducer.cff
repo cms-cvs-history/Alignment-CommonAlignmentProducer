@@ -61,7 +61,7 @@ looper = AlignmentProducer
 
     # simple misalignment applied to selected alignables and selected dof
     string parameterSelectorSimple = "-1" # means only active parameters, else use e.g. "111000"
-    double randomShift = 0.02
+    double randomShift = 0.0
     double randomRotation = 0.
 	
     # Misalignment from database: if true, requires configuration of PoolDBESSource
