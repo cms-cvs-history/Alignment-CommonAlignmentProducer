@@ -5,13 +5,18 @@ include "Alignment/TrackerAlignment/data/Scenarios.cff"
 #  replace TrackerShortTermScenario.TPEs.scale = 10.
 
 # algorithms
-include "Alignment/CommonAlignmentProducer/data/Algorithms.cff"
-
+include "Alignment/CSA06AlignmentAlgorithm/data/CSA06AlignmentAlgorithm.cfi"
+include "Alignment/MillePedeAlignmentAlgorithm/data/MillePedeAlignmentAlgorithm.cfi"
+include "Alignment/KalmanAlignmentAlgorithm/data/KalmanAlignmentAlgorithm.cfi"
 
 looper = AlignmentProducer
 {
     untracked uint32 maxLoops = 1
     InputTag tkTag = TrackRefitter
+    InputTag tjTag = TrackRefitter
+
+    untracked bool doTracker = true
+    untracked bool doMuon    = false
 
     PSet ParameterBuilder = {
         PSet Selector = {
@@ -20,8 +25,8 @@ looper = AlignmentProducer
             # (note special meaning if the string contains "SS" or "DS" or ends with "Layers"
             # followed by two digits)
             # and of d.o.f. to be aligned (x,y,z,alpha,beta,gamma) in local frame:
-	    # '0' means: deselect, '1' select. Others as 1, but might be interpreted in a special
-	    # way in the used algorithm (e.g. 'f' means fixed for millepede)
+            # '0' means: deselect, '1' select. Others as 1, but might be interpreted in a special
+            # way in the used algorithm (e.g. 'f' means fixed for millepede)
             vstring alignParams = {
                 "PixelHalfBarrelLayers,111000" # can add more:
                 #,"BarrelDSRods,111000,barrleSelDs", "BarrelSSRods,101000" # barrleSelDs: cf. below
@@ -81,8 +86,8 @@ looper = AlignmentProducer
       #untracked bool fixTEC = 1
     }
 	
-    # alignment algorithm, defined in Algorithms.cff:
-    PSet algoConfig = {        # choose one algorithm
+    # Choose one algorithm
+    PSet algoConfig = {
 		using CSA06AlignmentAlgorithm
         # using MillePedeAlignmentAlgorithm
         # using KalmanAlignmentAlgorithm
