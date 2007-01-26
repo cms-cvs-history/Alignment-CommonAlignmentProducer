@@ -1,9 +1,9 @@
 /// \file AlignmentProducer.cc
 ///
 ///  \author    : Frederic Ronga
-///  Revision   : $Revision: 1.20 $
-///  last update: $Date: 2007/01/23 16:08:15 $
-///  by         : $Author: fronga $
+///  Revision   : $Revision: 1.20.2.1 $
+///  last update: $Date: 2007/01/26 17:02:01 $
+///  by         : $Author: flucke $
 
 #include "Alignment/CommonAlignmentProducer/interface/AlignmentProducer.h"
 
@@ -40,9 +40,6 @@
 #include "CondFormats/DataRecord/interface/DTAlignmentErrorRcd.h"
 #include "CondFormats/DataRecord/interface/CSCAlignmentRcd.h"
 #include "CondFormats/DataRecord/interface/CSCAlignmentErrorRcd.h"
-
-// Tracking
-#include "TrackingTools/PatternTools/interface/TrajTrackAssociation.h"
 
 // Alignment
 #include "CondFormats/Alignment/interface/Alignments.h"
