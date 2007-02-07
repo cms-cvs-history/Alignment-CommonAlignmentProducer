@@ -1,5 +1,9 @@
 
-# adapted from RecoTracker/TrackProducer/data/CTFFinalFitWithMaterial.cff
+#
+# Adapted from RecoTracker/TrackProducer/data/RefitterWithMaterial.cff:
+# - produce the geometry ourselves (do not include trackerGeometryBuilder);
+# - use the TTRH builder without refit.
+#
 
 # KFUpdatoerESProducer
 include "TrackingTools/KalmanUpdators/data/KFUpdatorESProducer.cfi"
@@ -27,5 +31,9 @@ include "RecoLocalTracker/SiStripRecHitConverter/data/SiStripRecHitMatcher.cfi"
 # pixelCPE
 include "RecoLocalTracker/SiPixelRecHits/data/PixelCPEParmError.cfi"
 #TransientTrackingBuilder
-# include "RecoTracker/TransientTrackingRecHit/data/TransientTrackingRecHitBuilder.cfi"
-# include "RecoTracker/TransientTrackingRecHit/data/TransientTrackingRecHitBuilderWithoutRefit.cfi"
+include "RecoTracker/TransientTrackingRecHit/data/TransientTrackingRecHitBuilderWithoutRefit.cfi"
+
+# Refitter
+include "RecoTracker/TrackProducer/data/RefitterWithMaterial.cfi"
+replace TrackRefitter.TTRHBuilder = "WithoutRefit"
+replace TrackRefitter.TrajectoryInEvent = true
