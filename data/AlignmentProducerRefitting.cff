@@ -35,5 +35,3 @@ include "RecoTracker/TransientTrackingRecHit/data/TransientTrackingRecHitBuilder
 
 # Refitter
 include "RecoTracker/TrackProducer/data/RefitterWithMaterial.cfi"
-replace TrackRefitter.TTRHBuilder = "WithoutRefit"
-replace TrackRefitter.TrajectoryInEvent = true
