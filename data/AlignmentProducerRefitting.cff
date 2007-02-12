@@ -1,4 +1,6 @@
-
+#########################################################
+#### THIS FILE IS NOT USED ANYMORE (FROM 1_3_0_pre4) ####
+#########################################################
 #
 # Adapted from RecoTracker/TrackProducer/data/RefitterWithMaterial.cff:
 # - produce the geometry ourselves (do not include trackerGeometryBuilder);
