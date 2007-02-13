@@ -1,0 +1,2 @@
+es_module fakeAlignment = FakeAlignmentProducer {}
+
