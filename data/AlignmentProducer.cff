@@ -12,8 +12,7 @@ include "Alignment/KalmanAlignmentAlgorithm/data/KalmanAlignmentAlgorithm.cfi"
 looper = AlignmentProducer
 {
     untracked uint32 maxLoops = 1
-    InputTag tkTag = TrackRefitter
-    InputTag tjTag = TrackRefitter
+    InputTag tjTkAssociationMapTag = TrackRefitter
 
     untracked bool doTracker = true
     untracked bool doMuon    = false
