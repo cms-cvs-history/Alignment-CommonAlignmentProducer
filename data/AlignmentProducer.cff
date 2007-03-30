@@ -5,7 +5,7 @@ include "Alignment/TrackerAlignment/data/Scenarios.cff"
 #  replace TrackerShortTermScenario.TPEs.scale = 10.
 
 # algorithms
-include "Alignment/CSA06AlignmentAlgorithm/data/CSA06AlignmentAlgorithm.cfi"
+include "Alignment/HIPAlignmentAlgorithm/data/HIPAlignmentAlgorithm.cfi"
 include "Alignment/MillePedeAlignmentAlgorithm/data/MillePedeAlignmentAlgorithm.cfi"
 include "Alignment/KalmanAlignmentAlgorithm/data/KalmanAlignmentAlgorithm.cfi"
 
@@ -87,7 +87,7 @@ looper = AlignmentProducer
 	
     # Choose one algorithm
     PSet algoConfig = {
-		using CSA06AlignmentAlgorithm
+		using HIPAlignmentAlgorithm
         # using MillePedeAlignmentAlgorithm
         # using KalmanAlignmentAlgorithm
     }
