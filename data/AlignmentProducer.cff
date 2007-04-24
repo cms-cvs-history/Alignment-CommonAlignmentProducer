@@ -92,6 +92,9 @@ looper = AlignmentProducer
         # using KalmanAlignmentAlgorithm
     }
 
+    PSet monitorConfig = {
+	untracked vstring monitors = {}
+    }
 	
     # Save alignment corrections to DB: if true, requires configuration of PoolDBOutputService
     # See DBConfiguration.cff for an example
