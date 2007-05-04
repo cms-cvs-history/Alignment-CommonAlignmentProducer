@@ -12,7 +12,13 @@
 		double nHitMin =  8
 		double nHitMax = 99
 		double chi2nMax= 999999.
-		PSet minHitsPerSubDet = { }
+
+		PSet minHitsPerSubDet = { 
+                   int32 inTIB = 0
+                   int32 inTOB = 0
+                   int32 inTID = 0
+                   int32 inTEC = 0 
+                }
 
 		bool applyNHighestPt = false
 		int32 nHighestPt = 2
