@@ -1,0 +1,46 @@
+
+# AlCaReco for muon based alignment using ZMuMu events
+
+  module AlCaRecoMuonCSA07ZMuMu = AlignmentMuonSelectorModule {
+		InputTag src = globalMuons
+		bool filter = true
+		
+		bool applyBasicCuts = true
+		double ptMin      = 0. 
+		double ptMax      = 999.
+		double etaMin     = -2.4
+		double etaMax     =  2.4
+		double phiMin     = -3.1416
+		double phiMax     =  3.1416
+		# Stand Alone Muons
+		double nHitMinSA  =  0
+		double nHitMaxSA  = 9999999
+		double chi2nMaxSA = 9999999.
+		# Global Muons
+		double nHitMinGB  =  0
+		double nHitMaxGB  = 9999999
+		double chi2nMaxGB = 9999999.
+		# Tracker Only
+		double nHitMinTO  =  0
+		double nHitMaxTO  = 9999999
+		double chi2nMaxTO = 9999999.
+		
+		bool applyNHighestPt = false
+		int32 nHighestPt = 2
+		
+		bool applyMultiplicityFilter = false
+		int32 minMultiplicity = 1
+
+  // copy best mass pair combination muons to result vector
+  // Criteria: 
+  // a) maxMassPair != minMassPair: the two highest pt muons with mass pair inside the given mass window
+  // b) maxMassPair == minMassPair: the muon pair with mass pair closest to given mass value
+		bool applyMassPairFilter = false
+		double minMassPair = 89.
+		double maxMassPair = 90.
+
+  }
+
+  sequence seqMuonCSA07ZMuMu = { AlCaRecoMuonCSA07ZMuMu }
+
+
