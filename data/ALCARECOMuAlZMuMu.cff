@@ -1,8 +1,8 @@
 
 # AlCaReco for muon based alignment using ZMuMu events
 
-  module AlCaRecoMuonCSA07ZMuMu = AlignmentMuonSelectorModule {
-		InputTag src = globalMuons
+  module ALCARECOMuAlZMuMu = AlignmentMuonSelectorModule {
+		InputTag src = muons // globalMuons
 		bool filter = true
 		
 		bool applyBasicCuts = true
@@ -41,6 +41,6 @@
 
   }
 
-  sequence seqMuonCSA07ZMuMu = { AlCaRecoMuonCSA07ZMuMu }
+  sequence seqALCARECOMuAlZMuMu = { ALCARECOMuAlZMuMu }
 
 

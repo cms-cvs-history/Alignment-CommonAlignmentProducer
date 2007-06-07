@@ -1,9 +1,9 @@
 # AlCaReco for muon based alignment using ZMuMu events
 
-  block OutMuonCSA07ZMuMu = {
+  block OutALCARECOMuAlZMuMu = {
     untracked vstring outputCommands = { 
                 "drop *" ,
-		"keep *_AlCaRecoMuonCSA07ZMuMu_*_*",
+		"keep *_ALCARECOMuAlZMuMu_*_*",
 		"keep *_muonCSCDigis_*_*",
 		"keep *_muonDTDigis_*_*",
 		"keep *_muonRPCDigis_*_*",
@@ -15,7 +15,7 @@
 		"keep *_rpcRecHits_*_*"
     }
     untracked PSet SelectEvents = {
-      vstring SelectEvents = { "pathMuonCSA07ZMuMu" }
+      vstring SelectEvents = { "pathALCARECOMuAlZMuMu" }
     }
 
   }

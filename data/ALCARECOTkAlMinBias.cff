@@ -1,17 +1,17 @@
-# AlCaReco for track based alignment using ZMuMu events
+# AlCaReco for track based alignment using MinBias events
 
-  module AlCaRecoCSA06ZMuMu = AlignmentTrackSelectorModule {
+  module ALCARECOTkAlMinBias = AlignmentTrackSelectorModule {
     InputTag src = ctfWithMaterialTracks
     bool filter = true
 
     bool applyBasicCuts = true
-    double ptMin   = 10. 
+    double ptMin   = 1.5 
     double ptMax   = 999.
     double etaMin  = -2.4
     double etaMax  =  2.4
     double phiMin  = -3.1416
     double phiMax  =  3.1416
-    double nHitMin = 8
+    double nHitMin = 6
     double nHitMax = 99
     double chi2nMax= 999999.
 
@@ -22,7 +22,7 @@
       int32 inTEC = 0 
     }
 
-    bool applyNHighestPt = true
+    bool applyNHighestPt = false
     int32 nHighestPt = 2
 
     bool applyMultiplicityFilter = true
@@ -30,6 +30,5 @@
     int32 maxMultiplicity = 999999
   }
 
-  sequence seqCSA06ZMuMu = { AlCaRecoCSA06ZMuMu }
-
+  sequence seqALCARECOTkAlMinBias = { ALCARECOTkAlMinBias }
 
