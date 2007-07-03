@@ -100,5 +100,8 @@ looper = AlignmentProducer
     # See DBConfiguration.cff for an example
     bool saveToDB = false
 
-}
+    # Read survey info from DB: if true, requires configuration of PoolDBESSource
+    # See Alignment/SurveyAnalysis/test/readDB.cfg for an example
+    bool useSurvey = false
 
+}
