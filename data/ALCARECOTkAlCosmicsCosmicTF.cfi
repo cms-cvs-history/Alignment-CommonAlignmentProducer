@@ -1,0 +1,37 @@
+# Author     : Gero Flucke
+# Date       :   July 19th, 2007
+# last update: $Date$ by $Author$
+
+# AlCaReco for track based alignment using Cosmic muons from Cosmic Track Finder
+
+#module ALCARECOTkAlCosmicsCosmicTF = ALCARECOTkAlCosmicsCTF from "Alignment/CommonAlignmentProducer/data/ALCARECOTkAlCosmicsCTF.cfi"
+#
+#replace ALCARECOTkAlCosmicsCosmicTF.src = cosmicTrackFinderP5
+#replace ALCARECOTkAlCosmicsCosmicTF.nHitMin = 14 # more hits: 2D are counted twice
+#
+
+# Unfortunately the above does not work like that, but gives an exception, as reported also 
+# in https://hypernews.cern.ch/HyperNews/CMS/get/edmFramework/949.html :
+#%MSG-s CMSException:  19-Jul-2007 10:54:09 CEST pre-events
+#cms::Exception caught in cmsRun
+#---- Configuration BEGIN
+#Could not find node ALCARECOTkAlCosmicsCTF in 
+#file Alignment/CommonAlignmentProducer/data/ALCARECOTkAlCosmicsCTF.cfi
+#---- Configuration END
+
+
+module ALCARECOTkAlCosmicsCosmicTF = AlignmentTracks from "Alignment/CommonAlignmentProducer/data/AlignmentTrackSelector.cfi"
+
+replace ALCARECOTkAlCosmicsCosmicTF.src = cosmictrackfinderP5 # different for CTF
+replace ALCARECOTkAlCosmicsCosmicTF.filter = true
+replace ALCARECOTkAlCosmicsCosmicTF.applyBasicCuts = true
+replace ALCARECOTkAlCosmicsCosmicTF.ptMin   = 5.
+replace ALCARECOTkAlCosmicsCosmicTF.ptMax   = 99999.
+replace ALCARECOTkAlCosmicsCosmicTF.etaMin  = -99.
+replace ALCARECOTkAlCosmicsCosmicTF.etaMax  =  99.
+replace ALCARECOTkAlCosmicsCosmicTF.nHitMin = 14 # more hits than CTF: 2D are counted twice
+replace ALCARECOTkAlCosmicsCosmicTF.chi2nMax= 999999.
+
+replace ALCARECOTkAlCosmicsCosmicTF.applyNHighestPt = true
+replace ALCARECOTkAlCosmicsCosmicTF.nHighestPt = 1
+replace ALCARECOTkAlCosmicsCosmicTF.applyMultiplicityFilter = false
