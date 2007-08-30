@@ -1,0 +1,94 @@
+
+include "Alignment/TrackerAlignment/data/Scenarios.cff"
+include "Alignment/HIPAlignmentAlgorithm/data/HIPAlignmentAlgorithm.cfi"
+include "Alignment/MillePedeAlignmentAlgorithm/data/MillePedeAlignmentAlgorithm.cfi"
+# include "Alignment/KalmanAlignmentAlgorithm/data/KalmanAlignmentAlgorithm.cfi"
+
+# Patch for track refitter (adapted to alignment needs)
+
+include "RecoTracker/TransientTrackingRecHit/data/TransientTrackingRecHitBuilderWithoutRefit.cfi"
+include "RecoTracker/TrackProducer/data/RefitterWithMaterial.cff"
+
+replace TrackRefitter.src = ALCARECOTkAlZMuMu
+replace TrackRefitter.TTRHBuilder = "WithoutRefit"
+replace TrackRefitter.TrajectoryInEvent = true
+replace ttrhbwor.Matcher = "StandardMatcher" # matching for strip stereo!
+
+looper = AlignmentProducer
+{
+  untracked uint32 maxLoops = 1 # to be replaced by HIP
+  InputTag tjTkAssociationMapTag = TrackRefitter
+
+  untracked bool doTracker = true
+  untracked bool doMuon    = false
+
+  PSet ParameterBuilder = {
+    PSet Selector = { # to be replaced by Millepede
+      vstring alignParams = {"TOBDSRods,111111", "TOBSSRodsLayers15,100111",
+                             "TIBDSDets,111111", "TIBSSDets,100111"}
+    }
+  }
+
+  int32 nFixAlignables = 0 # number of selected alignables to be fixed
+
+  # include configuration for AlignmentParameterStore
+  include "Alignment/CommonAlignmentAlgorithm/data/AlignmentParameterStore.cfi"
+
+  # do not apply simple misalignment
+  string parameterSelectorSimple = "-1"
+  double randomShift    = 0.0
+  double randomRotation = 0.0
+      
+  untracked bool applyDbAlignment = true
+
+  bool doMisalignmentScenario = false
+  PSet MisalignmentScenario   = { using TrackerCSA07Scenario }
+      
+  PSet algoConfig = {} # to be replaced
+
+  PSet monitorConfig = {
+    untracked vstring monitors = {"AlignmentMonitorGeneric"}
+
+    untracked PSet AlignmentMonitorGeneric = {
+      string outpath = "./" # to be replaced accordingly
+      string outfile = "histograms.root"
+      bool collectorActive = false
+      int32 collectorNJobs = 0
+      string collectorPath = "./"
+    }
+  }
+      
+  bool saveToDB = true
+  bool useSurvey = false
+}
+
+# Database output service
+# Required if AlignmentProducer.saveToDB = true
+
+include "CondCore/DBCommon/data/CondDBSetup.cfi"
+
+block AlignDBSetup = {
+  using CondDBSetup
+
+  string connect  = "oracle://cms_orcoff_int2r/CMS_COND_ALIGNMENT"
+  string timetype = "runnumber"    
+  untracked string catalog = "relationalcatalog_oracle://cms_orcoff_int2r/CMS_COND_GENERAL"
+}
+
+es_source = PoolDBESSource {
+  using AlignDBSetup
+
+  VPSet toGet = {
+    { string record = "TrackerAlignmentRcd"      string tag = "TrackerCSA07Scenario160" },
+    { string record = "TrackerAlignmentErrorRcd" string tag = "TrackerCSA07ScenarioErrors160" }
+  }
+}
+
+service = PoolDBOutputService  {
+  using AlignDBSetup
+
+  VPSet toPut = {
+    { string record = "TrackerAlignmentRcd"      string tag = "TrackerCSA07Alignments" },
+    { string record = "TrackerAlignmentErrorRcd" string tag = "TrackerCSA07AlignmentErrors" }
+  }
+}
