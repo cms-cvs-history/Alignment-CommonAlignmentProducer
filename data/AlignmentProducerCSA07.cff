@@ -88,7 +88,7 @@ service = PoolDBOutputService  {
   using AlignDBSetup
 
   VPSet toPut = {
-    { string record = "TrackerAlignmentRcd"      string tag = "TrackerCSA07Alignments" },
-    { string record = "TrackerAlignmentErrorRcd" string tag = "TrackerCSA07AlignmentErrors" }
+    { string record = "TrackerAlignmentRcd"      string tag = "TrackerCSA07HIPAlignments" }, # replace tag in MillePede
+    { string record = "TrackerAlignmentErrorRcd" string tag = "TrackerCSA07HIPAlignmentErrors" } # replace tag in MillePede
   }
 }
