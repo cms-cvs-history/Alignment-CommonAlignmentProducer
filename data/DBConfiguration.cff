@@ -7,9 +7,7 @@
 # Required if AlignmentProducer.applyDbAlignment = true
 include "CondCore/DBCommon/data/CondDBCommon.cfi"
 replace CondDBCommon.connect = "sqlite_file:TrackerIdealGeometry.db"    
-replace CondDBCommon.catalog = "file:TrackerIdealGeometry.xml"
 #replace CondDBCommon.connect = "oracle://cms_orcoff_int2r/CMS_COND_ALIGNMENT"
-#replace CondDBCommon.catalog = "relationalcatalog_oracle://cms_orcoff_int2r/CMS_COND_GENERAL"
 service = PoolDBOutputService {
     using CondDBCommon
     VPSet toPut = {
@@ -22,9 +20,7 @@ service = PoolDBOutputService {
 # Required if AlignmentProducer.saveToDB = true
 include "CondCore/DBCommon/data/CondDBCommon.cfi"
 replace CondDBCommon.connect = "sqlite_file:TrackerIdealGeometry.db"    
-replace CondDBCommon.catalog = "file:TrackerIdealGeometry.xml"
 #replace CondDBCommon.connect = "oracle://cms_orcoff_int2r/CMS_COND_ALIGNMENT"
-#replace CondDBCommon.catalog = "relationalcatalog_oracle://cms_orcoff_int2r/CMS_COND_GENERAL"
 service = PoolDBOutputService {
 es_source = PoolDBESSource { 
     using CondDBCommon
