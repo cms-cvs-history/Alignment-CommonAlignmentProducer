@@ -2,7 +2,7 @@
 <use name=FWCore/Framework>
 <use name=FWCore/ParameterSet>
 <use name=CondFormats/Alignment>
-<use name=CondFormats/AlignmentRecord>
+<use name=CondFormats/DataRecord>
 <library file=FakeAlignmentProducer.cc>
   <flags EDM_PLUGIN=1>
   <use name=boost>
@@ -32,21 +32,17 @@
 
 <library file=AlignmentMuonSelectorModule.cc>
  <use name=Alignment/CommonAlignmentProducer>
- <use name=PhysicsTools/RecoAlgos>
  <use name=PhysicsTools/UtilAlgos>
  <flags EDM_PLUGIN=1>
 </library>
 
 <library file=AlignmentTrackSelectorModule.cc>
  <use name=Alignment/CommonAlignmentProducer>
- <use name=PhysicsTools/RecoAlgos>
  <use name=PhysicsTools/UtilAlgos>
  <flags EDM_PLUGIN=1>
 </library>
 
 <library file=AlignmentSeedSelectorModule.cc>
  <use name=Alignment/CommonAlignmentProducer>
- <use name=PhysicsTools/RecoAlgos>
- <use name=PhysicsTools/UtilAlgos>
  <flags EDM_PLUGIN=1>
 </library>

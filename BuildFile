@@ -7,14 +7,12 @@
 <use name=DataFormats/TrajectorySeed>
 <use name=FWCore/MessageLogger>
 <use name=FWCore/ParameterSet>
-<use name=PhysicsTools/RecoAlgos>
-<use name=rootcore>
+<use name=root>
 <export>
   <use name=DataFormats/MuonReco>
   <use name=DataFormats/TrackReco>
   <use name=DataFormats/TrajectorySeed>
   <use name=FWCore/ParameterSet>
-  <use name=PhysicsTools/RecoAlgos>
   <lib name=AlignmentCommonAlignmentProducer>
 </export>
 

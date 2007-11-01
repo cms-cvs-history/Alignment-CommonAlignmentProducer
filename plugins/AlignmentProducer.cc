@@ -1,8 +1,8 @@
 /// \file AlignmentProducer.cc
 ///
 ///  \author    : Frederic Ronga
-///  Revision   : $Revision: 1.16 $
-///  last update: $Date: 2007/10/19 11:30:10 $
+///  Revision   : $Revision: 1.17 $
+///  last update: $Date: 2007/10/19 15:10:39 $
 ///  by         : $Author: fronga $
 
 #include "Alignment/CommonAlignmentProducer/plugins/AlignmentProducer.h"
@@ -34,18 +34,18 @@
 #include "Geometry/DTGeometryBuilder/src/DTGeometryBuilderFromDDD.h"
 #include "Geometry/CSCGeometryBuilder/src/CSCGeometryBuilderFromDDD.h"
 #include "Geometry/TrackingGeometryAligner/interface/GeometryAligner.h"
-#include "CondFormats/AlignmentRecord/interface/TrackerAlignmentRcd.h"
-#include "CondFormats/AlignmentRecord/interface/TrackerAlignmentErrorRcd.h"
-#include "CondFormats/AlignmentRecord/interface/DTAlignmentRcd.h"
-#include "CondFormats/AlignmentRecord/interface/DTAlignmentErrorRcd.h"
-#include "CondFormats/AlignmentRecord/interface/CSCAlignmentRcd.h"
-#include "CondFormats/AlignmentRecord/interface/CSCAlignmentErrorRcd.h"
-#include "CondFormats/AlignmentRecord/interface/TrackerSurveyRcd.h"
-#include "CondFormats/AlignmentRecord/interface/TrackerSurveyErrorRcd.h"
-#include "CondFormats/AlignmentRecord/interface/DTSurveyRcd.h"
-#include "CondFormats/AlignmentRecord/interface/DTSurveyErrorRcd.h"
-#include "CondFormats/AlignmentRecord/interface/CSCSurveyRcd.h"
-#include "CondFormats/AlignmentRecord/interface/CSCSurveyErrorRcd.h"
+#include "CondFormats/DataRecord/interface/TrackerAlignmentRcd.h"
+#include "CondFormats/DataRecord/interface/TrackerAlignmentErrorRcd.h"
+#include "CondFormats/DataRecord/interface/DTAlignmentRcd.h"
+#include "CondFormats/DataRecord/interface/DTAlignmentErrorRcd.h"
+#include "CondFormats/DataRecord/interface/CSCAlignmentRcd.h"
+#include "CondFormats/DataRecord/interface/CSCAlignmentErrorRcd.h"
+#include "CondFormats/DataRecord/interface/TrackerSurveyRcd.h"
+#include "CondFormats/DataRecord/interface/TrackerSurveyErrorRcd.h"
+#include "CondFormats/DataRecord/interface/DTSurveyRcd.h"
+#include "CondFormats/DataRecord/interface/DTSurveyErrorRcd.h"
+#include "CondFormats/DataRecord/interface/CSCSurveyRcd.h"
+#include "CondFormats/DataRecord/interface/CSCSurveyErrorRcd.h"
 
 // Tracking 	 
 #include "TrackingTools/PatternTools/interface/Trajectory.h" 
@@ -456,7 +456,8 @@ AlignmentProducer::duringLoop( const edm::Event& event,
   // -> merely skip if collection is empty
   edm::InputTag tjTag = theParameterSet.getParameter<edm::InputTag>("tjTkAssociationMapTag");
   edm::Handle<TrajTrackAssociationCollection> m_TrajTracksMap;
-  if ( event.getByLabel( tjTag, m_TrajTracksMap ) ) {
+  try { 
+    event.getByLabel( tjTag, m_TrajTracksMap );
     
     // Form pairs of trajectories and tracks
     ConstTrajTrackPairCollection trajTracks;
@@ -470,9 +471,11 @@ AlignmentProducer::duringLoop( const edm::Event& event,
     for (std::vector<AlignmentMonitorBase*>::const_iterator monitor = theMonitors.begin();  monitor != theMonitors.end();  ++monitor) {
       (*monitor)->duringLoop(setup, trajTracks);
     }
-  } else {
-    edm::LogInfo("Alignment") << "@SUB=AlignmentProducer::duringLoop" 
-                              << "No track collection found: skipping event";
+  } catch(const edm::Exception& e) {
+    if ( e.categoryCode() != edm::errors::ProductNotFound ) {
+      // Not an empty track collection
+      throw;
+    }
   }
   
 
@@ -559,7 +562,7 @@ void AlignmentProducer::createGeometries_( const edm::EventSetup& iSetup )
      edm::ESHandle<GeometricDet> geometricDet;
      iSetup.get<IdealGeometryRecord>().get( geometricDet );
      TrackerGeomBuilderFromGeometricDet trackerBuilder;
-     theTracker = boost::shared_ptr<TrackerGeometry>( trackerBuilder.build(&(*geometricDet)) );
+     theTracker = boost::shared_ptr<TrackerGeometry>( trackerBuilder.build(&*cpv,&(*geometricDet)) );
    }
 
    if (doMuon_) {
@@ -568,8 +571,7 @@ void AlignmentProducer::createGeometries_( const edm::EventSetup& iSetup )
      DTGeometryBuilderFromDDD DTGeometryBuilder;
      CSCGeometryBuilderFromDDD CSCGeometryBuilder;
      theMuonDT = boost::shared_ptr<DTGeometry>(DTGeometryBuilder.build(&(*cpv), *mdc));
-     theMuonCSC = boost::shared_ptr<CSCGeometry>( new CSCGeometry );
-     CSCGeometryBuilder.build( theMuonCSC, &(*cpv), *mdc );
+     theMuonCSC = boost::shared_ptr<CSCGeometry>( CSCGeometryBuilder.build( &(*cpv), *mdc ) );
    }
 }
 
