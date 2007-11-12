@@ -9,7 +9,8 @@ include "CondCore/DBCommon/data/CondDBSetup.cfi"
 es_source = PoolDBESSource {
     using CondDBSetup
     string connect = "sqlite_file:Alignments.db"    
-    #Uncomment for < 1_7 #untracked string catalog = "file:conddbcatalog.xml"
+    #string connect = "frontier://FrontierDev/CMS_COND_ALIGNMENT" 
+    #Uncomment for < 1_7 (except Frontier) #untracked string catalog = "file:conddbcatalog.xml"
     string timetype = "runnumber"
     VPSet toGet = 
     {
