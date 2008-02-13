@@ -30,4 +30,14 @@
 		int32 minMultiplicity = 1
 		int32 maxMultiplicity = 999999
                 bool multiplicityOnInput = false
+
+                int32 seedOnlyFrom = 0 
+
+                bool applyIsolationCut = false 
+                double minHitIsolation = 0.01
+                InputTag rphirecHits = siStripMatchedRecHits:rphiRecHit      
+                InputTag matchedrecHits = siStripMatchedRecHits:matchedRecHit 
+
+                bool applyChargeCheck = false
+                double minHitChargeStrip = 20.0
 	}
