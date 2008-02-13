@@ -11,6 +11,7 @@
 		double phiMax  =  3.1416
 		double nHitMin =  8
 		double nHitMax = 99
+		uint32 nHitMin2D = 0
 		double chi2nMax= 999999.
 
 		PSet minHitsPerSubDet = { 
@@ -18,6 +19,8 @@
                    int32 inTOB = 0
                    int32 inTID = 0
                    int32 inTEC = 0 
+                   int32 inFPIX = 0 
+                   int32 inBPIX = 0 
                 }
 
 		bool applyNHighestPt = false
@@ -26,4 +29,15 @@
 		bool applyMultiplicityFilter = true
 		int32 minMultiplicity = 1
 		int32 maxMultiplicity = 999999
+                bool multiplicityOnInput = false
+
+                int32 seedOnlyFrom = 0 
+
+                bool applyIsolationCut = false 
+                double minHitIsolation = 0.01
+                InputTag rphirecHits = siStripMatchedRecHits:rphiRecHit      
+                InputTag matchedrecHits = siStripMatchedRecHits:matchedRecHit 
+
+                bool applyChargeCheck = false
+                double minHitChargeStrip = 20.0
 	}
