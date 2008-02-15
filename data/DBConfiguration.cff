@@ -5,31 +5,31 @@
 
 # Database input service 
 # Required if AlignmentProducer.applyDbAlignment = true
-include "CondCore/DBCommon/data/CondDBCommon.cfi"
-replace CondDBCommon.connect = "sqlite_file:TrackerIdealGeometry.db"    
-replace CondDBCommon.catalog = "file:TrackerIdealGeometry.xml"
-#replace CondDBCommon.connect = "oracle://cms_orcoff_int2r/CMS_COND_ALIGNMENT"
-#replace CondDBCommon.catalog = "relationalcatalog_oracle://cms_orcoff_int2r/CMS_COND_GENERAL"
-service = PoolDBOutputService {
-    using CondDBCommon
-    VPSet toPut = {
-        { string record = "TrackerAlignmentRcd" string tag = "Tracker1000pbScenario150" },
-        { string record = "TrackerAlignmentErrorRcd" string tag = "Tracker1000pbScenarioErrors150" }
+include "CondCore/DBCommon/data/CondDBSetup.cfi"
+es_source = PoolDBESSource {
+    using CondDBSetup
+    string connect = "sqlite_file:Alignments.db"    
+    #string connect = "frontier://FrontierDev/CMS_COND_ALIGNMENT" 
+    #Uncomment for < 1_7 (except Frontier) #untracked string catalog = "file:conddbcatalog.xml"
+    string timetype = "runnumber"
+    VPSet toGet = 
+    {
+        { string record = "TrackerAlignmentRcd"      string tag = "Tracker10pbScenario" },
+        { string record = "TrackerAlignmentErrorRcd" string tag = "Tracker10pbScenarioErrors" }
     }
 }
 
 # Database output service
 # Required if AlignmentProducer.saveToDB = true
-include "CondCore/DBCommon/data/CondDBCommon.cfi"
-replace CondDBCommon.connect = "sqlite_file:TrackerIdealGeometry.db"    
-replace CondDBCommon.catalog = "file:TrackerIdealGeometry.xml"
-#replace CondDBCommon.connect = "oracle://cms_orcoff_int2r/CMS_COND_ALIGNMENT"
-#replace CondDBCommon.catalog = "relationalcatalog_oracle://cms_orcoff_int2r/CMS_COND_GENERAL"
+include "CondCore/DBCommon/data/CondDBSetup.cfi"
 service = PoolDBOutputService {
-es_source = PoolDBESSource { 
-    using CondDBCommon
-    VPSet toGet = {
-        { string record = "TrackerAlignmentRcd" string tag = "Tracker1000pbScenario150" },
-        { string record = "TrackerAlignmentErrorRcd" string tag = "Tracker1000pbScenarioErrors150" }
+    using CondDBSetup
+    string connect = "sqlite_file:dataout.db"    
+    #Uncomment for < 1_7 #untracked string catalog = "file:catalogout.xml"
+    string timetype = "runnumber"
+    VPSet toPut = {
+        { string record = "TrackerAlignmentRcd"      string tag = "<output tag>" },
+        { string record = "TrackerAlignmentErrorRcd" string tag = "<output error tag>" }
     }
 }
+
