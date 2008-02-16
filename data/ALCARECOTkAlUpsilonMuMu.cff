@@ -1,0 +1,31 @@
+# AlCaReco for track based alignment using Upsilon->MuMu events
+
+  module ALCARECOTkAlUpsilonMuMuHLT = hltHighLevel from "HLTrigger/HLTfilters/data/hltHighLevel.cfi"
+  replace ALCARECOTkAlUpsilonMuMuHLT.andOr = true # choose logical OR between Triggerbits
+  replace ALCARECOTkAlUpsilonMuMuHLT.HLTPaths = {"HLT2MuonUpsilon"}
+
+  module ALCARECOTkAlUpsilonMuMu = AlignmentTrackSelector from "Alignment/CommonAlignmentProducer/data/AlignmentTrackSelector.cfi"
+	
+    replace ALCARECOTkAlUpsilonMuMu.applyBasicCuts = true
+	replace ALCARECOTkAlUpsilonMuMu.ptMin = 20.0 #GeV
+	replace ALCARECOTkAlUpsilonMuMu.etaMin = -2.6
+	replace ALCARECOTkAlUpsilonMuMu.etaMax = 2.6
+	replace ALCARECOTkAlUpsilonMuMu.nHitMin =  0
+
+     replace ALCARECOTkAlUpsilonMuMu.GlobalSelector.applyIsolationtest = false
+     replace ALCARECOTkAlUpsilonMuMu.GlobalSelector.applyGlobalMuonFilter = true
+
+     replace ALCARECOTkAlUpsilonMuMu.TwoBodyDecaySelector.applyMassrangeFilter = true
+ 	replace ALCARECOTkAlUpsilonMuMu.TwoBodyDecaySelector.minXMass = 9.0 #GeV
+ 	replace ALCARECOTkAlUpsilonMuMu.TwoBodyDecaySelector.maxXMass = 10.0 #GeV
+	replace ALCARECOTkAlUpsilonMuMu.TwoBodyDecaySelector.daughterMass = 0.105 #GeV (Muons)
+
+     replace ALCARECOTkAlUpsilonMuMu.TwoBodyDecaySelector.applyChargeFilter = false
+	replace ALCARECOTkAlUpsilonMuMu.TwoBodyDecaySelector.charge = 0
+	
+     replace ALCARECOTkAlUpsilonMuMu.TwoBodyDecaySelector.applyAcoplanarityFilter = false
+	replace ALCARECOTkAlUpsilonMuMu.TwoBodyDecaySelector.acoplanarDistance = 1 #radian
+
+  sequence seqALCARECOTkAlUpsilonMuMu = {ALCARECOTkAlUpsilonMuMuHLT & ALCARECOTkAlUpsilonMuMu }
+
+

@@ -1,34 +1,26 @@
-# AlCaReco for track based alignment using MinBias events
+# AlCaReco for track based alignment using min. bias events
 
-  module ALCARECOTkAlMinBias = AlignmentTrackSelectorModule {
-    InputTag src = ctfWithMaterialTracks
-    bool filter = true
+  module ALCARECOTkAlMinBiasHLT = hltHighLevel from "HLTrigger/HLTfilters/data/hltHighLevel.cfi"
+  replace ALCARECOTkAlMinBiasHLT.andOr = true # choose logical OR between Triggerbits
+  replace ALCARECOTkAlMinBiasHLT.HLTPaths = {"HLT1MinBias, HLTMinBiasPixel"}
 
-    bool applyBasicCuts = true
-    double ptMin   = 1.5 
-    double ptMax   = 999.
-    double etaMin  = -2.4
-    double etaMax  =  2.4
-    double phiMin  = -3.1416
-    double phiMax  =  3.1416
-    double nHitMin = 6
-    double nHitMax = 99
-    double chi2nMax= 999999.
+  module ALCARECOTkAlMinBias = AlignmentTrackSelector from "Alignment/CommonAlignmentProducer/data/AlignmentTrackSelector.cfi"
+	
+    replace ALCARECOTkAlMinBias.applyBasicCuts = true
+	replace ALCARECOTkAlMinBias.ptMin = 20.0 #GeV
+	replace ALCARECOTkAlMinBias.etaMin = -2.6
+	replace ALCARECOTkAlMinBias.etaMax = 2.6
+	replace ALCARECOTkAlMinBias.nHitMin =  0
 
-    PSet minHitsPerSubDet = { 
-      int32 inTIB = 0
-      int32 inTOB = 0
-      int32 inTID = 0
-      int32 inTEC = 0 
-    }
+     replace ALCARECOTkAlMinBias.GlobalSelector.applyIsolationtest = false
+     replace ALCARECOTkAlMinBias.GlobalSelector.applyGlobalMuonFilter = false
 
-    bool applyNHighestPt = false
-    int32 nHighestPt = 2
+     replace ALCARECOTkAlMinBias.TwoBodyDecaySelector.applyMassrangeFilter = false
 
-    bool applyMultiplicityFilter = true
-    int32 minMultiplicity = 2
-    int32 maxMultiplicity = 999999
-  }
+     replace ALCARECOTkAlMinBias.TwoBodyDecaySelector.applyChargeFilter = false
+	
+     replace ALCARECOTkAlMinBias.TwoBodyDecaySelector.applyAcoplanarityFilter = false
 
-  sequence seqALCARECOTkAlMinBias = { ALCARECOTkAlMinBias }
+  sequence seqALCARECOTkAlMinBias = {ALCARECOTkAlMinBiasHLT & ALCARECOTkAlMinBias }
+
 

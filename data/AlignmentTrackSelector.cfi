@@ -1,43 +1,87 @@
-	module AlignmentTracks = AlignmentTrackSelectorModule {
-		InputTag src = ctfWithMaterialTracks
-		bool filter = false
-		
-		bool applyBasicCuts = true
-		double ptMin   = 10. 
-		double ptMax   = 999.
-		double etaMin  = -2.4
-		double etaMax  =  2.4
-		double phiMin  = -3.1416
-		double phiMax  =  3.1416
-		double nHitMin =  8
-		double nHitMax = 99
-		uint32 nHitMin2D = 0
-		double chi2nMax= 999999.
+module AlignmentTrackSelector = AlignmentTrackSelectorModule {
+  InputTag src = ctfWithMaterialTracks
+  bool filter = false
+	
+  # Settings for the base TrackSelector 	
+  # FIXME this should get its own PSet
+  	bool applyBasicCuts = false
+  	double ptMin   = 10. 
+  	double ptMax   = 999.
+  	double etaMin  = -2.4
+  	double etaMax  =  2.4
+  	double phiMin  = -3.1416
+  	double phiMax  =  3.1416
+  	double nHitMin =  8
+  	double nHitMax = 99
+	uint32 nHitMin2D = 0
+  	double chi2nMax= 999999.
+  	
+  	PSet minHitsPerSubDet = { 
+  	          int32 inTIB = 0
+  	          int32 inTOB = 0
+  	          int32 inTID = 0
+  	          int32 inTEC = 0 
+		  int32 inFPIX = 0 
+                  int32 inBPIX = 0                 
+  	       }
+  	
+  	bool applyNHighestPt = false
+  	int32 nHighestPt = 2
+  	
+  	bool applyMultiplicityFilter = false
+  	int32 minMultiplicity = 1
+  	int32 maxMultiplicity = 999999
+	bool multiplicityOnInput = false
 
-		PSet minHitsPerSubDet = { 
-                   int32 inTIB = 0
-                   int32 inTOB = 0
-                   int32 inTID = 0
-                   int32 inTEC = 0 
-                   int32 inFPIX = 0 
-                   int32 inBPIX = 0 
-                }
+        int32 seedOnlyFrom = 0 
 
-		bool applyNHighestPt = false
-		int32 nHighestPt = 2
-		
-		bool applyMultiplicityFilter = true
-		int32 minMultiplicity = 1
-		int32 maxMultiplicity = 999999
-                bool multiplicityOnInput = false
+        bool applyIsolationCut = false 
+        double minHitIsolation = 0.01
+        InputTag rphirecHits = siStripMatchedRecHits:rphiRecHit      
+        InputTag matchedrecHits = siStripMatchedRecHits:matchedRecHit 
+ 
+        bool applyChargeCheck = false
+        double minHitChargeStrip = 20.0
 
-                int32 seedOnlyFrom = 0 
 
-                bool applyIsolationCut = false 
-                double minHitIsolation = 0.01
-                InputTag rphirecHits = siStripMatchedRecHits:rphiRecHit      
-                InputTag matchedrecHits = siStripMatchedRecHits:matchedRecHit 
+  #Settings for the Global TrackSelector
+  PSet GlobalSelector ={	
+	#for isolation Tests
+	bool applyIsolationtest = false
+	InputTag jetIsoSource = fastjet6CaloJets		
+	double maxJetPt = 40 #GeV
+	double minJetDeltaR = 0.2
+	int32 minIsolatedCount = 0
 
-                bool applyChargeCheck = false
-                double minHitChargeStrip = 20.0
-	}
+	#for Jet Count
+	bool applyJetCountFilter = false
+	InputTag jetCountSource = fastjet6CaloJets		
+	double minJetPt	= 40 #GeV
+	int32 maxJetCount = 3
+
+	#for global muon finding
+	bool applyGlobalMuonFilter = false
+	InputTag muonSource = muons
+	double maxTrackDeltaR = 0.001
+	int32 minGlobalMuonCount = 1
+
+  }
+
+  # Settings for the two Body Decay TrackSelector
+  PSet TwoBodyDecaySelector = {
+	bool  applyMassrangeFilter = false
+	double minXMass = 0 #GeV
+	double maxXMass = 15000 #GeV
+	double daughterMass = 0.105 #GeV
+	
+	bool applyChargeFilter = false
+	int32 charge = 0
+	bool useUnsignedCharge = true
+
+	bool applyMissingETFilter = false
+	InputTag missingETSource = met
+
+	bool applyAcoplanarityFilter = false
+	double acoplanarDistance = 1 #radian
+  }
+}
