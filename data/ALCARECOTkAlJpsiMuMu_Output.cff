@@ -1,0 +1,12 @@
+# AlCaReco for track based alignment using JpsiMuMu events
+
+  block OutALCARECOTkAlJpsiMuMu = {
+    untracked vstring outputCommands = { 
+       "drop *" , "keep *_ALCARECOTkAlJpsiMuMu_*_*"  
+    }
+    untracked PSet SelectEvents = {
+      vstring SelectEvents = { "pathALCARECOTkAlJpsiMuMu" }
+    }
+
+  }
+

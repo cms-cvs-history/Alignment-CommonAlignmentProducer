@@ -1,0 +1,12 @@
+# AlCaReco for track based alignment using UpsilonMuMu events
+
+  block OutALCARECOTkAlUpsilonMuMu = {
+    untracked vstring outputCommands = { 
+       "drop *" , "keep *_ALCARECOTkAlUpsilonMuMu_*_*"  
+    }
+    untracked PSet SelectEvents = {
+      vstring SelectEvents = { "pathALCARECOTkAlUpsilonMuMu" }
+    }
+
+  }
+

@@ -16,7 +16,7 @@
      replace ALCARECOTkAlJpsiMuMu.GlobalSelector.applyGlobalMuonFilter = true
 
      replace ALCARECOTkAlJpsiMuMu.TwoBodyDecaySelector.applyMassrangeFilter = true
- 	replace ALCARECOTkAlJpsiMuMu.TwoBodyDecaySelector.minXMass = 2.95.0 #GeV
+ 	replace ALCARECOTkAlJpsiMuMu.TwoBodyDecaySelector.minXMass = 2.95 #GeV
  	replace ALCARECOTkAlJpsiMuMu.TwoBodyDecaySelector.maxXMass = 3.25 #GeV
 	replace ALCARECOTkAlJpsiMuMu.TwoBodyDecaySelector.daughterMass = 0.105 #GeV (Muons)
 

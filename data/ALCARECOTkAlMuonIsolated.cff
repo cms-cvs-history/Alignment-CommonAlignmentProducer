@@ -12,7 +12,8 @@
 	replace ALCARECOTkAlMuonIsolated.etaMax = 2.6
 	replace ALCARECOTkAlMuonIsolated.nHitMin =  0
 
-     replace ALCARECOTkAlMuonIsolated.GlobalSelector.applyIsolationtest = false
+     replace ALCARECOTkAlMuonIsolated.GlobalSelector.applyIsolationtest = true
+
      replace ALCARECOTkAlMuonIsolated.GlobalSelector.applyGlobalMuonFilter = true
 
      replace ALCARECOTkAlMuonIsolated.TwoBodyDecaySelector.applyMassrangeFilter = false
