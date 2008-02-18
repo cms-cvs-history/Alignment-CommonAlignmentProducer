@@ -1,11 +1,5 @@
-#########################################################
-#### THIS FILE IS NOT USED ANYMORE (FROM 1_3_0_pre4) ####
-#########################################################
-#
-# Adapted from RecoTracker/TrackProducer/data/RefitterWithMaterial.cff:
-# - produce the geometry ourselves (do not include trackerGeometryBuilder);
-# - use the TTRH builder without refit.
-#
+
+# adapted from RecoTracker/TrackProducer/data/CTFFinalFitWithMaterial.cff
 
 # KFUpdatoerESProducer
 include "TrackingTools/KalmanUpdators/data/KFUpdatorESProducer.cfi"
@@ -33,7 +27,5 @@ include "RecoLocalTracker/SiStripRecHitConverter/data/SiStripRecHitMatcher.cfi"
 # pixelCPE
 include "RecoLocalTracker/SiPixelRecHits/data/PixelCPEParmError.cfi"
 #TransientTrackingBuilder
-include "RecoTracker/TransientTrackingRecHit/data/TransientTrackingRecHitBuilderWithoutRefit.cfi"
-
-# Refitter
-include "RecoTracker/TrackProducer/data/RefitterWithMaterial.cfi"
+# include "RecoTracker/TransientTrackingRecHit/data/TransientTrackingRecHitBuilder.cfi"
+  include "RecoTracker/TransientTrackingRecHit/data/TransientTrackingRecHitBuilderWithoutRefit.cfi"

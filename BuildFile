@@ -1,22 +1,34 @@
-<use name=DataFormats/DetId>
-<use name=DataFormats/MuonReco>
-<use name=DataFormats/SiStripDetId>
-<use name=DataFormats/SiPixelDetId>
-<use name=DataFormats/TrackReco>
-<use name=DataFormats/TrackerRecHit2D>
-<use name=DataFormats/TrackingRecHit>
-<use name=DataFormats/SiStripCluster>
-<use name=DataFormats/TrajectorySeed>
-<use name=FWCore/MessageLogger>
+<use name=Alignment/CommonAlignmentAlgorithm>
+<use name=Alignment/CommonAlignmentParametrization>
+<use name=Alignment/TrackerAlignment>
+<use name=PhysicsTools/UtilAlgos>
+<use name=FWCore/Framework>
+<use name=Foundation/PluginManager>
 <use name=FWCore/ParameterSet>
-<use name=PhysicsTools/RecoAlgos>
-<use name=rootcore>
-<export>
-  <use name=DataFormats/MuonReco>
-  <use name=DataFormats/TrackReco>
-  <use name=DataFormats/TrajectorySeed>
-  <use name=FWCore/ParameterSet>
-  <use name=PhysicsTools/RecoAlgos>
-  <lib name=AlignmentCommonAlignmentProducer>
-</export>
+<use name=DataFormats/TrackReco>
+<use name=DataFormats/Math>
+<use name=Geometry/Records>
+<use name=Geometry/TrackerGeometryBuilder>
+<use name=TrackingTools/TransientTrack> 
+<use name=RecoTracker/TransientTrackingRecHit> 
+<use name=rootrflx>
 
+<export>
+   <lib name=AlignmentCommonAlignmentProducer>
+   <use name=Alignment/CommonAlignmentAlgorithm>
+   <use name=Alignment/CommonAlignmentParametrization>
+   <use name=Alignment/TrackerAlignment>
+   <use name=PhysicsTools/RecoAlgos>
+   <use name=FWCore/Framework>
+   <use name=Foundation/PluginManager>
+   <use name=FWCore/ParameterSet>
+   <use name=TrackingTools/TrackFitters>
+   <use name=TrackingTools/PatternTools>
+   <use name=DataFormats/TrackReco>
+   <use name=DataFormats/Math>
+   <use name=MagneticField/Engine>
+   <use name=MagneticField/Records>
+   <use name=rootrflx>
+</export>
+<flags SEAL_PLUGIN_NAME="AlignmentCommonAlignmentProducer">
+<flags CXXFLAGS="-g">
