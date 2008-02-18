@@ -75,7 +75,7 @@ looper = AlignmentProducer
     # misalignment scenario
     bool doMisalignmentScenario = false
     PSet MisalignmentScenario = { 
-      using TrackerShortTermScenario
+      using NoMovementsScenario
 
       #untracked bool fixTPB = 0
       #untracked bool fixTPE = 1
