@@ -1,8 +1,0 @@
-# Source to put GlobalPositionRcd with unlimited IOV into ESetup
-# (use together with fakeAlignmentProducer.cfi for fake alignment)
-#=================================================================
-es_source fakeGlobalPositionSource = EmptyESSource {
-    string recordName = "GlobalPositionRcd"
-    vuint32 firstValid = {1}
-    bool iovIsRunNotTime = true
-}
