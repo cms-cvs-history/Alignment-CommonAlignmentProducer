@@ -1,13 +1,20 @@
 
 # AlCaReco for muon based alignment using ZMuMu events
 
+  module HltFilter = hltHighLevel  from 
+	"HLTrigger/HLTfilters/data/hltHighLevel.cfi"
+  replace HltFilter.HLTPaths = {
+      "HLT1MuonIso","HLT1MuonNonIso" 
+    }
+
+
   module ALCARECOMuAlZMuMu = AlignmentMuonSelectorModule {
 		InputTag src = muons // globalMuons
 		bool filter = true
 		
 		bool applyBasicCuts = true
-		double ptMin      = 0. 
-		double ptMax      = 999.
+		double ptMin      = 10. 
+		double ptMax      = 9999.
 		double etaMin     = -2.4
 		double etaMax     =  2.4
 		double phiMin     = -3.1416
@@ -41,6 +48,6 @@
 
   }
 
-  sequence seqALCARECOMuAlZMuMu = { ALCARECOMuAlZMuMu }
+  sequence seqALCARECOMuAlZMuMu = { HltFilter & ALCARECOMuAlZMuMu }
 
 
