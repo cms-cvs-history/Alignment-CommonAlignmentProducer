@@ -1,0 +1,15 @@
+# AlCaReco for muon based alignment using beam-halo muons in the CSC overlap regions
+
+block OutALCARECOMuAlBeamHalo = {
+    untracked vstring outputCommands = { 
+	"drop *" ,
+	"keep *_ALCARECOMuAlBeamHalo_*_*",
+	"keep *_muonCSCDigis_*_*",
+	"keep *_csc2DRecHits_*_*",
+	"keep *_cscSegments_*_*"
+    }
+    untracked PSet SelectEvents = {
+	vstring SelectEvents = { "pathALCARECOMuAlBeamHalo" }
+    }
+}
+
