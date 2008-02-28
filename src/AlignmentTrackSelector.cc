@@ -137,6 +137,8 @@ AlignmentTrackSelector::Tracks
 AlignmentTrackSelector::basicCuts(const Tracks& tracks, const edm::Event& evt) const 
 {
   Tracks result;
+  //std::cout << "Ntracks : "
+  //	      <<tracks.size()<<std::endl;
 
   for (Tracks::const_iterator it=tracks.begin(); it != tracks.end(); ++it) {
     const reco::Track* trackp=*it;
@@ -145,9 +147,6 @@ AlignmentTrackSelector::basicCuts(const Tracks& tracks, const edm::Event& evt) c
     float phi=trackp->phi();
     int nhit = trackp->numberOfValidHits(); 
     float chi2n = trackp->normalizedChi2();
-
-    // edm::LogDebug("AlignmentTrackSelector") << " pt,eta,phi,nhit: "
-    //  <<pt<<","<<eta<<","<<phi<<","<<nhit;
 
     if (pt>ptMin_ && pt<ptMax_ 
        && eta>etaMin_ && eta<etaMax_ 
@@ -209,6 +208,8 @@ bool AlignmentTrackSelector::detailedHitsCheck(const reco::Track *trackp, const 
       // Do not call isHit2D(..) if already enough 2D hits for performance reason:
       if (nHit2D < nHitMin2D_ && this->isHit2D(**iHit)) ++nHit2D;
     } // end loop on hits
+    //std::cout << "nhits in: TIB/TOB/TID/TEC/2D = " 
+    //      <<nhitinTIB<<"/"<< nhitinTOB<<"/"<< nhitinTID <<"/"<<nhitinTEC<<"/"<<nHit2D<<std::endl;
     return (nhitinTIB >= minHitsinTIB_ && nhitinTOB >= minHitsinTOB_ 
             && nhitinTID >= minHitsinTID_ && nhitinTEC >= minHitsinTEC_ 
             && nhitinBPIX >= minHitsinBPIX_ && nhitinFPIX >= minHitsinFPIX_ 

@@ -1,9 +1,9 @@
 /// \file AlignmentProducer.cc
 ///
 ///  \author    : Frederic Ronga
-///  Revision   : $Revision: 1.13 $
-///  last update: $Date: 2007/08/29 02:24:34 $
-///  by         : $Author: ratnik $
+///  Revision   : $Revision: 1.13.2.1 $
+///  last update: $Date: 2008/02/18 16:49:22 $
+///  by         : $Author: flucke $
 
 #include "Alignment/CommonAlignmentProducer/plugins/AlignmentProducer.h"
 
@@ -457,20 +457,18 @@ AlignmentProducer::duringLoop( const edm::Event& event,
   edm::InputTag tjTag = theParameterSet.getParameter<edm::InputTag>("tjTkAssociationMapTag");
   edm::Handle<TrajTrackAssociationCollection> m_TrajTracksMap;
   if (event.getByLabel( tjTag, m_TrajTracksMap )) {
-
     // Form pairs of trajectories and tracks
     ConstTrajTrackPairCollection trajTracks;
     for ( TrajTrackAssociationCollection::const_iterator iPair = m_TrajTracksMap->begin();
           iPair != m_TrajTracksMap->end(); ++iPair )
       trajTracks.push_back( ConstTrajTrackPair( &(*(*iPair).key), &(*(*iPair).val) ) );
 
-  
     try {
       // Run the alignment algorithm
       theAlignmentAlgo->run(  setup, trajTracks );
-
+      
       for (std::vector<AlignmentMonitorBase*>::const_iterator monitor = theMonitors.begin();  monitor != theMonitors.end();  ++monitor) {
-         (*monitor)->duringLoop(setup, trajTracks);
+	(*monitor)->duringLoop(setup, trajTracks);
       }
     } catch (cms::Exception &e) {
       edm::LogError("Alignment") << "@SUB=AlignmentProducer::duringLoop" 
@@ -560,9 +558,9 @@ void AlignmentProducer::createGeometries_( const edm::EventSetup& iSetup )
    iSetup.get<IdealGeometryRecord>().get( cpv );
 
    if (doTracker_) {
-      iSetup.get<IdealGeometryRecord>().get( theGeometricDet );
-      TrackerGeomBuilderFromGeometricDet trackerBuilder;
-      theTracker = boost::shared_ptr<TrackerGeometry>( trackerBuilder.build(&(*theGeometricDet)) );
+     iSetup.get<IdealGeometryRecord>().get( theGeometricDet );
+     TrackerGeomBuilderFromGeometricDet trackerBuilder;
+     theTracker = boost::shared_ptr<TrackerGeometry>( trackerBuilder.build(&(*theGeometricDet)) );
    }
 
    if (doMuon_) {

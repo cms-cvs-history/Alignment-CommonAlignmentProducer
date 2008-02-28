@@ -98,7 +98,7 @@ looper = AlignmentProducer
 	
     # Save alignment corrections to DB: if true, requires configuration of PoolDBOutputService
     # See DBConfiguration.cff for an example
-    bool saveToDB = false
+    bool saveToDB = true
 
     # Read survey info from DB: if true, requires configuration of PoolDBESSource
     # See Alignment/SurveyAnalysis/test/readDB.cfg for an example
