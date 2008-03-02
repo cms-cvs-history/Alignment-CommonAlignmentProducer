@@ -7,24 +7,23 @@
   module ALCARECOTkAlZMuMu = AlignmentTrackSelector from "Alignment/CommonAlignmentProducer/data/AlignmentTrackSelector.cfi"
 	
     replace ALCARECOTkAlZMuMu.applyBasicCuts = true
-	replace ALCARECOTkAlZMuMu.ptMin = 20.0 #GeV
-	replace ALCARECOTkAlZMuMu.etaMin = -2.6
-	replace ALCARECOTkAlZMuMu.etaMax = 2.6
+	replace ALCARECOTkAlZMuMu.ptMin = 15.0 #GeV
+	replace ALCARECOTkAlZMuMu.etaMin = -3.5
+	replace ALCARECOTkAlZMuMu.etaMax = 3.5
 	replace ALCARECOTkAlZMuMu.nHitMin =  0
 
      replace ALCARECOTkAlZMuMu.GlobalSelector.applyIsolationtest = true
      replace ALCARECOTkAlZMuMu.GlobalSelector.applyGlobalMuonFilter = true
 
      replace ALCARECOTkAlZMuMu.TwoBodyDecaySelector.applyMassrangeFilter = true
- 	replace ALCARECOTkAlZMuMu.TwoBodyDecaySelector.minXMass = 83.7 #GeV
- 	replace ALCARECOTkAlZMuMu.TwoBodyDecaySelector.maxXMass = 98.7 #GeV
+ 	replace ALCARECOTkAlZMuMu.TwoBodyDecaySelector.minXMass = 70.0 #GeV
+ 	replace ALCARECOTkAlZMuMu.TwoBodyDecaySelector.maxXMass = 110.0 #GeV
 	replace ALCARECOTkAlZMuMu.TwoBodyDecaySelector.daughterMass = 0.105 #GeV (Muons)
 
      replace ALCARECOTkAlZMuMu.TwoBodyDecaySelector.applyChargeFilter = true
 	replace ALCARECOTkAlZMuMu.TwoBodyDecaySelector.charge = 0
 	
-     replace ALCARECOTkAlZMuMu.TwoBodyDecaySelector.applyAcoplanarityFilter = true
-	replace ALCARECOTkAlZMuMu.TwoBodyDecaySelector.acoplanarDistance = 1 #radian
+     replace ALCARECOTkAlZMuMu.TwoBodyDecaySelector.applyAcoplanarityFilter = false
 
   sequence seqALCARECOTkAlZMuMu = {ALCARECOTkAlZMuMuHLT & ALCARECOTkAlZMuMu }
 

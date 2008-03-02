@@ -7,9 +7,9 @@
   module ALCARECOTkAlMinBias = AlignmentTrackSelector from "Alignment/CommonAlignmentProducer/data/AlignmentTrackSelector.cfi"
 	
     replace ALCARECOTkAlMinBias.applyBasicCuts = true
-	replace ALCARECOTkAlMinBias.ptMin = 20.0 #GeV
-	replace ALCARECOTkAlMinBias.etaMin = -2.6
-	replace ALCARECOTkAlMinBias.etaMax = 2.6
+	replace ALCARECOTkAlMinBias.ptMin = 1.5 #GeV
+	replace ALCARECOTkAlMinBias.etaMin = -3.5
+	replace ALCARECOTkAlMinBias.etaMax = 3.5
 	replace ALCARECOTkAlMinBias.nHitMin =  0
 
      replace ALCARECOTkAlMinBias.GlobalSelector.applyIsolationtest = false

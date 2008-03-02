@@ -7,17 +7,17 @@
   module ALCARECOTkAlJpsiMuMu = AlignmentTrackSelector from "Alignment/CommonAlignmentProducer/data/AlignmentTrackSelector.cfi"
 	
     replace ALCARECOTkAlJpsiMuMu.applyBasicCuts = true
-	replace ALCARECOTkAlJpsiMuMu.ptMin = 20.0 #GeV
-	replace ALCARECOTkAlJpsiMuMu.etaMin = -2.6
-	replace ALCARECOTkAlJpsiMuMu.etaMax = 2.6
+	replace ALCARECOTkAlJpsiMuMu.ptMin = 0.8 #GeV
+	replace ALCARECOTkAlJpsiMuMu.etaMin = -3.5
+	replace ALCARECOTkAlJpsiMuMu.etaMax = 3.5
 	replace ALCARECOTkAlJpsiMuMu.nHitMin =  0
 
      replace ALCARECOTkAlJpsiMuMu.GlobalSelector.applyIsolationtest = false
      replace ALCARECOTkAlJpsiMuMu.GlobalSelector.applyGlobalMuonFilter = true
 
      replace ALCARECOTkAlJpsiMuMu.TwoBodyDecaySelector.applyMassrangeFilter = true
- 	replace ALCARECOTkAlJpsiMuMu.TwoBodyDecaySelector.minXMass = 2.95 #GeV
- 	replace ALCARECOTkAlJpsiMuMu.TwoBodyDecaySelector.maxXMass = 3.25 #GeV
+ 	replace ALCARECOTkAlJpsiMuMu.TwoBodyDecaySelector.minXMass = 3.0 #GeV
+ 	replace ALCARECOTkAlJpsiMuMu.TwoBodyDecaySelector.maxXMass = 3.2 #GeV
 	replace ALCARECOTkAlJpsiMuMu.TwoBodyDecaySelector.daughterMass = 0.105 #GeV (Muons)
 
      replace ALCARECOTkAlJpsiMuMu.TwoBodyDecaySelector.applyChargeFilter = false

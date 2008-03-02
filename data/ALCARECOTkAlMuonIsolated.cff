@@ -7,9 +7,9 @@
   module ALCARECOTkAlMuonIsolated = AlignmentTrackSelector from "Alignment/CommonAlignmentProducer/data/AlignmentTrackSelector.cfi"
 	
     replace ALCARECOTkAlMuonIsolated.applyBasicCuts = true
-	replace ALCARECOTkAlMuonIsolated.ptMin = 20.0 #GeV
-	replace ALCARECOTkAlMuonIsolated.etaMin = -2.6
-	replace ALCARECOTkAlMuonIsolated.etaMax = 2.6
+	replace ALCARECOTkAlMuonIsolated.ptMin = 11.0 #GeV
+	replace ALCARECOTkAlMuonIsolated.etaMin = -3.5
+	replace ALCARECOTkAlMuonIsolated.etaMax = 3.5
 	replace ALCARECOTkAlMuonIsolated.nHitMin =  0
 
      replace ALCARECOTkAlMuonIsolated.GlobalSelector.applyIsolationtest = true

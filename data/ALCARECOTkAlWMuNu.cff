@@ -8,8 +8,8 @@
 	
     replace ALCARECOTkAlWMuNu.applyBasicCuts = true
 	replace ALCARECOTkAlWMuNu.ptMin = 20.0 #GeV
-	replace ALCARECOTkAlWMuNu.etaMin = -2.6
-	replace ALCARECOTkAlWMuNu.etaMax = 2.6
+	replace ALCARECOTkAlWMuNu.etaMin = -3.5
+	replace ALCARECOTkAlWMuNu.etaMax = 3.5
 	replace ALCARECOTkAlWMuNu.nHitMin =  0
 
      replace ALCARECOTkAlWMuNu.GlobalSelector.applyIsolationtest = true
@@ -32,6 +32,6 @@
      replace ALCARECOTkAlWMuNu.TwoBodyDecaySelector.applyAcoplanarityFilter = true
 	replace ALCARECOTkAlWMuNu.TwoBodyDecaySelector.acoplanarDistance = 1 #radian
 
-  sequence seqALCARECOTkAlWMuNu = { ALCARECOTkAlWMuNu }
+  sequence seqALCARECOTkAlWMuNu = { ALCARECOTkAlWMuNuHLT & ALCARECOTkAlWMuNu }
 
 
