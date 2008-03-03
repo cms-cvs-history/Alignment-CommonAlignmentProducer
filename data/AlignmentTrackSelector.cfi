@@ -1,5 +1,5 @@
 module AlignmentTrackSelector = AlignmentTrackSelectorModule {
-  InputTag src = ctfWithMaterialTracks
+  InputTag src = generalTracks #ctfWithMaterialTracks
   bool filter = false
 	
   # Settings for the base TrackSelector 	
