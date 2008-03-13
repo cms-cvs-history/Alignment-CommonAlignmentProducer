@@ -1,10 +1,9 @@
 
 # AlCaReco for muon based alignment using ZMuMu events
 
-  module ALCARECOMuAlZMuMuHLT = hltHighLevel  from 
+  module HltFilter = hltHighLevel  from 
 	"HLTrigger/HLTfilters/data/hltHighLevel.cfi"
-  replace ALCARECOMuAlZMuMuHLT.andOr = true # choose logical OR between Triggerbits
-  replace ALCARECOMuAlZMuMuHLT.HLTPaths = {
+  replace HltFilter.HLTPaths = {
       "HLT1MuonIso","HLT1MuonNonIso" 
     }
 
@@ -49,6 +48,6 @@
 
   }
 
-  sequence seqALCARECOMuAlZMuMu = { ALCARECOMuAlZMuMuHLT & ALCARECOMuAlZMuMu }
+  sequence seqALCARECOMuAlZMuMu = { HltFilter & ALCARECOMuAlZMuMu }
 
 
