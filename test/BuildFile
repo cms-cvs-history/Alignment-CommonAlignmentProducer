@@ -15,3 +15,13 @@
 <library file=GlobalPositionRcdRead.cpp name=GlobalPositionRcdRead>
   <flags EDM_PLUGIN=1>
 </library>
+
+<library file=TestAccessGeom.cc>
+  <use name=FWCore/Framework>
+  <use name=FWCore/ParameterSet>
+  <use name=Geometry/TrackerGeometryBuilder>
+  <use name=Geometry/DTGeometry>
+  <use name=Geometry/CSCGeometry>
+  <use name=Geometry/Records>
+  <flags EDM_PLUGIN=1>
+</library>
