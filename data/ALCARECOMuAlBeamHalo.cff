@@ -3,25 +3,27 @@
 module ALCARECOMuAlBeamHaloHLT = hltHighLevel from "HLTrigger/HLTfilters/data/hltHighLevel.cfi"
 replace ALCARECOMuAlBeamHaloHLT.HLTPaths = {"CandHLTCSCBeamHalo", "CandHLTCSCBeamHaloRing2or3"}
 
-include "RecoLocalMuon/CSCSegment/data/cscSegments.cfi"
-# Choice of the building algo: 1 SK, 2 TC, 3 DF, 4 ST, ...
-replace cscSegments.algo_type = 4
-
 include "Geometry/CommonDetUnit/data/bareGlobalTrackingGeometry.cfi"
 include "RecoMuon/DetLayers/data/muonDetLayerGeometry.cfi"
 
-include "RecoMuon/MuonSeedGenerator/data/CosmicMuonSeedProducer.cfi"
-replace CosmicMuonSeed.EnableDTMeasurement = false
-include "RecoMuon/CosmicMuonProducer/data/cosmicMuons.cfi"
+module cscSegmentsALCARECOBH = cscSegments from "RecoLocalMuon/CSCSegment/data/cscSegments.cfi"
+# Choice of the building algo: 1 SK, 2 TC, 3 DF, 4 ST, ...
+replace cscSegmentsALCARECOBH.algo_type = 4
 
-sequence reconstructAsCosmicMuons = { cscSegments, CosmicMuonSeed, cosmicMuons }
+module CosmicMuonSeedALCARECOBH = CosmicMuonSeed from "RecoMuon/MuonSeedGenerator/data/CosmicMuonSeedProducer.cfi"
+replace CosmicMuonSeedALCARECOBH.EnableDTMeasurement = false
+
+module cosmicMuonsALCARECOBH = cosmicMuons from "RecoMuon/CosmicMuonProducer/data/cosmicMuons.cfi"
+replace cosmicMuonsALCARECOBH.MuonSeedCollectionLabel = "CosmicMuonSeed"
+
+sequence reconstructAsCosmicMuonsALCARECOBH = { cscSegmentsALCARECOBH, CosmicMuonSeedALCARECOBH, cosmicMuonsALCARECOBH }
 
 module ALCARECOMuAlBeamHalo = AlignmentCSCBeamHaloSelectorModule {
-    InputTag src = cosmicMuons
+    InputTag src = cosmicMuonsALCARECOBH
     bool filter = true
     
     uint32 minStations = 0 # no "energy cut" yet
     uint32 minHitsPerStation = 4
 }
 
-sequence seqALCARECOMuAlBeamHalo = { ALCARECOMuAlBeamHaloHLT & reconstructAsCosmicMuons, ALCARECOMuAlBeamHalo } 
+sequence seqALCARECOMuAlBeamHalo = { ALCARECOMuAlBeamHaloHLT & reconstructAsCosmicMuonsALCARECOBH, ALCARECOMuAlBeamHalo } 

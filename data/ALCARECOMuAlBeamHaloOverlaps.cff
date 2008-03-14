@@ -3,21 +3,23 @@
 module ALCARECOMuAlBeamHaloOverlapsHLT = hltHighLevel from "HLTrigger/HLTfilters/data/hltHighLevel.cfi"
 replace ALCARECOMuAlBeamHaloOverlapsHLT.HLTPaths = {"CandHLTCSCBeamHaloOverlapRing1", "CandHLTCSCBeamHaloOverlapRing2"}
 
-include "RecoLocalMuon/CSCSegment/data/cscSegments.cfi"
-# Choice of the building algo: 1 SK, 2 TC, 3 DF, 4 ST, ...
-replace cscSegments.algo_type = 4
-
 include "Geometry/CommonDetUnit/data/bareGlobalTrackingGeometry.cfi"
 include "RecoMuon/DetLayers/data/muonDetLayerGeometry.cfi"
 
-include "RecoMuon/MuonSeedGenerator/data/CosmicMuonSeedProducer.cfi"
-replace CosmicMuonSeed.EnableDTMeasurement = false
-include "RecoMuon/CosmicMuonProducer/data/cosmicMuons.cfi"
+module cscSegmentsALCARECOBHO = cscSegments from "RecoLocalMuon/CSCSegment/data/cscSegments.cfi"
+# Choice of the building algo: 1 SK, 2 TC, 3 DF, 4 ST, ...
+replace cscSegmentsALCARECOBHO.algo_type = 4
 
-sequence reconstructAsCosmicMuons = { cscSegments, CosmicMuonSeed, cosmicMuons }
+module CosmicMuonSeedALCARECOBHO = CosmicMuonSeed from "RecoMuon/MuonSeedGenerator/data/CosmicMuonSeedProducer.cfi"
+replace CosmicMuonSeedALCARECOBHO.EnableDTMeasurement = false
+
+module cosmicMuonsALCARECOBHO = cosmicMuons from "RecoMuon/CosmicMuonProducer/data/cosmicMuons.cfi"
+replace cosmicMuonsALCARECOBHO.MuonSeedCollectionLabel = "CosmicMuonSeed"
+
+sequence reconstructAsCosmicMuonsALCARECOBHO = { cscSegmentsALCARECOBHO, CosmicMuonSeedALCARECOBHO, cosmicMuonsALCARECOBHO }
 
 module ALCARECOMuAlBeamHaloOverlapsEnergyCut = AlignmentCSCBeamHaloSelectorModule {
-    InputTag src = cosmicMuons
+    InputTag src = cosmicMuonsALCARECOBHO
     bool filter = true
     
     uint32 minStations = 0 # no "energy cut" yet
@@ -33,6 +35,4 @@ module ALCARECOMuAlBeamHaloOverlaps = AlignmentCSCOverlapSelectorModule {
 }
 
 sequence seqALCARECOMuAlBeamHaloOverlaps = { ALCARECOMuAlBeamHaloOverlapsHLT &
-    reconstructAsCosmicMuons, ALCARECOMuAlBeamHaloOverlapsEnergyCut, ALCARECOMuAlBeamHaloOverlaps }
-    
-    
+    reconstructAsCosmicMuonsALCARECOBHO, ALCARECOMuAlBeamHaloOverlapsEnergyCut, ALCARECOMuAlBeamHaloOverlaps }
