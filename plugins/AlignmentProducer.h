@@ -7,15 +7,14 @@
 /// Description : calls alignment algorithms
 ///
 ///  \author    : Frederic Ronga
-///  Revision   : $Revision: 1.9 $
-///  last update: $Date: 2008/02/20 08:59:36 $
-///  by         : $Author: pivarski $
+///  Revision   : $Revision: 1.7 $
+///  last update: $Date: 2007/10/19 11:30:10 $
+///  by         : $Author: fronga $
 
 #include <vector>
 
 // Framework
 #include "FWCore/Framework/interface/ESProducerLooper.h"
-#include "FWCore/Framework/interface/ESHandle.h"
 
 // Geometry
 #include "Geometry/Records/interface/TrackerDigiGeometryRecord.h"
@@ -28,7 +27,6 @@
 #include "Alignment/TrackerAlignment/interface/AlignableTracker.h"
 #include "Alignment/MuonAlignment/interface/AlignableMuon.h"
 #include <FWCore/Framework/interface/Frameworkfwd.h> 
-#include "CondFormats/Alignment/interface/Alignments.h"
 
 
 class Alignments;
@@ -116,7 +114,6 @@ class AlignmentProducer : public edm::ESProducerLooper
   bool applyDbAlignment_,doMisalignmentScenario_,saveToDB_;
   bool doTracker_,doMuon_;
   bool useSurvey_; // true to read survey info from DB
-
 };
 
 #endif
