@@ -1,11 +1,11 @@
 # Author     : Gero Flucke
 # Date       :   July 19th, 2007
-# last update: $Date$ by $Author$
+# last update: $Date: 2007/07/19 12:58:49 $ by $Author: flucke $
 
 # AlCaReco for track based alignment using Cosmic muons reconstructed by 
 # Combinatorial Track Finder
 
-module ALCARECOTkAlCosmicsCTF = AlignmentTracks from "Alignment/CommonAlignmentProducer/data/AlignmentTrackSelector.cfi"
+module ALCARECOTkAlCosmicsCTF = AlignmentTrackSelector from "Alignment/CommonAlignmentProducer/data/AlignmentTrackSelector.cfi"
 
 replace ALCARECOTkAlCosmicsCTF.src = ctfWithMaterialTracksP5
 replace ALCARECOTkAlCosmicsCTF.filter = true

@@ -1,6 +1,6 @@
 # Author     : Gero Flucke
 # Date       :   July 19th, 2007
-# last update: $Date$ by $Author$
+# last update: $Date: 2007/07/19 12:58:49 $ by $Author: flucke $
 
 # AlCaReco for track based alignment using Cosmic muons from Cosmic Track Finder
 
@@ -20,7 +20,7 @@
 #---- Configuration END
 
 
-module ALCARECOTkAlCosmicsCosmicTF = AlignmentTracks from "Alignment/CommonAlignmentProducer/data/AlignmentTrackSelector.cfi"
+module ALCARECOTkAlCosmicsCosmicTF = AlignmentTrackSelector from "Alignment/CommonAlignmentProducer/data/AlignmentTrackSelector.cfi"
 
 replace ALCARECOTkAlCosmicsCosmicTF.src = cosmictrackfinderP5 # different for CTF
 replace ALCARECOTkAlCosmicsCosmicTF.filter = true
