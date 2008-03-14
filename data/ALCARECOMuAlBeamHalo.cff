@@ -12,9 +12,12 @@ replace cscSegmentsALCARECOBH.algo_type = 4
 
 module CosmicMuonSeedALCARECOBH = CosmicMuonSeed from "RecoMuon/MuonSeedGenerator/data/CosmicMuonSeedProducer.cfi"
 replace CosmicMuonSeedALCARECOBH.EnableDTMeasurement = false
+replace CosmicMuonSeedALCARECOBH.CSCRecSegmentLabel = cscSegmentsALCARECOBH
 
 module cosmicMuonsALCARECOBH = cosmicMuons from "RecoMuon/CosmicMuonProducer/data/cosmicMuons.cfi"
 replace cosmicMuonsALCARECOBH.MuonSeedCollectionLabel = "CosmicMuonSeed"
+replace cosmicMuonsALCARECOBH.EnableDTMeasurement = false
+replace cosmicMuonsALCARECOBH.CSCRecSegmentLabel = cscSegmentsALCARECOBH
 
 sequence reconstructAsCosmicMuonsALCARECOBH = { cscSegmentsALCARECOBH, CosmicMuonSeedALCARECOBH, cosmicMuonsALCARECOBH }
 

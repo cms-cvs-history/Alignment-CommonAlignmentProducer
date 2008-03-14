@@ -1,4 +1,4 @@
-{
+
 module AlignmentMuonSelector  = AlignmentMuonSelectorModule {
 		InputTag src = muons 
 		bool filter = true
