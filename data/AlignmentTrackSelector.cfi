@@ -48,14 +48,14 @@ module AlignmentTrackSelector = AlignmentTrackSelectorModule {
   PSet GlobalSelector ={	
 	#for isolation Tests
 	bool applyIsolationtest = false
-	InputTag jetIsoSource = fastjet6CaloJets		
+	InputTag jetIsoSource = kt6CaloJets		
 	double maxJetPt = 40 #GeV
 	double minJetDeltaR = 0.2
 	int32 minIsolatedCount = 0
 
 	#for Jet Count
 	bool applyJetCountFilter = false
-	InputTag jetCountSource = fastjet6CaloJets		
+	InputTag jetCountSource = kt6CaloJets		
 	double minJetPt	= 40 #GeV
 	int32 maxJetCount = 3
 
