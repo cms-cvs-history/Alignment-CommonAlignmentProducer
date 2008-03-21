@@ -17,16 +17,13 @@ struct SeedConfigSelector {
   const_iterator end() const { return selected_.end(); }
   size_t size() const { return selected_.size(); }
 
-  void select( const edm::Handle<TrajectorySeedCollection> c,  const edm::Event & evt,
-               const edm::EventSetup &/*dummy*/)
-  {
+  void select( const edm::Handle<TrajectorySeedCollection> c,  const edm::Event & evt) {
     all_.clear();
     selected_.clear();
-    for (collection::const_iterator i = c.product()->begin(), iE = c.product()->end();
-         i != iE; ++i) {
+    for( TrajectorySeedCollection::const_iterator i=c.product()->begin();i!=c.product()->end();++i){
       all_.push_back( & * i );
     }
-    selected_ = theSelector.select(all_, evt); // might add dummy...
+    selected_=theSelector.select(all_,evt);
   }
 
 private:
