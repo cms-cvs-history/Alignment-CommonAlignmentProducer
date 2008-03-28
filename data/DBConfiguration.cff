@@ -3,29 +3,30 @@
 #
 # 
 
-###################################################################################
 # Database input service 
 # Required if AlignmentProducer.applyDbAlignment = true
 include "CondCore/DBCommon/data/CondDBSetup.cfi"
 es_source = PoolDBESSource {
     using CondDBSetup
     string connect = "sqlite_file:Alignments.db"    
-    #string connect = "frontier://FrontierProd/CMS_COND_20X_ALIGNMENT"
+    #string connect = "frontier://FrontierDev/CMS_COND_ALIGNMENT" 
+    #Uncomment for < 1_7 (except Frontier) #untracked string catalog = "file:conddbcatalog.xml"
+    string timetype = "runnumber"
     VPSet toGet = 
     {
-        { string record = "TrackerAlignmentRcd"      string tag = "TrackerIdealGeometry200" },
-        { string record = "TrackerAlignmentErrorRcd" string tag = "TrackerIdealGeometryErrors200" }
+        { string record = "TrackerAlignmentRcd"      string tag = "Tracker10pbScenario" },
+        { string record = "TrackerAlignmentErrorRcd" string tag = "Tracker10pbScenarioErrors" }
     }
 }
 
-###################################################################################
 # Database output service
 # Required if AlignmentProducer.saveToDB = true
 include "CondCore/DBCommon/data/CondDBSetup.cfi"
 service = PoolDBOutputService {
     using CondDBSetup
     string connect = "sqlite_file:dataout.db"    
-    untracked string timetype = "runnumber"
+    #Uncomment for < 1_7 #untracked string catalog = "file:catalogout.xml"
+    string timetype = "runnumber"
     VPSet toPut = {
         { string record = "TrackerAlignmentRcd"      string tag = "<output tag>" },
         { string record = "TrackerAlignmentErrorRcd" string tag = "<output error tag>" }
