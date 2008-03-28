@@ -5,6 +5,8 @@
 
 
   module ALCARECOTkAlWMuNu = AlignmentTrackSelector from "Alignment/CommonAlignmentProducer/data/AlignmentTrackSelector.cfi"
+
+    replace ALCARECOTkAlWMuNu.filter = true #do not store empty events
 	
     replace ALCARECOTkAlWMuNu.applyBasicCuts = true
 	replace ALCARECOTkAlWMuNu.ptMin = 20.0 #GeV

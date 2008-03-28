@@ -5,6 +5,8 @@
   replace ALCARECOTkAlUpsilonMuMuHLT.HLTPaths = {"HLT2MuonUpsilon"}
 
   module ALCARECOTkAlUpsilonMuMu = AlignmentTrackSelector from "Alignment/CommonAlignmentProducer/data/AlignmentTrackSelector.cfi"
+
+    replace ALCARECOTkAlUpsilonMuMu.filter = true #do not store empty events
 	
     replace ALCARECOTkAlUpsilonMuMu.applyBasicCuts = true
 	replace ALCARECOTkAlUpsilonMuMu.ptMin = 0.8 #GeV

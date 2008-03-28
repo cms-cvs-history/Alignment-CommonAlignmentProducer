@@ -5,6 +5,8 @@
   replace ALCARECOTkAlMinBiasHLT.HLTPaths = {"HLTMinBias", "HLTMinBiasPixel"}
 
   module ALCARECOTkAlMinBias = AlignmentTrackSelector from "Alignment/CommonAlignmentProducer/data/AlignmentTrackSelector.cfi"
+
+    replace ALCARECOTkAlMinBias.filter = true #do not store empty events	
 	
     replace ALCARECOTkAlMinBias.applyBasicCuts = true
 	replace ALCARECOTkAlMinBias.ptMin = 1.5 #GeV

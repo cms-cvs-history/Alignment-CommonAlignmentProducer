@@ -5,6 +5,8 @@
   replace ALCARECOTkAlJpsiMuMuHLT.HLTPaths = {"HLT2MuonJPsi", "HLTBJPsiMuMu"}
 
   module ALCARECOTkAlJpsiMuMu = AlignmentTrackSelector from "Alignment/CommonAlignmentProducer/data/AlignmentTrackSelector.cfi"
+
+    replace ALCARECOTkAlJpsiMuMu.filter = true #do not store empty events
 	
     replace ALCARECOTkAlJpsiMuMu.applyBasicCuts = true
 	replace ALCARECOTkAlJpsiMuMu.ptMin = 0.8 #GeV

@@ -6,8 +6,9 @@
 #  replace ALCARECOTkAlBeamHaloHLT.HLTPaths = {""}
 
   module ALCARECOTkAlBeamHalo = AlignmentTrackSelector from "Alignment/CommonAlignmentProducer/data/AlignmentTrackSelector.cfi"
-  
+
     replace ALCARECOTkAlBeamHalo.src = ctfWithMaterialTracksBeamHaloMuon	
+    replace ALCARECOTkAlBeamHalo.filter = true #do not store empty events
 
     replace ALCARECOTkAlBeamHalo.applyBasicCuts = true
 	replace ALCARECOTkAlBeamHalo.ptMin = 0.0 #GeV

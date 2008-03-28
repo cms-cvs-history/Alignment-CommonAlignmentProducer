@@ -5,6 +5,8 @@
   replace ALCARECOTkAlMuonIsolatedHLT.HLTPaths = {"HLT1MuonIso"}
 
   module ALCARECOTkAlMuonIsolated = AlignmentTrackSelector from "Alignment/CommonAlignmentProducer/data/AlignmentTrackSelector.cfi"
+
+    replace ALCARECOTkAlMuonIsolated.filter = true #do not store empty events
 	
     replace ALCARECOTkAlMuonIsolated.applyBasicCuts = true
 	replace ALCARECOTkAlMuonIsolated.ptMin = 11.0 #GeV
