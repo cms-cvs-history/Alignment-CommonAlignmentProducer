@@ -1,7 +1,0 @@
-es_source GlobalPosition = poolDBESSource from "CalibTracker/Configuration/data/Common/PoolDBESSource.cfi"
-replace GlobalPosition.connect="frontier://FrontierDev/CMS_COND_ALIGNMENT"
-replace GlobalPosition.toGet = {
-    {
-	string record = "GlobalPositionRcd" string tag = "IdealGeometry"
-    }
-}
