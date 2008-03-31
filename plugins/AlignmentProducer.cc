@@ -1,11 +1,11 @@
 /// \file AlignmentProducer.cc
 ///
 ///  \author    : Frederic Ronga
-///  Revision   : $Revision: 1.23 $
-///  last update: $Date: 2008/02/25 17:47:51 $
-///  by         : $Author: flucke $
+///  Revision   : $Revision: 1.17 $
+///  last update: $Date: 2007/10/19 15:10:39 $
+///  by         : $Author: fronga $
 
-#include "AlignmentProducer.h"
+#include "Alignment/CommonAlignmentProducer/plugins/AlignmentProducer.h"
 #include "FWCore/Framework/interface/LooperFactory.h" 
 #include "Alignment/CommonAlignmentAlgorithm/interface/AlignmentParameterBuilder.h" 
 #include "Alignment/CommonAlignmentAlgorithm/interface/AlignmentParameterStore.h" 
@@ -21,6 +21,7 @@
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/EventSetup.h"
+#include "FWCore/Framework/interface/ESHandle.h"
 
 // Conditions database
 #include "FWCore/ServiceRegistry/interface/Service.h"
@@ -47,12 +48,11 @@
 #include "CondFormats/AlignmentRecord/interface/DTSurveyErrorRcd.h"
 #include "CondFormats/AlignmentRecord/interface/CSCSurveyRcd.h"
 #include "CondFormats/AlignmentRecord/interface/CSCSurveyErrorRcd.h"
-#include "CondFormats/AlignmentRecord/interface/GlobalPositionRcd.h"
-#include "CondFormats/Alignment/interface/DetectorGlobalPosition.h"
 
 // Tracking 	 
 
 // Alignment
+#include "CondFormats/Alignment/interface/Alignments.h"
 #include "CondFormats/Alignment/interface/SurveyErrors.h"
 #include "Alignment/TrackerAlignment/interface/TrackerScenarioBuilder.h"
 #include "Alignment/MuonAlignment/interface/MuonScenarioBuilder.h"
@@ -167,31 +167,25 @@ void AlignmentProducer::beginOfJob( const edm::EventSetup& iSetup )
   
   // Retrieve and apply alignments, if requested (requires DB setup)
   if ( applyDbAlignment_ ) {
-    //    iSetup.get<TrackerDigiGeometryRecord>().getRecord<GlobalPositionRcd>().get(globalPositionRcd_);
-    edm::ESHandle<Alignments> globalPositionRcd;
-    iSetup.get<GlobalPositionRcd>().get(globalPositionRcd);
     if ( doTracker_ ) {
       edm::ESHandle<Alignments> alignments;
       iSetup.get<TrackerAlignmentRcd>().get( alignments );
       edm::ESHandle<AlignmentErrors> alignmentErrors;
       iSetup.get<TrackerAlignmentErrorRcd>().get( alignmentErrors );
-      aligner.applyAlignments<TrackerGeometry>( &(*theTracker), &(*alignments), &(*alignmentErrors),
-						align::DetectorGlobalPosition(*globalPositionRcd, DetId(DetId::Tracker)) );
+      aligner.applyAlignments<TrackerGeometry>( &(*theTracker), &(*alignments), &(*alignmentErrors) );
     }
     if ( doMuon_ ) {
       edm::ESHandle<Alignments> dtAlignments;
       iSetup.get<DTAlignmentRcd>().get( dtAlignments );
       edm::ESHandle<AlignmentErrors> dtAlignmentErrors;
       iSetup.get<DTAlignmentErrorRcd>().get( dtAlignmentErrors );
-      aligner.applyAlignments<DTGeometry>( &(*theMuonDT), &(*dtAlignments), &(*dtAlignmentErrors),
-					   align::DetectorGlobalPosition(*globalPositionRcd, DetId(DetId::Muon)) );
+      aligner.applyAlignments<DTGeometry>( &(*theMuonDT), &(*dtAlignments), &(*dtAlignmentErrors) );
 
       edm::ESHandle<Alignments> cscAlignments;
       iSetup.get<CSCAlignmentRcd>().get( cscAlignments );
       edm::ESHandle<AlignmentErrors> cscAlignmentErrors;
       iSetup.get<CSCAlignmentErrorRcd>().get( cscAlignmentErrors );
-      aligner.applyAlignments<CSCGeometry>( &(*theMuonCSC), &(*cscAlignments), &(*cscAlignmentErrors),
-					    align::DetectorGlobalPosition(*globalPositionRcd, DetId(DetId::Muon)) );
+      aligner.applyAlignments<CSCGeometry>( &(*theMuonCSC), &(*cscAlignments), &(*cscAlignmentErrors) );
     }
   }
 
@@ -330,35 +324,22 @@ void AlignmentProducer::endOfJob()
        Alignments* alignments = theAlignableTracker->alignments();
        AlignmentErrors* alignmentErrors = theAlignableTracker->alignmentErrors();
 
-       // FIXME: remove the global coordinate transformation from these alignments!
-       // GeometryAligner aligner;
-       // Alignments localAlignments = aligner.removeGlobalTransform(alignments,
-       //                              align::DetectorGlobalPosition(*globalPositionRcd_, DetId(DetId::Tracker)));
-       // and put &localAlignments into the database
-       // (the removal code should be in GeometryAligner so that a
-       // developer can see that the inverse is properly calculated in
-       // the same file that it is added)
-
        // Store
-       const std::string alignRecordName("TrackerAlignmentRcd");
-       const std::string errorRecordName("TrackerAlignmentErrorRcd");
+       std::string alignRecordName( "TrackerAlignmentRcd" );
+       std::string errorRecordName( "TrackerAlignmentErrorRcd" );
 
-//        if ( poolDbService->isNewTagRequest(alignRecordName) )
-// 	  poolDbService->createNewIOV<Alignments>( alignments, poolDbService->endOfTime(), 
-// 						   alignRecordName );
-//        else
-// 	  poolDbService->appendSinceTime<Alignments>( alignments, poolDbService->currentTime(), 
-// 						      alignRecordName );
-       poolDbService->writeOne<Alignments>(alignments, poolDbService->currentTime(),
-                                           alignRecordName);
-//        if ( poolDbService->isNewTagRequest(errorRecordName) )
-// 	  poolDbService->createNewIOV<AlignmentErrors>( alignmentErrors, poolDbService->endOfTime(), 
-// 							errorRecordName );
-//        else
-// 	  poolDbService->appendSinceTime<AlignmentErrors>( alignmentErrors, poolDbService->currentTime(), 
-// 							   errorRecordName );
-       poolDbService->writeOne<AlignmentErrors>(alignmentErrors, poolDbService->currentTime(),
-                                                errorRecordName);
+       if ( poolDbService->isNewTagRequest(alignRecordName) )
+	  poolDbService->createNewIOV<Alignments>( alignments, poolDbService->endOfTime(), 
+						   alignRecordName );
+       else
+	  poolDbService->appendSinceTime<Alignments>( alignments, poolDbService->currentTime(), 
+						      alignRecordName );
+       if ( poolDbService->isNewTagRequest(errorRecordName) )
+	  poolDbService->createNewIOV<AlignmentErrors>( alignmentErrors, poolDbService->endOfTime(), 
+							errorRecordName );
+       else
+	  poolDbService->appendSinceTime<AlignmentErrors>( alignmentErrors, poolDbService->currentTime(), 
+							   errorRecordName );
     }
  
     if ( doMuon_ ) {
@@ -367,50 +348,36 @@ void AlignmentProducer::endOfJob()
        AlignmentErrors* dtAlignmentErrors  = theAlignableMuon->dtAlignmentErrors();
        Alignments*      cscAlignments      = theAlignableMuon->cscAlignments();
        AlignmentErrors* cscAlignmentErrors = theAlignableMuon->cscAlignmentErrors();
-  
-       // FIXME: remove the global coordinate transformation from these alignments!
-       // GeometryAligner aligner;
-       // Alignments localDTAlignments = aligner.removeGlobalTransform(alignments, align::DetectorGlobalPosition(*globalPositionRcd_, DetId(DetId::Muon)));
-       // Alignments localCSCAlignments = aligner.removeGlobalTransform(alignments, align::DetectorGlobalPosition(*globalPositionRcd_, DetId(DetId::Muon)));
-       // and put &localDTAlignments, &localCSCAlignments into the database
 
-       const std::string dtAlignRecordName("DTAlignmentRcd");
-       const std::string dtErrorRecordName("DTAlignmentErrorRcd");
-       const std::string cscAlignRecordName("CSCAlignmentRcd");
-       const std::string cscErrorRecordName("CSCAlignmentErrorRcd");
+       std::string dtAlignRecordName( "DTAlignmentRcd" );
+       std::string dtErrorRecordName( "DTAlignmentErrorRcd" );
+       std::string cscAlignRecordName( "CSCAlignmentRcd" );
+       std::string cscErrorRecordName( "CSCAlignmentErrorRcd" );
 
-//        if (poolDbService->isNewTagRequest(dtAlignRecordName)) {
-// 	  poolDbService->createNewIOV<Alignments>( &(*dtAlignments), poolDbService->endOfTime(), dtAlignRecordName);
-//        }
-//        else {
-// 	  poolDbService->appendSinceTime<Alignments>( &(*dtAlignments), poolDbService->currentTime(), dtAlignRecordName);
-//        }
-       poolDbService->writeOne<Alignments>(dtAlignments, poolDbService->currentTime(),
-                                           dtAlignRecordName);
-//        if (poolDbService->isNewTagRequest(dtErrorRecordName)) {
-// 	  poolDbService->createNewIOV<AlignmentErrors>( &(*dtAlignmentErrors), poolDbService->endOfTime(), dtErrorRecordName);
-//        }
-//        else {
-// 	  poolDbService->appendSinceTime<AlignmentErrors>( &(*dtAlignmentErrors), poolDbService->currentTime(), dtErrorRecordName);
-//        }
-       poolDbService->writeOne<AlignmentErrors>(dtAlignmentErrors, poolDbService->currentTime(),
-                                                dtErrorRecordName);
-//        if (poolDbService->isNewTagRequest(cscAlignRecordName)) {
-// 	  poolDbService->createNewIOV<Alignments>( &(*cscAlignments), poolDbService->endOfTime(), cscAlignRecordName);
-//        }
-//        else {
-// 	  poolDbService->appendSinceTime<Alignments>( &(*cscAlignments), poolDbService->currentTime(), cscAlignRecordName);
-//        }
-       poolDbService->writeOne<Alignments>(cscAlignments, poolDbService->currentTime(),
-                                           cscAlignRecordName);
-//        if (poolDbService->isNewTagRequest(cscErrorRecordName)) {
-// 	  poolDbService->createNewIOV<AlignmentErrors>( &(*cscAlignmentErrors), poolDbService->endOfTime(), cscErrorRecordName);
-//        }
-//        else {
-// 	  poolDbService->appendSinceTime<AlignmentErrors>( &(*cscAlignmentErrors), poolDbService->currentTime(), cscErrorRecordName);
-//        }
-       poolDbService->writeOne<AlignmentErrors>(cscAlignmentErrors, poolDbService->currentTime(),
-                                                cscErrorRecordName);
+       if (poolDbService->isNewTagRequest(dtAlignRecordName)) {
+	  poolDbService->createNewIOV<Alignments>( &(*dtAlignments), poolDbService->endOfTime(), dtAlignRecordName);
+       }
+       else {
+	  poolDbService->appendSinceTime<Alignments>( &(*dtAlignments), poolDbService->currentTime(), dtAlignRecordName);
+       }
+       if (poolDbService->isNewTagRequest(dtErrorRecordName)) {
+	  poolDbService->createNewIOV<AlignmentErrors>( &(*dtAlignmentErrors), poolDbService->endOfTime(), dtErrorRecordName);
+       }
+       else {
+	  poolDbService->appendSinceTime<AlignmentErrors>( &(*dtAlignmentErrors), poolDbService->currentTime(), dtErrorRecordName);
+       }
+       if (poolDbService->isNewTagRequest(cscAlignRecordName)) {
+	  poolDbService->createNewIOV<Alignments>( &(*cscAlignments), poolDbService->endOfTime(), cscAlignRecordName);
+       }
+       else {
+	  poolDbService->appendSinceTime<Alignments>( &(*cscAlignments), poolDbService->currentTime(), cscAlignRecordName);
+       }
+       if (poolDbService->isNewTagRequest(cscErrorRecordName)) {
+	  poolDbService->createNewIOV<AlignmentErrors>( &(*cscAlignmentErrors), poolDbService->endOfTime(), cscErrorRecordName);
+       }
+       else {
+	  poolDbService->appendSinceTime<AlignmentErrors>( &(*cscAlignmentErrors), poolDbService->currentTime(), cscErrorRecordName);
+       }
     }
   }
 }
@@ -437,7 +404,7 @@ void AlignmentProducer::startingNewLoop(unsigned int iLoop )
   if ( doTracker_ ) {
     std::auto_ptr<Alignments> alignments(theAlignableTracker->alignments());
     std::auto_ptr<AlignmentErrors> alignmentErrors(theAlignableTracker->alignmentErrors());
-    aligner.applyAlignments<TrackerGeometry>( &(*theTracker),&(*alignments),&(*alignmentErrors), AlignTransform() ); // don't apply global a second time!
+    aligner.applyAlignments<TrackerGeometry>( &(*theTracker),&(*alignments),&(*alignmentErrors));
   }
   if ( doMuon_ ) {
     std::auto_ptr<Alignments>      dtAlignments(       theAlignableMuon->dtAlignments());
@@ -445,8 +412,8 @@ void AlignmentProducer::startingNewLoop(unsigned int iLoop )
     std::auto_ptr<Alignments>      cscAlignments(      theAlignableMuon->cscAlignments());
     std::auto_ptr<AlignmentErrors> cscAlignmentErrors( theAlignableMuon->cscAlignmentErrors());
 
-    aligner.applyAlignments<DTGeometry>( &(*theMuonDT), &(*dtAlignments), &(*dtAlignmentErrors), AlignTransform() ); // don't apply global a second time!
-    aligner.applyAlignments<CSCGeometry>( &(*theMuonCSC), &(*cscAlignments), &(*cscAlignmentErrors), AlignTransform() ); // nope!
+    aligner.applyAlignments<DTGeometry>( &(*theMuonDT), &(*dtAlignments), &(*dtAlignmentErrors) );
+    aligner.applyAlignments<CSCGeometry>( &(*theMuonCSC), &(*cscAlignments), &(*cscAlignmentErrors) );
   }
 }
 
