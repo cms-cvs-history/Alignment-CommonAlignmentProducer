@@ -3,10 +3,7 @@
 block OutALCARECOMuAlOverlaps = {
     untracked vstring outputCommands = { 
 	"drop *" ,
-	"keep *_ALCARECOMuAlOverlaps_*_*",
-	"keep *_muonCSCDigis_*_*",
-	"keep *_csc2DRecHits_*_*",
-	"keep *_cscSegments_*_*"
+	"keep *_ALCARECOMuAlOverlaps_*_*"
     }
     untracked PSet SelectEvents = {
 	vstring SelectEvents = { "pathALCARECOMuAlOverlaps" }
