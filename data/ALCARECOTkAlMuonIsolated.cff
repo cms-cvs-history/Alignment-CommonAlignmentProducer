@@ -4,17 +4,17 @@
   replace ALCARECOTkAlMuonIsolatedHLT.andOr = true # choose logical OR between Triggerbits
   ### NOTE: this has to hold for all triggertables, so in order for this to not crash all bits of all triggertables 
   #         have to be in all triggertables but switched off via prescale.
-  #for L = 2*10e30:  HLT1Muon5 , HLT1MuonIso11 
-  #for L = 2*10e31:  HLT1Muon11 , HLT1MuonIso9
-  #for L = 2*10e32:  HLT1MuonIso11 , HLT1MuonNonIso16
-  replace ALCARECOTkAlMuonIsolatedHLT.HLTPaths = { "HLT1Muon5" , "HLT1MuonIso11", "HLT1Muon11" , "HLT1MuonIso9" , "HLT1MuonNonIso16" , "HLT1MuonIso11" }
+  #for L = 10e30:  HLT1MuonPrescalePt3 , HLT1MuonPrescalePt5
+  #for L = 10e31:  unknown
+  #for L = 10e32:  HLT1MuonIso , HLT1MuonNonIso
+  replace ALCARECOTkAlMuonIsolatedHLT.HLTPaths = { "HLT1MuonPrescalePt3" , "HLT1MuonPrescalePt5" , "HLT1MuonIso" , "HLT1MuonNonIso" }
 
   module ALCARECOTkAlMuonIsolated = AlignmentTrackSelector from "Alignment/CommonAlignmentProducer/data/AlignmentTrackSelector.cfi"
 
     replace ALCARECOTkAlMuonIsolated.filter = true #do not store empty events
 	
     replace ALCARECOTkAlMuonIsolated.applyBasicCuts = true
-	replace ALCARECOTkAlMuonIsolated.ptMin = 4.0 #GeV #lower then lowest HLT cut to get every isolated Muon.
+	replace ALCARECOTkAlMuonIsolated.ptMin = 2.0 #GeV #lower then lowest HLT cut to get every isolated Muon.
 	replace ALCARECOTkAlMuonIsolated.etaMin = -3.5
 	replace ALCARECOTkAlMuonIsolated.etaMax = 3.5
 	replace ALCARECOTkAlMuonIsolated.nHitMin =  0
