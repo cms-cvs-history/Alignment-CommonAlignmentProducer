@@ -7,9 +7,9 @@
 /// Description : calls alignment algorithms
 ///
 ///  \author    : Frederic Ronga
-///  Revision   : $Revision: 1.6 $
-///  last update: $Date: 2007/07/09 14:33:20 $
-///  by         : $Author: pivarski $
+///  Revision   : $Revision: 1.7 $
+///  last update: $Date: 2007/10/19 11:30:10 $
+///  by         : $Author: fronga $
 
 #include <vector>
 
@@ -21,6 +21,7 @@
 // Geometry
 #include "Geometry/TrackerGeometryBuilder/interface/TrackerGeometry.h"
 #include "Geometry/Records/interface/TrackerDigiGeometryRecord.h"
+#include "Geometry/Records/interface/MuonGeometryRecord.h"
 
 // Alignment
 #include "RecoTracker/TrackProducer/interface/TrackProducerBase.h"
