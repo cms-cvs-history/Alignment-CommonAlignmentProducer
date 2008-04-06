@@ -4,6 +4,8 @@ include "Alignment/HIPAlignmentAlgorithm/data/HIPAlignmentAlgorithm.cfi"
 include "Alignment/MillePedeAlignmentAlgorithm/data/MillePedeAlignmentAlgorithm.cfi"
 # include "Alignment/KalmanAlignmentAlgorithm/data/KalmanAlignmentAlgorithm.cfi"
 
+include "Alignment/CommonAlignmentAlgorithm/data/AlignmentParameterStore.cfi"
+
 # Patch for track refitter (adapted to alignment needs)
 
 include "RecoTracker/TransientTrackingRecHit/data/TransientTrackingRecHitBuilderWithoutRefit.cfi"
@@ -32,7 +34,7 @@ looper = AlignmentProducer
   int32 nFixAlignables = 0 # number of selected alignables to be fixed
 
   # include configuration for AlignmentParameterStore
-  include "Alignment/CommonAlignmentAlgorithm/data/AlignmentParameterStore.cfi"
+  using AlignmentParameterStore
 
   # do not apply simple misalignment
   string parameterSelectorSimple = "-1"

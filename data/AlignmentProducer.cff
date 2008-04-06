@@ -9,6 +9,9 @@ include "Alignment/HIPAlignmentAlgorithm/data/HIPAlignmentAlgorithm.cfi"
 include "Alignment/MillePedeAlignmentAlgorithm/data/MillePedeAlignmentAlgorithm.cfi"
 include "Alignment/KalmanAlignmentAlgorithm/data/KalmanAlignmentAlgorithm.cfi"
 
+# parameters
+include "Alignment/CommonAlignmentAlgorithm/data/AlignmentParameterStore.cfi"
+
 looper = AlignmentProducer
 {
     untracked uint32 maxLoops = 1
@@ -61,7 +64,7 @@ looper = AlignmentProducer
     int32 nFixAlignables = 0
 
     # include configuration for AlignmentParameterStore
-    include "Alignment/CommonAlignmentAlgorithm/data/AlignmentParameterStore.cfi"
+    using AlignmentParameterStore
 
     # simple misalignment applied to selected alignables and selected dof
     string parameterSelectorSimple = "-1" # means only active parameters, else use e.g. "111000"
