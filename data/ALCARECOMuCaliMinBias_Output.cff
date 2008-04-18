@@ -1,0 +1,15 @@
+# AlCaReco for muon calibration using MinBias events
+
+  block OutALCARECOMuCaliMinBias = {
+    untracked vstring outputCommands = { 
+                "drop *" ,
+                "keep *_muonCSCDigis_*_*",
+                "keep *_muonDTDigis_*_*",
+                "keep *_muonRPCDigis_*_*"
+    }
+    untracked PSet SelectEvents = {
+      vstring SelectEvents = { "pathALCARECOMuCaliMinBias" }
+    }
+
+  }
+
