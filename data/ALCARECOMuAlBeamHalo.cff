@@ -1,3 +1,5 @@
+module EventContentAnalyzer = EventContentAnalyzer {}
+
 # AlCaReco for muon based alignment using beam-halo muons
 
 module ALCARECOMuAlBeamHaloHLT = hltHighLevel from "HLTrigger/HLTfilters/data/hltHighLevel.cfi"
@@ -9,15 +11,17 @@ include "RecoMuon/DetLayers/data/muonDetLayerGeometry.cfi"
 module cscSegmentsALCARECOBH = cscSegments from "RecoLocalMuon/CSCSegment/data/cscSegments.cfi"
 # Choice of the building algo: 1 SK, 2 TC, 3 DF, 4 ST, ...
 replace cscSegmentsALCARECOBH.algo_type = 4
+replace cscSegmentsALCARECOBH.inputObjects = hltCsc2DRecHits
 
 module CosmicMuonSeedALCARECOBH = CosmicMuonSeed from "RecoMuon/MuonSeedGenerator/data/CosmicMuonSeedProducer.cfi"
 replace CosmicMuonSeedALCARECOBH.EnableDTMeasurement = false
 replace CosmicMuonSeedALCARECOBH.CSCRecSegmentLabel = cscSegmentsALCARECOBH
 
 module cosmicMuonsALCARECOBH = cosmicMuons from "RecoMuon/CosmicMuonProducer/data/cosmicMuons.cfi"
-replace cosmicMuonsALCARECOBH.MuonSeedCollectionLabel = "CosmicMuonSeed"
-replace cosmicMuonsALCARECOBH.EnableDTMeasurement = false
-replace cosmicMuonsALCARECOBH.CSCRecSegmentLabel = cscSegmentsALCARECOBH
+replace cosmicMuonsALCARECOBH.MuonSeedCollectionLabel = "CosmicMuonSeedALCARECOBH"
+# replace cosmicMuonsALCARECOBH.EnableDTMeasurement = false
+replace cosmicMuonsALCARECOBH.TrajectoryBuilderParameters.EnableDTMeasurement = false
+replace cosmicMuonsALCARECOBH.TrajectoryBuilderParameters.CSCRecSegmentLabel = cscSegmentsALCARECOBH
 
 sequence reconstructAsCosmicMuonsALCARECOBH = { cscSegmentsALCARECOBH, CosmicMuonSeedALCARECOBH, cosmicMuonsALCARECOBH }
 
