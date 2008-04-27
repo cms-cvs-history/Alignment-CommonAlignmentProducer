@@ -1,8 +1,0 @@
-es_source GlobalPosition = poolDBESSource from "CalibTracker/Configuration/data/Common/PoolDBESSource.cfi"
-replace GlobalPosition.connect="frontier://FrontierProd/CMS_COND_20X_ALIGNMENT"
-# replace GlobalPosition.connect = "oracle://cms_orcoff_int2r/CMS_COND_ALIGNMENT" # oracle integration
-replace GlobalPosition.toGet = {
-    {
-	string record = "GlobalPositionRcd" string tag = "IdealGeometry"
-    }
-}
