@@ -2,7 +2,8 @@
 
   module ALCARECOTkAlMinBiasHLT = hltHighLevel from "HLTrigger/HLTfilters/data/hltHighLevel.cfi"
   replace ALCARECOTkAlMinBiasHLT.andOr = true # choose logical OR between Triggerbits
-  replace ALCARECOTkAlMinBiasHLT.HLTPaths = {"HLTMinBias", "HLTMinBiasPixel"}
+  replace ALCARECOTkAlMinBiasHLT.HLTPaths = {"HLTMinBiasEcal", "HLTMinBiasHcal", "HLTMinBiasPixel"}
+
 
   module ALCARECOTkAlMinBias = AlignmentTrackSelector from "Alignment/CommonAlignmentProducer/data/AlignmentTrackSelector.cfi"
 
