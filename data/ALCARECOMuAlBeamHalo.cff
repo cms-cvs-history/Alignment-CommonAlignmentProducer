@@ -1,5 +1,3 @@
-module EventContentAnalyzer = EventContentAnalyzer {}
-
 # AlCaReco for muon based alignment using beam-halo muons
 
 module ALCARECOMuAlBeamHaloHLT = hltHighLevel from "HLTrigger/HLTfilters/data/hltHighLevel.cfi"
