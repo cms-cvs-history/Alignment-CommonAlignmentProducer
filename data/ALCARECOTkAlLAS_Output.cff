@@ -1,0 +1,9 @@
+# output block for alcastream laserAlignmentT0Producer
+
+# output module 
+block OutALCARECOTkAlLAS = {
+  untracked vstring outputCommands = {
+    "drop *",
+    "keep *_laserAlignmentT0Producer_*_*"
+  }
+}
