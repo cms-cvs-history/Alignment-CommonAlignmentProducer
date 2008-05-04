@@ -7,7 +7,7 @@ module ALCARECOMuAlOverlapsMuonSelector = AlignmentMuonSelector from "Alignment/
 replace ALCARECOMuAlOverlapsMuonSelector.ptMin = 3.
 
 module ALCARECOMuAlOverlaps = AlignmentCSCOverlapSelectorModule {
-    InputTag src = ALCARECOMuAlOverlapsMuonSelector:GlobalMuon
+    InputTag src = ALCARECOMuAlOverlapsMuonSelector:StandAlone
     bool filter = true
     
     int32 station = 0  # all stations: I'll need to split it by station (8 subsamples) offline
