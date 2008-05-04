@@ -1,0 +1,9 @@
+
+#---------------------------------------------------
+# AlCaReco filtering for the Tracker Laser ALignment
+#---------------------------------------------------
+# create sequence for rechit filtering for phi symmetry calibration
+include "Alignment/LaserAlignment/data/LaserAlignmentT0Producer.cfi"
+
+sequence seqALCARECOTkAlLAS = { laserAlignmentT0Producer }
+
