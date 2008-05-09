@@ -2,7 +2,9 @@
 
   block OutALCARECOTkAlUpsilonMuMu = {
     untracked vstring outputCommands = { 
-       "drop *" , "keep *_ALCARECOTkAlUpsilonMuMu_*_*"  
+       "drop *",
+       "keep *_ALCARECOTkAlUpsilonMuMu_*_*",
+       "keep *_MEtoEDMConverter_*_*"
     }
     untracked PSet SelectEvents = {
       vstring SelectEvents = { "pathALCARECOTkAlUpsilonMuMu" }

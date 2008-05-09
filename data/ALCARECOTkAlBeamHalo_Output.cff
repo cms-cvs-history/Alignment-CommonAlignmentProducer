@@ -2,7 +2,9 @@
 
   block OutALCARECOTkAlBeamHalo = { 
     untracked vstring outputCommands = { 
-      "drop *" , "keep *_ALCARECOTkAlBeamHalo_*_*"  
+      "drop *",
+      "keep *_ALCARECOTkAlBeamHalo_*_*",
+      "keep *_MEtoEDMConverter_*_*"
     }
     untracked PSet SelectEvents = {
       vstring SelectEvents = { "pathALCARECOTkAlBeamHalo" }

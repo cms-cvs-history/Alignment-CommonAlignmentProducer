@@ -1,13 +1,14 @@
 # Author     : Gero Flucke
 # Date       :   July 19th, 2007
-# last update: $Date$ by $Author$
+# last update: $Date: 2007/07/19 12:58:50 $ by $Author: flucke $
 
 # AlCaReco for track based alignment using Cosmic muon events
 
 block OutALCARECOTkAlCosmics = {
     untracked vstring outputCommands = { 
 	"drop *" , "keep *_ALCARECOTkAlCosmics*_*_*",
-	"keep Si*Cluster*_*_*_*" # for cosmics keep also clusters
+	"keep Si*Cluster*_*_*_*", # for cosmics keep also clusters
+        "keep *_MEtoEDMConverter_*_*"
     }
     untracked PSet SelectEvents = {
 	# Select as an OR of filters for both tracking algorithms: 
