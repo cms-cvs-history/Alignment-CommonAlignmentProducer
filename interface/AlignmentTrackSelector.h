@@ -27,9 +27,6 @@ class AlignmentTrackSelector
 
   /// select tracks
   Tracks select(const Tracks& tracks, const edm::Event& evt) const;
-  ///returns if any of the Filters is used.
-  bool useThisFilter();
-
 
  private:
 
