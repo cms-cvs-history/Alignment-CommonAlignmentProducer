@@ -1,12 +1,66 @@
 # Author     : Gero Flucke
 # Date       :   July 19th, 2007
-# last update: $Date: 2008/04/22 12:58:49 $ by $Author: emiglior $
+# last update: $Date: 2008/05/08 12:58:49 $ by $Author: emiglior $
 
-# AlCaReco for track based alignment using Cosmic muon events
+//________________________________Track selection____________________________________
 
-include "Alignment/CommonAlignmentProducer/data/ALCARECOTkAlCosmicsCTF0T.cfi"
-include "Alignment/CommonAlignmentProducer/data/ALCARECOTkAlCosmicsCosmicTF0T.cfi"
+## AlCaReco for track based alignment using Cosmic muons reconstructed by Combinatorial Track Finder
 
-sequence seqALCARECOTkAlCosmicsCTF      = { ALCARECOTkAlCosmicsCTF}
-sequence seqALCARECOTkAlCosmicsCosmicTF = { ALCARECOTkAlCosmicsCosmicTF}
+module ALCARECOTkAlCosmicsCTF0T = AlignmentTrackSelector from "Alignment/CommonAlignmentProducer/data/AlignmentTrackSelector.cfi"
+
+replace ALCARECOTkAlCosmicsCTF0T.src = ctfWithMaterialTracksP5
+replace ALCARECOTkAlCosmicsCTF0T.filter = true
+replace ALCARECOTkAlCosmicsCTF0T.applyBasicCuts = true
+replace ALCARECOTkAlCosmicsCTF0T.ptMin   = 0. #10
+replace ALCARECOTkAlCosmicsCTF0T.ptMax   = 99999.
+replace ALCARECOTkAlCosmicsCTF0T.etaMin  = -99. #-2.4 keep also what is going through...
+replace ALCARECOTkAlCosmicsCTF0T.etaMax  =  99. # 2.4 ...both TEC with flat slope
+replace ALCARECOTkAlCosmicsCTF0T.nHitMin = 5 #8
+replace ALCARECOTkAlCosmicsCTF0T.chi2nMax= 999999.
+
+replace ALCARECOTkAlCosmicsCTF0T.applyNHighestPt = false # no pT measurement -> sort meaningless
+replace ALCARECOTkAlCosmicsCTF0T.nHighestPt = 1
+replace ALCARECOTkAlCosmicsCTF0T.applyMultiplicityFilter = false
+
+## AlCaReco for track based alignment using Cosmic muons reconstructed by Cosmic Track Finder
+
+module ALCARECOTkAlCosmicsCosmicTF0T = AlignmentTrackSelector from "Alignment/CommonAlignmentProducer/data/AlignmentTrackSelector.cfi"
+
+replace ALCARECOTkAlCosmicsCosmicTF0T.src = cosmictrackfinderP5 # different for CTF
+replace ALCARECOTkAlCosmicsCosmicTF0T.filter = true
+replace ALCARECOTkAlCosmicsCosmicTF0T.applyBasicCuts = true
+replace ALCARECOTkAlCosmicsCosmicTF0T.ptMin   = 0.
+replace ALCARECOTkAlCosmicsCosmicTF0T.ptMax   = 99999.
+replace ALCARECOTkAlCosmicsCosmicTF0T.etaMin  = -99.
+replace ALCARECOTkAlCosmicsCosmicTF0T.etaMax  =  99.
+replace ALCARECOTkAlCosmicsCosmicTF0T.nHitMin = 7 # more hits than CTF: 2D are counted twice
+replace ALCARECOTkAlCosmicsCosmicTF0T.chi2nMax= 999999.
+
+replace ALCARECOTkAlCosmicsCosmicTF0T.applyNHighestPt = false # no pT measurement -> sort meaningless
+replace ALCARECOTkAlCosmicsCosmicTF0T.nHighestPt = 1
+replace ALCARECOTkAlCosmicsCosmicTF0T.applyMultiplicityFilter = false
+
+## AlCaReco for track based alignment using Cosmic muons reconstructed by Road Search Track Finder
+
+module ALCARECOTkAlCosmicsRS0T = AlignmentTrackSelector from "Alignment/CommonAlignmentProducer/data/AlignmentTrackSelector.cfi"
+
+replace ALCARECOTkAlCosmicsRS0T.src = rsWithMaterialTracksP5
+replace ALCARECOTkAlCosmicsRS0T.filter = true
+replace ALCARECOTkAlCosmicsRS0T.applyBasicCuts = true
+replace ALCARECOTkAlCosmicsRS0T.ptMin   = 0. #10
+replace ALCARECOTkAlCosmicsRS0T.ptMax   = 99999.
+replace ALCARECOTkAlCosmicsRS0T.etaMin  = -99. #-2.4 keep also what is going through...
+replace ALCARECOTkAlCosmicsRS0T.etaMax  =  99. # 2.4 ...both TEC with flat slope
+replace ALCARECOTkAlCosmicsRS0T.nHitMin = 5 #8
+replace ALCARECOTkAlCosmicsRS0T.chi2nMax= 999999.
+
+replace ALCARECOTkAlCosmicsRS0T.applyNHighestPt = false # no pT measurement -> sort meaningless
+replace ALCARECOTkAlCosmicsRS0T.nHighestPt = 1
+replace ALCARECOTkAlCosmicsRS0T.applyMultiplicityFilter = false
+
+//________________________________Sequences____________________________________
+
+sequence seqALCARECOTkAlCosmicsCTF0T      = { ALCARECOTkAlCosmicsCTF0T }
+sequence seqALCARECOTkAlCosmicsCosmicTF0T = { ALCARECOTkAlCosmicsCosmicTF0T }
+sequence seqALCARECOTkAlCosmicsRS0T       = { ALCARECOTkAlCosmicsRS0T }
 
