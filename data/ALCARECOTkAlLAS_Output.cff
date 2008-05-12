@@ -5,8 +5,8 @@ block OutALCARECOTkAlLAS = {
   untracked vstring outputCommands = {
     "drop *",
     "keep *_laserAlignmentT0Producer_*_*"
-    untracked PSet SelectEvents = {
-      vstring SelectEvents = { "pathALCARECOTkAlLAS" }
-    }
+  }
+  untracked PSet SelectEvents = {
+    vstring SelectEvents = { "pathALCARECOTkAlLAS" }
   }
 }
