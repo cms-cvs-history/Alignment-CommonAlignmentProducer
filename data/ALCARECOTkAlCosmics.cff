@@ -1,6 +1,6 @@
 # Author     : Gero Flucke
 # Date       :   July 19th, 2007
-# last update: $Date: 2008/05/08 12:58:49 $ by $Author: emiglior $
+# last update: $Date: 2008/05/09 15:21:02 $ by $Author: emiglior $
 
 //________________________________Track selection____________________________________
 
@@ -60,7 +60,14 @@ replace ALCARECOTkAlCosmicsRS.applyMultiplicityFilter = false
 
 //________________________________Sequences____________________________________
 
-sequence seqALCARECOTkAlCosmicsCTF      = { ALCARECOTkAlCosmicsCTF }
+# Work around since only one filter can be used:
+# Run the RS and CosmicTF filters before CTF filter, but ignore their results.
+# So whenever there is CTF, we keep also the others...
+# sequence seqALCARECOTkAlCosmicsCTF      = { ALCARECOTkAlCosmicsCTF }
+sequence seqALCARECOTkAlCosmicsCTF      = { 
+    -ALCARECOTkAlCosmicsRS & -ALCARECOTkAlCosmicsCosmicTF & ALCARECOTkAlCosmicsCTF 
+}
+sequence seqALCARECOTkAlCosmicsCTF_orig = { ALCARECOTkAlCosmicsCTF }
 sequence seqALCARECOTkAlCosmicsCosmicTF = { ALCARECOTkAlCosmicsCosmicTF }
 sequence seqALCARECOTkAlCosmicsRS       = { ALCARECOTkAlCosmicsRS }
 

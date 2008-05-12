@@ -1,6 +1,6 @@
 # Author     : Gero Flucke
 # Date       :   July 19th, 2007
-# last update: $Date: 2008/05/09 11:49:07 $ by $Author: futyand $
+# last update: $Date: 2008/05/09 15:21:02 $ by $Author: emiglior $
 
 # AlCaReco for track based alignment using Cosmic muon events
 
@@ -8,11 +8,16 @@ block OutALCARECOTkAlCosmics = {
     untracked vstring outputCommands = { 
 	"drop *" , "keep *_ALCARECOTkAlCosmics*_*_*",
         "keep Si*Cluster*_*_*_*", # for cosmics keep also clusters
-        "keep *_MEtoEDMConverter_*_*"
+	"keep *_MEtoEDMConverter_*_*"
     }
     untracked PSet SelectEvents = {
 	# Select as an OR of filters for the three tracking algorithms: 
-	vstring SelectEvents = { "pathALCARECOTkAlCosmicsCTF", "pathALCARECOTkAlCosmicsCosmicTF", "pathALCARECOTkAlCosmicsRS" }
+#	vstring SelectEvents = { "pathALCARECOTkAlCosmicsCTF", "pathALCARECOTkAlCosmicsCosmicTF", "pathALCARECOTkAlCosmicsRS" }
+	# The OR is not allowed for production and a path cannot be the OR of 
+	# several modules! Fast fix is to run only one
+	# filter, pathALCARECOTkAlCosmics defined to be only CTF
+	# in StandardSequences/data/AlCaReco.cff
+	vstring SelectEvents = { "pathALCARECOTkAlCosmics" }
     }
     
 }
