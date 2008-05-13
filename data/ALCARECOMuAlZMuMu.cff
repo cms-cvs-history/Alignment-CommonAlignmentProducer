@@ -5,7 +5,7 @@
 	"HLTrigger/HLTfilters/data/hltHighLevel.cfi"
   replace ALCARECOMuAlZMuMuHLT.andOr = true # choose logical OR between Triggerbits
   replace ALCARECOMuAlZMuMuHLT.HLTPaths = {
-      "HLT2MuonIso","HLT2MuonNonIso","HLT2MuonZ" 
+      "HLT1MuonIso","HLT1MuonNonIso" 
     }
 
   module ALCARECOMuAlZMuMu = AlignmentMuonSelector from "Alignment/CommonAlignmentProducer/data/AlignmentMuonSelector.cfi"
