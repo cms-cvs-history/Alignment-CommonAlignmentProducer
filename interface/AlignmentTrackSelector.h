@@ -11,7 +11,6 @@ namespace edm {
 }
 
 class TrackingRecHit;
-class SiStripRecHit2D;
 
 class AlignmentTrackSelector
 {
@@ -39,9 +38,7 @@ class AlignmentTrackSelector
   /// checking hit requirements beyond simple number of valid hits
   bool detailedHitsCheck(const reco::Track* track, const edm::Event& evt) const;
   bool isHit2D(const TrackingRecHit &hit) const;
-  /// if valid, check for minimum charge (currently only in strip), if invalid give true 
   bool isOkCharge(const TrackingRecHit* therechit) const;
-  bool isOkChargeStripHit(const SiStripRecHit2D *siStripRecHit2D) const;
   bool isIsolated(const TrackingRecHit* therechit, const edm::Event& evt) const;
 
   /// filter the n highest pt tracks
