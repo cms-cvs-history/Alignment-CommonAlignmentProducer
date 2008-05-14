@@ -1,0 +1,71 @@
+#####################################################################
+#
+# Standard Recontruction
+#
+#####################################################################
+
+include "L1Trigger/Configuration/data/L1Trigger_EventContent.cff"
+include "RecoVertex/BeamSpotProducer/data/BeamSpot_EventContent.cff"
+include "HLTrigger/Configuration/data/HLTrigger_EventContent.cff"
+include "DQMOffline/Configuration/data/DQMOffline_EventContent.cff"
+include "TrackingTools/Configuration/data/TrackingTools_EventContent.cff"
+
+#####################################################################
+#
+# Cosmics Reconstruction
+#
+#####################################################################
+
+include "RecoTracker/Configuration/data/RecoTrackerP5_EventContent.cff"
+include "RecoMuon/Configuration/data/RecoMuonCosmics_EventContent.cff"
+include "RecoLocalMuon/Configuration/data/RecoLocalMuonCosmics_EventContent.cff"
+include "RecoEcal/Configuration/data/RecoEcal_EventContentCosmics.cff"
+include "RecoLocalCalo/Configuration/data/RecoLocalCalo_EventContentCosmics.cff"
+include "RecoLocalTracker/Configuration/data/RecoLocalTracker_Cosmics_EventContent.cff"
+
+#####################################################################
+#
+# Simulation Systems
+#
+#####################################################################
+
+include "GeneratorInterface/Configuration/data/GeneratorInterface_EventContent.cff"
+include "SimG4Core/Configuration/data/SimG4Core_EventContent.cff"
+include "SimTracker/Configuration/data/SimTracker_EventContent.cff"
+include "SimMuon/Configuration/data/SimMuon_EventContent.cff"
+include "SimCalorimetry/Configuration/data/SimCalorimetry_EventContent.cff"
+include "SimGeneral/Configuration/data/SimGeneral_EventContent.cff"
+include "IOMC/RandomEngine/data/IOMC_EventContent.cff"
+
+#####################################################################
+#
+# RECO Data Tier definition
+#
+#####################################################################
+
+block RECOSIMEventContent_cosmics = {
+  untracked vstring outputCommands = {
+     "drop *"
+  }
+}
+
+replace RECOSIMEventContent_cosmics.outputCommands += RecoLocalTrackerRECO.outputCommands
+replace RECOSIMEventContent_cosmics.outputCommands += RecoLocalMuonRECO.outputCommands
+replace RECOSIMEventContent_cosmics.outputCommands += RecoLocalCaloRECO.outputCommands
+replace RECOSIMEventContent_cosmics.outputCommands += RecoEcalRECO.outputCommands
+replace RECOSIMEventContent_cosmics.outputCommands += RecoTrackerRECO.outputCommands
+replace RECOSIMEventContent_cosmics.outputCommands += RecoMuonRECO.outputCommands
+replace RECOSIMEventContent_cosmics.outputCommands += BeamSpotRECO.outputCommands
+replace RECOSIMEventContent_cosmics.outputCommands += L1TriggerRECO.outputCommands 
+replace RECOSIMEventContent_cosmics.outputCommands += HLTriggerRECO.outputCommands 
+replace RECOSIMEventContent_cosmics.outputCommands += MEtoEDMConverterRECO.outputCommands 
+replace RECOSIMEventContent_cosmics.outputCommands += TrackingToolsRECO.outputCommands
+
+replace RECOSIMEventContent_cosmics.outputCommands += GeneratorInterfaceRECO.outputCommands
+replace RECOSIMEventContent_cosmics.outputCommands += SimG4CoreRECO.outputCommands
+replace RECOSIMEventContent_cosmics.outputCommands += SimTrackerRECO.outputCommands
+replace RECOSIMEventContent_cosmics.outputCommands += SimMuonRECO.outputCommands
+replace RECOSIMEventContent_cosmics.outputCommands += SimCalorimetryRECO.outputCommands
+replace RECOSIMEventContent_cosmics.outputCommands += RecoGenMETRECO.outputCommands
+replace RECOSIMEventContent_cosmics.outputCommands += RecoGenJetsRECO.outputCommands
+replace RECOSIMEventContent_cosmics.outputCommands += SimGeneralRECO.outputCommands
