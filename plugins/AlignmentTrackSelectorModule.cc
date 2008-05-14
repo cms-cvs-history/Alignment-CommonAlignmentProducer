@@ -7,10 +7,8 @@
 #include "Alignment/CommonAlignmentProducer/interface/AlignmentGlobalTrackSelector.h"
 #include "Alignment/CommonAlignmentProducer/interface/AlignmentTwoBodyDecayTrackSelector.h"
 
-#include "DataFormats/TrackReco/interface/TrackFwd.h"
-
 // the following include is necessary to clone all track branches
-// including recoTrackExtras and TrackingRecHitsOwned (in future also "owned clusters"?).
+// including recoTrackExtras and TrackingRecHitsOwned.
 // if you remove it the code will compile, but the cloned
 // tracks have only the recoTracks branch!
 #include "PhysicsTools/RecoAlgos/interface/TrackSelector.h"
@@ -27,7 +25,11 @@ struct TrackConfigSelector {
     theTwoBodyDecaySelector(cfg.getParameter<edm::ParameterSet>("TwoBodyDecaySelector"))
   {
     //TODO Wrap the BaseSelector into its own PSet
-    theBaseSwitch = theBaseSelector.useThisFilter();
+    theBaseSwitch = 
+      cfg.getParameter<bool>("applyBasicCuts") ||
+      cfg.getParameter<bool>("minHitsPerSubDet") ||
+      cfg.getParameter<bool>("applyNHighestPt") ||
+      cfg.getParameter<bool>("applyMultiplicityFilter");
     
     theGlobalSwitch =  theGlobalSelector.useThisFilter();
       
