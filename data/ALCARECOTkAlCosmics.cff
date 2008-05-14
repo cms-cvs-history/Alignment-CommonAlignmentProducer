@@ -1,6 +1,6 @@
 # Author     : Gero Flucke
 # Date       :   July 19th, 2007
-# last update: $Date: 2008/05/12 17:33:31 $ by $Author: flucke $
+# last update: $Date: 2008/05/09 15:21:02 $ by $Author: emiglior $
 
 //________________________________Track selection____________________________________
 
@@ -11,7 +11,7 @@ module ALCARECOTkAlCosmicsCTF = AlignmentTrackSelector from "Alignment/CommonAli
 replace ALCARECOTkAlCosmicsCTF.src = ctfWithMaterialTracksP5
 replace ALCARECOTkAlCosmicsCTF.filter = true
 replace ALCARECOTkAlCosmicsCTF.applyBasicCuts = true
-replace ALCARECOTkAlCosmicsCTF.ptMin   = 0. #10
+replace ALCARECOTkAlCosmicsCTF.ptMin   = 4. #10
 replace ALCARECOTkAlCosmicsCTF.ptMax   = 99999.
 replace ALCARECOTkAlCosmicsCTF.etaMin  = -99. #-2.4 keep also what is going through...
 replace ALCARECOTkAlCosmicsCTF.etaMax  =  99. # 2.4 ...both TEC with flat slope
@@ -29,7 +29,7 @@ module ALCARECOTkAlCosmicsCosmicTF = AlignmentTrackSelector from "Alignment/Comm
 replace ALCARECOTkAlCosmicsCosmicTF.src = cosmictrackfinderP5 # different for CTF
 replace ALCARECOTkAlCosmicsCosmicTF.filter = true
 replace ALCARECOTkAlCosmicsCosmicTF.applyBasicCuts = true
-replace ALCARECOTkAlCosmicsCosmicTF.ptMin   = 0.
+replace ALCARECOTkAlCosmicsCosmicTF.ptMin   = 4.
 replace ALCARECOTkAlCosmicsCosmicTF.ptMax   = 99999.
 replace ALCARECOTkAlCosmicsCosmicTF.etaMin  = -99.
 replace ALCARECOTkAlCosmicsCosmicTF.etaMax  =  99.
@@ -47,7 +47,7 @@ module ALCARECOTkAlCosmicsRS = AlignmentTrackSelector from "Alignment/CommonAlig
 replace ALCARECOTkAlCosmicsRS.src = rsWithMaterialTracksP5
 replace ALCARECOTkAlCosmicsRS.filter = true
 replace ALCARECOTkAlCosmicsRS.applyBasicCuts = true
-replace ALCARECOTkAlCosmicsRS.ptMin   = 0. #10
+replace ALCARECOTkAlCosmicsRS.ptMin   = 4. #10
 replace ALCARECOTkAlCosmicsRS.ptMax   = 99999.
 replace ALCARECOTkAlCosmicsRS.etaMin  = -99. #-2.4 keep also what is going through...
 replace ALCARECOTkAlCosmicsRS.etaMax  =  99. # 2.4 ...both TEC with flat slope
