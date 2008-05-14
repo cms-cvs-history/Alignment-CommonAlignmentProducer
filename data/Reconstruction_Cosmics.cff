@@ -1,0 +1,24 @@
+# tracker_cosmics, calo_cosmics and muons_cosmics sequences are identical to
+# trackerGR, caloGR and muonsGR sequences in
+# Configuration/GlobalRuns/data/ReconsrtuctionGR.cff version V00-04-04
+
+# tracker
+include "RecoLocalTracker/Configuration/data/RecoLocalTracker_Cosmics.cff"
+include "RecoTracker/Configuration/data/RecoTrackerP5.cff"
+include "RecoVertex/BeamSpotProducer/data/BeamSpot.cff"
+
+sequence tracker_cosmics = {offlineBeamSpot,  striptrackerlocalreco, tracksP5}
+
+# calorimeters
+include "RecoLocalCalo/Configuration/data/RecoLocalCalo_Cosmics.cff"
+include "RecoEcal/Configuration/data/RecoEcalCosmics.cff"
+
+sequence calo_cosmics = { calolocalreco, ecalClusters }
+
+# muons
+include "RecoLocalMuon/Configuration/data/RecoLocalMuonCosmics.cff"
+include "RecoMuon/Configuration/data/RecoMuonCosmics.cff"
+sequence muonsLocalReco_cosmics = {muonlocalreco & muonlocalrecoNoDrift}
+sequence muons_cosmics = {muonsLocalReco_cosmics, muonReco_cosmics}
+
+sequence reconstruction_cosmics = {tracker_cosmics, calo_cosmics, muons_cosmics}
