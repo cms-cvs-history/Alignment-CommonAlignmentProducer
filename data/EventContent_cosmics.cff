@@ -16,10 +16,10 @@ include "DQMOffline/Configuration/data/DQMOffline_EventContent.cff"
 #####################################################################
 
 include "RecoTracker/Configuration/data/RecoTrackerP5_EventContent.cff"
-include "RecoMuon/Configuration/data/RecoMuonCosmics_EventContent.cff"
-include "RecoLocalMuon/Configuration/data/RecoLocalMuonCosmics_EventContent.cff"
-include "RecoEcal/Configuration/data/RecoEcal_EventContentCosmics.cff"
-include "RecoLocalCalo/Configuration/data/RecoLocalCalo_EventContentCosmics.cff"
+#include "RecoMuon/Configuration/data/RecoMuonCosmics_EventContent.cff"
+#include "RecoLocalMuon/Configuration/data/RecoLocalMuonCosmics_EventContent.cff"
+#include "RecoEcal/Configuration/data/RecoEcal_EventContentCosmics.cff"
+#include "RecoLocalCalo/Configuration/data/RecoLocalCalo_EventContentCosmics.cff"
 include "RecoLocalTracker/Configuration/data/RecoLocalTracker_Cosmics_EventContent.cff"
 
 #####################################################################
@@ -49,11 +49,11 @@ block RECOSIMCosmicsEventContent = {
 }
 
 replace RECOSIMCosmicsEventContent.outputCommands += RecoLocalTrackerRECO.outputCommands
-replace RECOSIMCosmicsEventContent.outputCommands += RecoLocalMuonRECO.outputCommands
-replace RECOSIMCosmicsEventContent.outputCommands += RecoLocalCaloRECO.outputCommands
-replace RECOSIMCosmicsEventContent.outputCommands += RecoEcalRECO.outputCommands
+#replace RECOSIMCosmicsEventContent.outputCommands += RecoLocalMuonRECO.outputCommands
+#replace RECOSIMCosmicsEventContent.outputCommands += RecoLocalCaloRECO.outputCommands
+#replace RECOSIMCosmicsEventContent.outputCommands += RecoEcalRECO.outputCommands
 replace RECOSIMCosmicsEventContent.outputCommands += RecoTrackerRECO.outputCommands
-replace RECOSIMCosmicsEventContent.outputCommands += RecoMuonRECO.outputCommands
+#replace RECOSIMCosmicsEventContent.outputCommands += RecoMuonRECO.outputCommands
 replace RECOSIMCosmicsEventContent.outputCommands += BeamSpotRECO.outputCommands
 replace RECOSIMCosmicsEventContent.outputCommands += L1TriggerRECO.outputCommands 
 replace RECOSIMCosmicsEventContent.outputCommands += HLTriggerRECO.outputCommands 

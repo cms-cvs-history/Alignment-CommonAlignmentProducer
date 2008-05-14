@@ -9,16 +9,22 @@ include "RecoVertex/BeamSpotProducer/data/BeamSpot.cff"
 
 sequence tracker_cosmics = {offlineBeamSpot,  striptrackerlocalreco, tracksP5}
 
+/*
+who need a calorimeter anyway!
 # calorimeters
 include "RecoLocalCalo/Configuration/data/RecoLocalCalo_Cosmics.cff"
 include "RecoEcal/Configuration/data/RecoEcalCosmics.cff"
 
 sequence calo_cosmics = { calolocalreco, ecalClusters }
+*/
 
 # muons
+/* 
+//who wants muon anyway !
 include "RecoLocalMuon/Configuration/data/RecoLocalMuonCosmics.cff"
 include "RecoMuon/Configuration/data/RecoMuonCosmics.cff"
 sequence muonsLocalReco_cosmics = {muonlocalreco & muonlocalrecoNoDrift}
 sequence muons_cosmics = {muonsLocalReco_cosmics, muonReco_cosmics}
+*/
 
-sequence reconstruction_cosmics = {tracker_cosmics, calo_cosmics, muons_cosmics}
+sequence reconstruction_cosmics = {tracker_cosmics}
