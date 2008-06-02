@@ -7,7 +7,7 @@ include "RecoLocalTracker/Configuration/data/RecoLocalTracker_Cosmics.cff"
 include "RecoTracker/Configuration/data/RecoTrackerP5.cff"
 include "RecoVertex/BeamSpotProducer/data/BeamSpot.cff"
 
-sequence tracker_cosmics = {offlineBeamSpot,  striptrackerlocalreco, tracksP5}
+sequence tracker_cosmics = {offlineBeamSpot,  trackerlocalreco, tracksP5}
 
 /*
 who need a calorimeter anyway!
