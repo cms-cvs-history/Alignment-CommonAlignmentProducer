@@ -1,6 +1,6 @@
 # Author     : Gero Flucke
 # Date       :   July 19th, 2007
-# last update: $Date: 2008/05/12 17:33:31 $ by $Author: flucke $
+# last update: $Date: 2008/05/13 22:30:35 $ by $Author: mweber $
 
 //________________________________Track selection____________________________________
 
@@ -13,6 +13,8 @@ replace ALCARECOTkAlCosmicsCTF.filter = true
 replace ALCARECOTkAlCosmicsCTF.applyBasicCuts = true
 replace ALCARECOTkAlCosmicsCTF.ptMin   = 0. #10
 replace ALCARECOTkAlCosmicsCTF.ptMax   = 99999.
+replace ALCARECOTkAlCosmicsCTF.pMin   = 4. #10
+replace ALCARECOTkAlCosmicsCTF.pMax   = 99999.
 replace ALCARECOTkAlCosmicsCTF.etaMin  = -99. #-2.4 keep also what is going through...
 replace ALCARECOTkAlCosmicsCTF.etaMax  =  99. # 2.4 ...both TEC with flat slope
 replace ALCARECOTkAlCosmicsCTF.nHitMin = 5 #8
@@ -31,6 +33,8 @@ replace ALCARECOTkAlCosmicsCosmicTF.filter = true
 replace ALCARECOTkAlCosmicsCosmicTF.applyBasicCuts = true
 replace ALCARECOTkAlCosmicsCosmicTF.ptMin   = 0.
 replace ALCARECOTkAlCosmicsCosmicTF.ptMax   = 99999.
+replace ALCARECOTkAlCosmicsCosmicTF.pMin   = 4. #10
+replace ALCARECOTkAlCosmicsCosmicTF.pMax   = 99999.
 replace ALCARECOTkAlCosmicsCosmicTF.etaMin  = -99.
 replace ALCARECOTkAlCosmicsCosmicTF.etaMax  =  99.
 replace ALCARECOTkAlCosmicsCosmicTF.nHitMin = 7 # more hits than CTF: 2D are counted twice
@@ -49,6 +53,8 @@ replace ALCARECOTkAlCosmicsRS.filter = true
 replace ALCARECOTkAlCosmicsRS.applyBasicCuts = true
 replace ALCARECOTkAlCosmicsRS.ptMin   = 0. #10
 replace ALCARECOTkAlCosmicsRS.ptMax   = 99999.
+replace ALCARECOTkAlCosmicsRS.pMin   = 4. #10
+replace ALCARECOTkAlCosmicsRS.pMax   = 99999.
 replace ALCARECOTkAlCosmicsRS.etaMin  = -99. #-2.4 keep also what is going through...
 replace ALCARECOTkAlCosmicsRS.etaMax  =  99. # 2.4 ...both TEC with flat slope
 replace ALCARECOTkAlCosmicsRS.nHitMin = 5 #8
@@ -63,11 +69,12 @@ replace ALCARECOTkAlCosmicsRS.applyMultiplicityFilter = false
 # Work around since only one filter can be used:
 # Run the RS and CosmicTF filters before CTF filter, but ignore their results.
 # So whenever there is CTF, we keep also the others...
-# sequence seqALCARECOTkAlCosmicsCTF      = { ALCARECOTkAlCosmicsCTF }
-sequence seqALCARECOTkAlCosmicsCTF      = { 
-    -ALCARECOTkAlCosmicsRS & -ALCARECOTkAlCosmicsCosmicTF & ALCARECOTkAlCosmicsCTF 
-}
-sequence seqALCARECOTkAlCosmicsCTF_orig = { ALCARECOTkAlCosmicsCTF }
+#sequence seqALCARECOTkAlCosmicsCTF      = { 
+#    -ALCARECOTkAlCosmicsRS & -ALCARECOTkAlCosmicsCosmicTF & ALCARECOTkAlCosmicsCTF 
+#}
+#sequence seqALCARECOTkAlCosmicsCTF_orig = { ALCARECOTkAlCosmicsCTF }
+# Benedikt tells me it works:
+sequence seqALCARECOTkAlCosmicsCTF      = { ALCARECOTkAlCosmicsCTF }
 sequence seqALCARECOTkAlCosmicsCosmicTF = { ALCARECOTkAlCosmicsCosmicTF }
 sequence seqALCARECOTkAlCosmicsRS       = { ALCARECOTkAlCosmicsRS }
 
