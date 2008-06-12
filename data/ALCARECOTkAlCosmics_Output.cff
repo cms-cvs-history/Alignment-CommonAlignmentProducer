@@ -1,6 +1,6 @@
 # Author     : Gero Flucke
 # Date       :   July 19th, 2007
-# last update: $Date: 2008/05/09 15:21:02 $ by $Author: emiglior $
+# last update: $Date: 2008/05/12 17:33:31 $ by $Author: flucke $
 
 # AlCaReco for track based alignment using Cosmic muon events
 
@@ -12,12 +12,13 @@ block OutALCARECOTkAlCosmics = {
     }
     untracked PSet SelectEvents = {
 	# Select as an OR of filters for the three tracking algorithms: 
-#	vstring SelectEvents = { "pathALCARECOTkAlCosmicsCTF", "pathALCARECOTkAlCosmicsCosmicTF", "pathALCARECOTkAlCosmicsRS" }
+	vstring SelectEvents = { "pathALCARECOTkAlCosmicsCTF", "pathALCARECOTkAlCosmicsCosmicTF", "pathALCARECOTkAlCosmicsRS" }
+	# Benedikt tells me the following is not true:
 	# The OR is not allowed for production and a path cannot be the OR of 
 	# several modules! Fast fix is to run only one
 	# filter, pathALCARECOTkAlCosmics defined to be only CTF
 	# in StandardSequences/data/AlCaReco.cff
-	vstring SelectEvents = { "pathALCARECOTkAlCosmics" }
+	# vstring SelectEvents = { "pathALCARECOTkAlCosmics" }
     }
     
 }
