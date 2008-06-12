@@ -1,6 +1,6 @@
 # Author     : Gero Flucke
 # Date       :   July 19th, 2007
-# last update: $Date: 2008/05/08 12:58:49 $ by $Author: emiglior $
+# last update: $Date: 2008/05/09 15:19:27 $ by $Author: emiglior $
 
 //_________________________________HLT bits___________________________________________
  
@@ -25,8 +25,10 @@ module ALCARECOTkAlCosmicsCTF = AlignmentTrackSelector from "Alignment/CommonAli
 replace ALCARECOTkAlCosmicsCTF.src = ctfWithMaterialTracksP5
 replace ALCARECOTkAlCosmicsCTF.filter = true
 replace ALCARECOTkAlCosmicsCTF.applyBasicCuts = true
-replace ALCARECOTkAlCosmicsCTF.ptMin   = 4. #10
+replace ALCARECOTkAlCosmicsCTF.ptMin   = 0.
 replace ALCARECOTkAlCosmicsCTF.ptMax   = 99999.
+replace ALCARECOTkAlCosmicsCTF.pMin   = 4.
+replace ALCARECOTkAlCosmicsCTF.pMax   = 99999.
 replace ALCARECOTkAlCosmicsCTF.etaMin  = -99. #-2.4 keep also what is going through...
 replace ALCARECOTkAlCosmicsCTF.etaMax  =  99. # 2.4 ...both TEC with flat slope
 replace ALCARECOTkAlCosmicsCTF.nHitMin = 5 #8
@@ -43,8 +45,10 @@ module ALCARECOTkAlCosmicsCosmicTF = AlignmentTrackSelector from "Alignment/Comm
 replace ALCARECOTkAlCosmicsCosmicTF.src = cosmictrackfinderP5 # different for CTF
 replace ALCARECOTkAlCosmicsCosmicTF.filter = true
 replace ALCARECOTkAlCosmicsCosmicTF.applyBasicCuts = true
-replace ALCARECOTkAlCosmicsCosmicTF.ptMin   = 4.
+replace ALCARECOTkAlCosmicsCosmicTF.ptMin   = 0.
 replace ALCARECOTkAlCosmicsCosmicTF.ptMax   = 99999.
+replace ALCARECOTkAlCosmicsCosmicTF.pMin   = 4.
+replace ALCARECOTkAlCosmicsCosmicTF.pMax   = 99999.
 replace ALCARECOTkAlCosmicsCosmicTF.etaMin  = -99.
 replace ALCARECOTkAlCosmicsCosmicTF.etaMax  =  99.
 replace ALCARECOTkAlCosmicsCosmicTF.nHitMin = 7 # more hits than CTF: 2D are counted twice
@@ -61,8 +65,10 @@ module ALCARECOTkAlCosmicsRS = AlignmentTrackSelector from "Alignment/CommonAlig
 replace ALCARECOTkAlCosmicsRS.src = rsWithMaterialTracksP5
 replace ALCARECOTkAlCosmicsRS.filter = true
 replace ALCARECOTkAlCosmicsRS.applyBasicCuts = true
-replace ALCARECOTkAlCosmicsRS.ptMin   = 4. #10
+replace ALCARECOTkAlCosmicsRS.ptMin   = 0.
 replace ALCARECOTkAlCosmicsRS.ptMax   = 99999.
+replace ALCARECOTkAlCosmicsRS.pMin   = 4.
+replace ALCARECOTkAlCosmicsRS.pMax   = 99999.
 replace ALCARECOTkAlCosmicsRS.etaMin  = -99. #-2.4 keep also what is going through...
 replace ALCARECOTkAlCosmicsRS.etaMax  =  99. # 2.4 ...both TEC with flat slope
 replace ALCARECOTkAlCosmicsRS.nHitMin = 5 #8
@@ -74,8 +80,9 @@ replace ALCARECOTkAlCosmicsRS.applyMultiplicityFilter = false
 
 //________________________________Sequences____________________________________
 
-  sequence seqALCARECOTkAlCosmicsCTFHLT      = { ALCARECOTkAlCosmicsCTFHLT & ALCARECOTkAlCosmicsCTF }
-  sequence seqALCARECOTkAlCosmicsCosmicTFHLT = { ALCARECOTkAlCosmicsCosmicTFHLT & ALCARECOTkAlCosmicsCosmicTF }
-  sequence seqALCARECOTkAlCosmicsRSHLT       = { ALCARECOTkAlCosmicsRSHLT & ALCARECOTkAlCosmicsRS }
+   sequence seqALCARECOTkAlCosmicsCTFHLT      = { ALCARECOTkAlCosmicsCTFHLT & ALCARECOTkAlCosmicsCTF }
+   sequence seqALCARECOTkAlCosmicsCosmicTFHLT = { ALCARECOTkAlCosmicsCosmicTFHLT & ALCARECOTkAlCosmicsCosmicTF }
+   sequence seqALCARECOTkAlCosmicsRSHLT       = { ALCARECOTkAlCosmicsRSHLT & ALCARECOTkAlCosmicsRS }
+
 
 
