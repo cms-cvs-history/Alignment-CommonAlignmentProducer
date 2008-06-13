@@ -2,7 +2,7 @@
 
   module ALCARECOTkAlZMuMuHLT = hltHighLevel from "HLTrigger/HLTfilters/data/hltHighLevel.cfi"
   replace ALCARECOTkAlZMuMuHLT.andOr = true # choose logical OR between Triggerbits
-  replace ALCARECOTkAlZMuMuHLT.HLTPaths = {"HLT2MuonZ"}
+  replace ALCARECOTkAlZMuMuHLT.HLTPaths = {"HLT_DoubleMu7_Z"}
 
   module ALCARECOTkAlZMuMu = AlignmentTrackSelector from "Alignment/CommonAlignmentProducer/data/AlignmentTrackSelector.cfi"
 

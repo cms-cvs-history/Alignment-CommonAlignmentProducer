@@ -1,7 +1,7 @@
 # AlCaReco for track based alignment using WMuNu events
  module ALCARECOTkAlWMuNuHLT = hltHighLevel from "HLTrigger/HLTfilters/data/hltHighLevel.cfi"
   replace ALCARECOTkAlWMuNuHLT.andOr = true # choose logical OR between Triggerbits
-  replace ALCARECOTkAlWMuNuHLT.HLTPaths = {"HLT1MuonIso"} #these need further studies
+  replace ALCARECOTkAlWMuNuHLT.HLTPaths = {"HLT_IsoMu11"} #these need further studies
 
 
   module ALCARECOTkAlWMuNu = AlignmentTrackSelector from "Alignment/CommonAlignmentProducer/data/AlignmentTrackSelector.cfi"

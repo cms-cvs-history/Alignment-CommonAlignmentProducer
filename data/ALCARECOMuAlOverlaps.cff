@@ -1,7 +1,7 @@
 # AlCaReco for muon based alignment using beam-halo muons in the CSC overlap regions
 
 module ALCARECOMuAlOverlapsHLT = hltHighLevel from "HLTrigger/HLTfilters/data/hltHighLevel.cfi"
-replace ALCARECOMuAlOverlapsHLT.HLTPaths = {"HLT1MuonPrescalePt3", "HLT1MuonPrescalePt5", "HLT1MuonIso", "HLT1MuonNonIso"}
+replace ALCARECOMuAlOverlapsHLT.HLTPaths = {"HLT_Mu3", "HLT_Mu5", "HLT_IsoMu11", "HLT_Mu15_L1Mu7"}
 
 module ALCARECOMuAlOverlapsMuonSelector = AlignmentMuonSelector from "Alignment/CommonAlignmentProducer/data/AlignmentMuonSelector.cfi"
 replace ALCARECOMuAlOverlapsMuonSelector.ptMin = 3.
