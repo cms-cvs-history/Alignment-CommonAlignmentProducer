@@ -15,6 +15,7 @@ module AlignmentTrackSelector = AlignmentTrackSelectorModule {
   	double phiMax  =  3.1416
   	double nHitMin =  0
   	double nHitMax = 999
+        bool countStereoHitAs2D = true
 	uint32 nHitMin2D = 0
   	double chi2nMax= 999999.
   	
