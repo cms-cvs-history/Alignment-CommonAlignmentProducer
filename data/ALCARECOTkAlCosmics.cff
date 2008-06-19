@@ -1,6 +1,6 @@
 # Author     : Gero Flucke
 # Date       :   July 19th, 2007
-# last update: $Date: 2008/05/13 22:30:35 $ by $Author: mweber $
+# last update: $Date: 2008/06/12 19:57:48 $ by $Author: flucke $
 
 //________________________________Track selection____________________________________
 
@@ -17,7 +17,8 @@ replace ALCARECOTkAlCosmicsCTF.pMin   = 4. #10
 replace ALCARECOTkAlCosmicsCTF.pMax   = 99999.
 replace ALCARECOTkAlCosmicsCTF.etaMin  = -99. #-2.4 keep also what is going through...
 replace ALCARECOTkAlCosmicsCTF.etaMax  =  99. # 2.4 ...both TEC with flat slope
-replace ALCARECOTkAlCosmicsCTF.nHitMin = 5 #8
+replace ALCARECOTkAlCosmicsCTF.nHitMin = 7
+replace ALCARECOTkAlCosmicsCTF.nHitMin2D = 2
 replace ALCARECOTkAlCosmicsCTF.chi2nMax= 999999.
 
 replace ALCARECOTkAlCosmicsCTF.applyNHighestPt = true # select only highest pT track
@@ -37,7 +38,8 @@ replace ALCARECOTkAlCosmicsCosmicTF.pMin   = 4. #10
 replace ALCARECOTkAlCosmicsCosmicTF.pMax   = 99999.
 replace ALCARECOTkAlCosmicsCosmicTF.etaMin  = -99.
 replace ALCARECOTkAlCosmicsCosmicTF.etaMax  =  99.
-replace ALCARECOTkAlCosmicsCosmicTF.nHitMin = 7 # more hits than CTF: 2D are counted twice
+replace ALCARECOTkAlCosmicsCosmicTF.nHitMin = 7
+replace ALCARECOTkAlCosmicsCosmicTF.nHitMin2D = 2
 replace ALCARECOTkAlCosmicsCosmicTF.chi2nMax= 999999.
 
 replace ALCARECOTkAlCosmicsCosmicTF.applyNHighestPt = true # select only highest pT track
@@ -57,7 +59,8 @@ replace ALCARECOTkAlCosmicsRS.pMin   = 4. #10
 replace ALCARECOTkAlCosmicsRS.pMax   = 99999.
 replace ALCARECOTkAlCosmicsRS.etaMin  = -99. #-2.4 keep also what is going through...
 replace ALCARECOTkAlCosmicsRS.etaMax  =  99. # 2.4 ...both TEC with flat slope
-replace ALCARECOTkAlCosmicsRS.nHitMin = 5 #8
+replace ALCARECOTkAlCosmicsRS.nHitMin = 7
+replace ALCARECOTkAlCosmicsRS.nHitMin2D = 2
 replace ALCARECOTkAlCosmicsRS.chi2nMax= 999999.
 
 replace ALCARECOTkAlCosmicsRS.applyNHighestPt = true # select only highest pT track

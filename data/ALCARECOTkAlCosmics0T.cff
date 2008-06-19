@@ -1,6 +1,6 @@
 # Author     : Gero Flucke
 # Date       :   July 19th, 2007
-# last update: $Date: 2008/05/08 12:58:49 $ by $Author: emiglior $
+# last update: $Date: 2008/05/09 15:20:13 $ by $Author: emiglior $
 
 //________________________________Track selection____________________________________
 
@@ -15,7 +15,8 @@ replace ALCARECOTkAlCosmicsCTF0T.ptMin   = 0. #10
 replace ALCARECOTkAlCosmicsCTF0T.ptMax   = 99999.
 replace ALCARECOTkAlCosmicsCTF0T.etaMin  = -99. #-2.4 keep also what is going through...
 replace ALCARECOTkAlCosmicsCTF0T.etaMax  =  99. # 2.4 ...both TEC with flat slope
-replace ALCARECOTkAlCosmicsCTF0T.nHitMin = 5 #8
+replace ALCARECOTkAlCosmicsCTF0T.nHitMin = 7
+replace ALCARECOTkAlCosmicsCTF0T.nHitMin2D = 2
 replace ALCARECOTkAlCosmicsCTF0T.chi2nMax= 999999.
 
 replace ALCARECOTkAlCosmicsCTF0T.applyNHighestPt = false # no pT measurement -> sort meaningless
@@ -33,7 +34,8 @@ replace ALCARECOTkAlCosmicsCosmicTF0T.ptMin   = 0.
 replace ALCARECOTkAlCosmicsCosmicTF0T.ptMax   = 99999.
 replace ALCARECOTkAlCosmicsCosmicTF0T.etaMin  = -99.
 replace ALCARECOTkAlCosmicsCosmicTF0T.etaMax  =  99.
-replace ALCARECOTkAlCosmicsCosmicTF0T.nHitMin = 7 # more hits than CTF: 2D are counted twice
+replace ALCARECOTkAlCosmicsCosmicTF0T.nHitMin = 7
+replace ALCARECOTkAlCosmicsCosmicTF0T.nHitMin2D = 2
 replace ALCARECOTkAlCosmicsCosmicTF0T.chi2nMax= 999999.
 
 replace ALCARECOTkAlCosmicsCosmicTF0T.applyNHighestPt = false # no pT measurement -> sort meaningless
@@ -51,7 +53,8 @@ replace ALCARECOTkAlCosmicsRS0T.ptMin   = 0. #10
 replace ALCARECOTkAlCosmicsRS0T.ptMax   = 99999.
 replace ALCARECOTkAlCosmicsRS0T.etaMin  = -99. #-2.4 keep also what is going through...
 replace ALCARECOTkAlCosmicsRS0T.etaMax  =  99. # 2.4 ...both TEC with flat slope
-replace ALCARECOTkAlCosmicsRS0T.nHitMin = 5 #8
+replace ALCARECOTkAlCosmicsRS0T.nHitMin = 7
+replace ALCARECOTkAlCosmicsRS0T.nHitMin2D = 2
 replace ALCARECOTkAlCosmicsRS0T.chi2nMax= 999999.
 
 replace ALCARECOTkAlCosmicsRS0T.applyNHighestPt = false # no pT measurement -> sort meaningless
