@@ -1,6 +1,4 @@
-# Author     : Gero Flucke
-# Date       :   July 19th, 2007
-# last update: $Date: 2008/05/09 15:19:27 $ by $Author: emiglior $
+# last update: $Date: 2008/06/12 20:00:11 $ by $Author: flucke $
 
 //_________________________________HLT bits___________________________________________
  
@@ -18,71 +16,16 @@
 
 //________________________________Track selection____________________________________
 
-## AlCaReco for track based alignment using Cosmic muons reconstructed by Combinatorial Track Finder
+// take from stream that is HLT-less
 
-module ALCARECOTkAlCosmicsCTF = AlignmentTrackSelector from "Alignment/CommonAlignmentProducer/data/AlignmentTrackSelector.cfi"
-
-replace ALCARECOTkAlCosmicsCTF.src = ctfWithMaterialTracksP5
-replace ALCARECOTkAlCosmicsCTF.filter = true
-replace ALCARECOTkAlCosmicsCTF.applyBasicCuts = true
-replace ALCARECOTkAlCosmicsCTF.ptMin   = 0.
-replace ALCARECOTkAlCosmicsCTF.ptMax   = 99999.
-replace ALCARECOTkAlCosmicsCTF.pMin   = 4.
-replace ALCARECOTkAlCosmicsCTF.pMax   = 99999.
-replace ALCARECOTkAlCosmicsCTF.etaMin  = -99. #-2.4 keep also what is going through...
-replace ALCARECOTkAlCosmicsCTF.etaMax  =  99. # 2.4 ...both TEC with flat slope
-replace ALCARECOTkAlCosmicsCTF.nHitMin = 5 #8
-replace ALCARECOTkAlCosmicsCTF.chi2nMax= 999999.
-
-replace ALCARECOTkAlCosmicsCTF.applyNHighestPt = true # select only highest pT track
-replace ALCARECOTkAlCosmicsCTF.nHighestPt = 1
-replace ALCARECOTkAlCosmicsCTF.applyMultiplicityFilter = false
-
-## AlCaReco for track based alignment using Cosmic muons reconstructed by Cosmic Track Finder
-
-module ALCARECOTkAlCosmicsCosmicTF = AlignmentTrackSelector from "Alignment/CommonAlignmentProducer/data/AlignmentTrackSelector.cfi"
-
-replace ALCARECOTkAlCosmicsCosmicTF.src = cosmictrackfinderP5 # different for CTF
-replace ALCARECOTkAlCosmicsCosmicTF.filter = true
-replace ALCARECOTkAlCosmicsCosmicTF.applyBasicCuts = true
-replace ALCARECOTkAlCosmicsCosmicTF.ptMin   = 0.
-replace ALCARECOTkAlCosmicsCosmicTF.ptMax   = 99999.
-replace ALCARECOTkAlCosmicsCosmicTF.pMin   = 4.
-replace ALCARECOTkAlCosmicsCosmicTF.pMax   = 99999.
-replace ALCARECOTkAlCosmicsCosmicTF.etaMin  = -99.
-replace ALCARECOTkAlCosmicsCosmicTF.etaMax  =  99.
-replace ALCARECOTkAlCosmicsCosmicTF.nHitMin = 7 # more hits than CTF: 2D are counted twice
-replace ALCARECOTkAlCosmicsCosmicTF.chi2nMax= 999999.
-
-replace ALCARECOTkAlCosmicsCosmicTF.applyNHighestPt = true # select only highest pT track
-replace ALCARECOTkAlCosmicsCosmicTF.nHighestPt = 1
-replace ALCARECOTkAlCosmicsCosmicTF.applyMultiplicityFilter = false
-
-## AlCaReco for track based alignment using Cosmic muons reconstructed by Road Search Track Finder
-
-module ALCARECOTkAlCosmicsRS = AlignmentTrackSelector from "Alignment/CommonAlignmentProducer/data/AlignmentTrackSelector.cfi"
-
-replace ALCARECOTkAlCosmicsRS.src = rsWithMaterialTracksP5
-replace ALCARECOTkAlCosmicsRS.filter = true
-replace ALCARECOTkAlCosmicsRS.applyBasicCuts = true
-replace ALCARECOTkAlCosmicsRS.ptMin   = 0.
-replace ALCARECOTkAlCosmicsRS.ptMax   = 99999.
-replace ALCARECOTkAlCosmicsRS.pMin   = 4.
-replace ALCARECOTkAlCosmicsRS.pMax   = 99999.
-replace ALCARECOTkAlCosmicsRS.etaMin  = -99. #-2.4 keep also what is going through...
-replace ALCARECOTkAlCosmicsRS.etaMax  =  99. # 2.4 ...both TEC with flat slope
-replace ALCARECOTkAlCosmicsRS.nHitMin = 5 #8
-replace ALCARECOTkAlCosmicsRS.chi2nMax= 999999.
-
-replace ALCARECOTkAlCosmicsRS.applyNHighestPt = true # select only highest pT track
-replace ALCARECOTkAlCosmicsRS.nHighestPt = 1
-replace ALCARECOTkAlCosmicsRS.applyMultiplicityFilter = false
+  include "Alignment/CommonAlignmentProducer/data/ALCARECOTkAlCosmics.cff"
 
 //________________________________Sequences____________________________________
+// simply add HLT in front of HLT-less paths
 
-   sequence seqALCARECOTkAlCosmicsCTFHLT      = { ALCARECOTkAlCosmicsCTFHLT & ALCARECOTkAlCosmicsCTF }
-   sequence seqALCARECOTkAlCosmicsCosmicTFHLT = { ALCARECOTkAlCosmicsCosmicTFHLT & ALCARECOTkAlCosmicsCosmicTF }
-   sequence seqALCARECOTkAlCosmicsRSHLT       = { ALCARECOTkAlCosmicsRSHLT & ALCARECOTkAlCosmicsRS }
+  sequence seqALCARECOTkAlCosmicsCTFHLT      = { ALCARECOTkAlCosmicsCTFHLT      & seqALCARECOTkAlCosmicsCTF }
+  sequence seqALCARECOTkAlCosmicsCosmicTFHLT = { ALCARECOTkAlCosmicsCosmicTFHLT & seqALCARECOTkAlCosmicsCosmicTF }
+  sequence seqALCARECOTkAlCosmicsRSHLT       = { ALCARECOTkAlCosmicsRSHLT       & seqALCARECOTkAlCosmicsRS }
 
 
 
