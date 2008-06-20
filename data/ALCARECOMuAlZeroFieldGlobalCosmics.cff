@@ -1,0 +1,9 @@
+# AlCaReco for muon alignment using straight (zero-field) cosmic ray tracks
+
+module ALCARECOMuAlZeroFieldGlobalCosmicsHLT = hltHighLevel from "HLTrigger/HLTfilters/data/hltHighLevel.cfi"
+replace ALCARECOMuAlZeroFieldGlobalCosmicsHLT.andOr = true # choose logical OR between Triggerbits
+replace ALCARECOMuAlZeroFieldGlobalCosmicsHLT.HLTPaths = {"CandHLTTrackerCosmics", "CandHLTTrackerCosmicsCoTF", "HLT_IsoMu11", "HLT_Mu15_L1Mu7"}
+
+module ALCARECOMuAlZeroFieldGlobalCosmics = ZeroFieldGlobalMuonBuilder from "Alignment/CommonAlignmentProducer/data/ZeroFieldGlobalMuonBuilder.cfi"
+
+sequence seqALCARECOMuAlZeroFieldGlobalCosmics = {ALCARECOMuAlZeroFieldGlobalCosmicsHLT & ALCARECOMuAlZeroFieldGlobalCosmics}
