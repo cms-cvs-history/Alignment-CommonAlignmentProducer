@@ -1,0 +1,5 @@
+# Just 'append' a data label to differentiate from 'normal' fake alignment:
+es_module fakeForIdealAlignment = fakeAlignment from "Alignment/CommonAlignmentProducer/data/fakeAlignmentProducer.cfi"
+replace fakeForIdealAlignment.appendToDataLabel = "fakeForIdeal"
+
+
