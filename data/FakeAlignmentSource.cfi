@@ -1,0 +1,4 @@
+es_source FakeAlignmentSource = FakeAlignmentSource { 
+    string appendToDataLabel = ""
+}
+

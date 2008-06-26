@@ -1,11 +1,4 @@
-# Producer for empty alignments
-#==============================
-include "Alignment/CommonAlignmentProducer/data/fakeAlignmentProducer.cfi"
+# Source for empty GlobalPositions
+#=================================
+include "Alignment/CommonAlignmentProducer/data/FakeAlignmentSource.cfi"
 
-# Source to put GlobalPositionRcd with unlimited IOV into ESetup
-#=================================================================
-es_source fakeGlobalPositionSource = EmptyESSource {
-    string recordName = "GlobalPositionRcd"
-    vuint32 firstValid = {1}
-    bool iovIsRunNotTime = true
-}
