@@ -1,12 +1,13 @@
 # Author     : Gero Flucke
 # Date       :   July 19th, 2007
-# last update: $Date: 2008/05/09 15:21:02 $ by $Author: emiglior $
+# last update: $Date: 2008/05/12 17:33:31 $ by $Author: flucke $
 
 # AlCaReco for track based alignment using Cosmic muon events
 
 block OutALCARECOTkAlCosmics = {
     untracked vstring outputCommands = { 
 	"drop *" , "keep *_ALCARECOTkAlCosmics*_*_*",
+	"keep L1GlobalTriggerReadoutRecord_gtDigis_*_*", # for cosmics keep also L1
         "keep Si*Cluster*_*_*_*", # for cosmics keep also clusters
 	"keep *_MEtoEDMConverter_*_*"
     }
