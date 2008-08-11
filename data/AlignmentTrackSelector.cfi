@@ -7,12 +7,15 @@ module AlignmentTrackSelector = AlignmentTrackSelectorModule {
   	bool applyBasicCuts = true
   	double ptMin   = 10. 
   	double ptMax   = 999.
+  	double pMin   = 0. 
+  	double pMax   = 9999.
   	double etaMin  = -2.6
   	double etaMax  =  2.6
   	double phiMin  = -3.1416
   	double phiMax  =  3.1416
   	double nHitMin =  0
   	double nHitMax = 999
+        bool countStereoHitAs2D = true
 	uint32 nHitMin2D = 0
   	double chi2nMax= 999999.
   	

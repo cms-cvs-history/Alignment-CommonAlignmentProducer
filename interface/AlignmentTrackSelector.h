@@ -11,6 +11,7 @@ namespace edm {
 }
 
 class TrackingRecHit;
+class SiStripRecHit2D;
 
 class AlignmentTrackSelector
 {
@@ -27,6 +28,9 @@ class AlignmentTrackSelector
 
   /// select tracks
   Tracks select(const Tracks& tracks, const edm::Event& evt) const;
+  ///returns if any of the Filters is used.
+  bool useThisFilter();
+
 
  private:
 
@@ -35,7 +39,9 @@ class AlignmentTrackSelector
   /// checking hit requirements beyond simple number of valid hits
   bool detailedHitsCheck(const reco::Track* track, const edm::Event& evt) const;
   bool isHit2D(const TrackingRecHit &hit) const;
+  /// if valid, check for minimum charge (currently only in strip), if invalid give true 
   bool isOkCharge(const TrackingRecHit* therechit) const;
+  bool isOkChargeStripHit(const SiStripRecHit2D *siStripRecHit2D) const;
   bool isIsolated(const TrackingRecHit* therechit, const edm::Event& evt) const;
 
   /// filter the n highest pt tracks
@@ -53,10 +59,11 @@ class AlignmentTrackSelector
   const bool seedOnlyFromAbove_, applyIsolation_, chargeCheck_ ;
   const int nHighestPt_, minMultiplicity_, maxMultiplicity_;
   const bool multiplicityOnInput_; /// if true, cut min/maxMultiplicity on input instead of on final result
-  const double ptMin_,ptMax_,etaMin_,etaMax_,phiMin_,phiMax_,nHitMin_,nHitMax_,chi2nMax_;
+  const double ptMin_,ptMax_,pMin_,pMax_,etaMin_,etaMax_,phiMin_,phiMax_,nHitMin_,nHitMax_,chi2nMax_;
   const double minHitChargeStrip_, minHitIsolation_;
   const edm::InputTag rphirecHitsTag_;
   const edm::InputTag matchedrecHitsTag_;
+  const bool countStereoHitAs2D_; // count hits on stereo components of GluedDet for nHitMin2D_?
   const unsigned int nHitMin2D_;
   const int minHitsinTIB_, minHitsinTOB_, minHitsinTID_, minHitsinTEC_, minHitsinBPIX_, minHitsinFPIX_;
 
