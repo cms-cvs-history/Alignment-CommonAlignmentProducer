@@ -21,6 +21,7 @@ looper = AlignmentProducer
     untracked bool doMuon    = false
 
     PSet ParameterBuilder = {
+	vstring parameterTypes = {"Selector,RigidBody"}
         PSet Selector = {
             # selection of alignables and their parameters:
             # comma separated pairs of detector parts/levels as defined in AlinmentParameterSelector
