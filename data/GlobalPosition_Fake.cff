@@ -1,4 +1,0 @@
-# Source for empty GlobalPositions
-#=================================
-include "Alignment/CommonAlignmentProducer/data/FakeAlignmentSource.cfi"
-
