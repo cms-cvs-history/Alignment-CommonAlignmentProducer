@@ -1,9 +1,0 @@
-module ZeroFieldGlobalMuonBuilder = ZeroFieldGlobalMuonBuilder {
-    InputTag inputMuon = cosmicMuons
-    InputTag inputTracker = cosmictrackfinderP5
-    int32 minMuonHits = 0
-    int32 minTrackerHits = 0
-    double minPdot = 0.99
-    double minDdotP = 0.99
-    untracked bool debuggingHistograms = false
-}
