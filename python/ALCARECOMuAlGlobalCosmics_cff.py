@@ -14,8 +14,9 @@ import FWCore.ParameterSet.Config as cms
 import Alignment.CommonAlignmentProducer.AlignmentMuonSelector_cfi
 
 ALCARECOMuAlGlobalCosmics = Alignment.CommonAlignmentProducer.AlignmentMuonSelector_cfi.AlignmentMuonSelector.clone(
-    src = cms.InputTag("GLBMuonsBarrelOnly"),
+    src = cms.InputTag("muonsBarrelOnly"),
     filter = True, # not strictly necessary, but provided for symmetry with MuAlStandAloneCosmics
+    nHitMinGB = 1,
     ptMin = 0.0,
     etaMin = -100.0,
     etaMax =  100.0
