@@ -8,17 +8,11 @@
 <use name=FWCore/ParameterSet>
 <use name=FWCore/ServiceRegistry>
 
-<library file=GlobalPositionRcdWrite.cpp name=GlobalPositionRcdWrite>
-  <flags EDM_PLUGIN=1>
-</library>
-
-<library file=GlobalPositionRcdRead.cpp name=GlobalPositionRcdRead>
+<library file=GlobalPositionRcd*.cpp name=CommonAlignmentProducerGlobalPositionRcd>
   <flags EDM_PLUGIN=1>
 </library>
 
 <library file=TestAccessGeom.cc>
-  <use name=FWCore/Framework>
-  <use name=FWCore/ParameterSet>
   <use name=Geometry/TrackerGeometryBuilder>
   <use name=Geometry/DTGeometry>
   <use name=Geometry/CSCGeometry>
