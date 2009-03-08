@@ -1,6 +1,6 @@
 
 #include "FWCore/Framework/interface/MakerMacros.h"
-#include "PhysicsTools/UtilAlgos/interface/ObjectSelector.h"
+#include "CommonTools/UtilAlgos/interface/ObjectSelector.h"
 
 //the selectores used to select the tracks
 #include "Alignment/CommonAlignmentProducer/interface/AlignmentCSCTrackSelector.h"
@@ -11,15 +11,15 @@
 // including recoTrackExtras and TrackingRecHitsOwned.
 // if you remove it the code will compile, but the cloned
 // tracks have only the recoTracks branch!
-#include "PhysicsTools/RecoAlgos/interface/TrackSelector.h"
+#include "CommonTools/RecoAlgos/interface/TrackSelector.h"
 
-struct TrackConfigSelector {
+struct CSCTrackConfigSelector {
 
       typedef std::vector<const reco::Track*> container;
       typedef container::const_iterator const_iterator;
       typedef reco::TrackCollection collection; 
 
-      TrackConfigSelector( const edm::ParameterSet & cfg ) : theBaseSelector(cfg) {}
+      CSCTrackConfigSelector( const edm::ParameterSet & cfg ) : theBaseSelector(cfg) {}
   
       const_iterator begin() const { return theSelectedTracks.begin(); }
       const_iterator end() const { return theSelectedTracks.end(); }
@@ -40,6 +40,6 @@ struct TrackConfigSelector {
       AlignmentCSCTrackSelector theBaseSelector;
 };
 
-typedef ObjectSelector<TrackConfigSelector>  AlignmentCSCTrackSelectorModule;
+typedef ObjectSelector<CSCTrackConfigSelector>  AlignmentCSCTrackSelectorModule;
 
 DEFINE_FWK_MODULE( AlignmentCSCTrackSelectorModule );

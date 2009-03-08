@@ -46,42 +46,42 @@
 
 <library file=AlignmentMuonSelectorModule.cc>
  <use name=Alignment/CommonAlignmentProducer>
- <use name=PhysicsTools/RecoAlgos>
+ <use name=CommonTools/RecoAlgos>
  <use name=PhysicsTools/UtilAlgos>
  <flags EDM_PLUGIN=1>
 </library>
 
 <library file=AlignmentTrackSelectorModule.cc>
  <use name=Alignment/CommonAlignmentProducer>
- <use name=PhysicsTools/RecoAlgos>
+ <use name=CommonTools/RecoAlgos>
  <use name=PhysicsTools/UtilAlgos>
  <flags EDM_PLUGIN=1>
 </library>
 
 <library file=AlignmentCSCOverlapSelectorModule.cc>
  <use name=Alignment/CommonAlignmentProducer>
- <use name=PhysicsTools/RecoAlgos>
+ <use name=CommonTools/RecoAlgos>
  <use name=PhysicsTools/UtilAlgos>
  <flags EDM_PLUGIN=1>
 </library>
 
 <library file=AlignmentCSCBeamHaloSelectorModule.cc>
  <use name=Alignment/CommonAlignmentProducer>
- <use name=PhysicsTools/RecoAlgos>
+ <use name=CommonTools/RecoAlgos>
  <use name=PhysicsTools/UtilAlgos>
  <flags EDM_PLUGIN=1>
 </library>
 
 <library file=AlignmentCSCTrackSelectorModule.cc>
  <use name=Alignment/CommonAlignmentProducer>
- <use name=PhysicsTools/RecoAlgos>
+ <use name=CommonTools/RecoAlgos>
  <use name=PhysicsTools/UtilAlgos>
  <flags EDM_PLUGIN=1>
 </library>
 
 <library file=AlignmentSeedSelectorModule.cc>
  <use name=Alignment/CommonAlignmentProducer>
- <use name=PhysicsTools/RecoAlgos>
+ <use name=CommonTools/RecoAlgos>
  <use name=PhysicsTools/UtilAlgos>
  <flags EDM_PLUGIN=1>
 </library>
