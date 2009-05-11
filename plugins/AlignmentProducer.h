@@ -7,8 +7,8 @@
 /// Description : calls alignment algorithms
 ///
 ///  \author    : Frederic Ronga
-///  Revision   : $Revision: 1.10 $
-///  last update: $Date: 2008/02/25 17:47:58 $
+///  Revision   : $Revision: 1.13 $
+///  last update: $Date: 2009/04/03 08:59:08 $
 ///  by         : $Author: flucke $
 
 #include <vector>
@@ -17,6 +17,8 @@
 #include "FWCore/Framework/interface/ESProducerLooper.h"
 #include "FWCore/Framework/interface/ESHandle.h"
 #include "FWCore/Framework/interface/ESWatcher.h"
+
+#include "DataFormats/Provenance/interface/RunID.h"
 
 // Geometry
 #include "Geometry/Records/interface/TrackerDigiGeometryRecord.h"
@@ -76,6 +78,12 @@ class AlignmentProducer : public edm::ESProducerLooper
   /// Called at end of loop
   virtual Status endOfLoop( const edm::EventSetup&, unsigned int iLoop );
 
+  /// (To be) Called at run start - currently as a hack within duringLoop
+  virtual void beginRun(const edm::Run &run, const edm::EventSetup &setup);
+  /// (To be) Called at run end 
+  /// (currently as a hack within duringLoop at the begin (!) of the run!)
+  virtual void endRun(const edm::Run &run, const edm::EventSetup &setup);
+
   /// Called at each event 
   virtual Status duringLoop( const edm::Event&, const edm::EventSetup& );
 
@@ -89,14 +97,23 @@ class AlignmentProducer : public edm::ESProducerLooper
 
   /// Create tracker and muon geometries
   void createGeometries_( const edm::EventSetup& );
+  /// Apply DB constants belonging to (Err)Rcd to geometry,
+  /// taking into account 'globalPosition' correction.
+  template<class G, class Rcd, class ErrRcd>
+    void applyDB(G *geometry, const edm::EventSetup &iSetup,
+		 const AlignTransform &globalPosition) const;
+  /// Write alignment and/or errors to DB for record names
+  /// (removes *globalCoordinates before writing if non-null...).
+  /// Takes over ownership of alignments and alignmentErrrors.
+  void writeDB(Alignments *alignments, const std::string &alignRcd,
+	       AlignmentErrors *alignmentErrors, const std::string &errRcd,
+	       const AlignTransform *globalCoordinates) const;
 
   /// Add survey info to an alignable
-  void addSurveyInfo_(
-		      Alignable*
-		      );
+  void addSurveyInfo_(Alignable*);
 	
-	/// read in survey records
-	void readInSurveyRcds( const edm::EventSetup& );
+  /// read in survey records
+  void readInSurveyRcds( const edm::EventSetup& );
 
   // private data members
 
@@ -114,29 +131,36 @@ class AlignmentProducer : public edm::ESProducerLooper
   boost::shared_ptr<TrackerGeometry> theTracker;
   boost::shared_ptr<DTGeometry> theMuonDT;
   boost::shared_ptr<CSCGeometry> theMuonCSC;
+  /// GlobalPositions that might be read from DB, NULL otherwise
+  const Alignments *globalPositions_;
 
   int nevent_;
-
+  edm::RunID lastRunId_; /// hack until get a beginRun(...)
   edm::ParameterSet theParameterSet;
 
   // steering parameters
 
-  unsigned int theMaxLoops;     // Number of loops to loop
+  const unsigned int theMaxLoops;     // Number of loops to loop
 
-  int stNFixAlignables_;
-  double stRandomShift_,stRandomRotation_;
-  bool applyDbAlignment_,doMisalignmentScenario_,saveToDB_;
-  bool doTracker_,doMuon_;
-  bool useSurvey_; // true to read survey info from DB
+  const int stNFixAlignables_;
+  const double stRandomShift_,stRandomRotation_;
+  const bool applyDbAlignment_,doMisalignmentScenario_,saveToDB_, saveApeToDB_;
+  const bool doTracker_,doMuon_;
+  const bool useSurvey_; // true to read survey info from DB
 
-	// ESWatcher
-	edm::ESWatcher<TrackerSurveyRcd> watchTkSurveyRcd_;
-	edm::ESWatcher<TrackerSurveyErrorRcd> watchTkSurveyErrRcd_;
-	edm::ESWatcher<DTSurveyRcd> watchDTSurveyRcd_;
-	edm::ESWatcher<DTSurveyErrorRcd> watchDTSurveyErrRcd_;
-	edm::ESWatcher<CSCSurveyRcd> watchCSCSurveyRcd_;
-	edm::ESWatcher<CSCSurveyErrorRcd> watchCSCSurveyErrRcd_;	
-	
+  // event input tags
+  const edm::InputTag tjTkAssociationMapTag_; // map with tracks/trajectories
+  const edm::InputTag beamSpotTag_;           // beam spot
+  const edm::InputTag tkLasBeamTag_;          // LAS beams in edm::Run (ignore if empty)
+
+  // ESWatcher
+  edm::ESWatcher<TrackerSurveyRcd> watchTkSurveyRcd_;
+  edm::ESWatcher<TrackerSurveyErrorRcd> watchTkSurveyErrRcd_;
+  edm::ESWatcher<DTSurveyRcd> watchDTSurveyRcd_;
+  edm::ESWatcher<DTSurveyErrorRcd> watchDTSurveyErrRcd_;
+  edm::ESWatcher<CSCSurveyRcd> watchCSCSurveyRcd_;
+  edm::ESWatcher<CSCSurveyErrorRcd> watchCSCSurveyErrRcd_;	
+  
 };
 
 #endif

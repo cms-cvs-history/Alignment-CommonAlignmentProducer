@@ -1,4 +1,0 @@
-es_module fakeAlignment = FakeAlignmentProducer { 
-    string appendToDataLabel = ""
-}
-
