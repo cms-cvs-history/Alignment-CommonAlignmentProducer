@@ -6,8 +6,7 @@ OutALCARECOMuAlOverlaps_noDrop = cms.PSet(
         SelectEvents = cms.vstring('pathALCARECOMuAlOverlaps')
     ),
     outputCommands = cms.untracked.vstring(
-        'keep *_ALCARECOMuAlOverlaps_*_*',
-	'keep *_MEtoEDMConverter_*_*')
+        'keep *_ALCARECOMuAlOverlaps_*_*')
 )
 
 import copy
