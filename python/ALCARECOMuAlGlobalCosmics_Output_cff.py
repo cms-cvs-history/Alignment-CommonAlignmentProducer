@@ -3,11 +3,11 @@
 import FWCore.ParameterSet.Config as cms
 
 # AlCaReco for muon alignment using straight (zero-field) cosmic ray tracks
-OutALCARECOMuAlGlobalCosmics = cms.PSet(
+OutALCARECOMuAlGlobalCosmics_noDrop = cms.PSet(
     SelectEvents = cms.untracked.PSet(
         SelectEvents = cms.vstring('pathALCARECOMuAlGlobalCosmics')
     ),
-    outputCommands = cms.untracked.vstring('drop *', 
+    outputCommands = cms.untracked.vstring(
 	'keep *_ALCARECOMuAlGlobalCosmics_*_*',
         'keep *_muonCSCDigis_*_*',
 	'keep *_muonDTDigis_*_*',
@@ -17,6 +17,10 @@ OutALCARECOMuAlGlobalCosmics = cms.PSet(
 	'keep *_dt4DSegments_*_*',
 	'keep *_csc2DRecHits_*_*',
 	'keep *_cscSegments_*_*',
-	'keep *_rpcRecHits_*_*')
+	'keep *_rpcRecHits_*_*',
+	'keep *_MEtoEDMConverter_*_*')
 )
 
+import copy
+OutALCARECOMuAlGlobalCosmics = copy.deepcopy(OutALCARECOMuAlGlobalCosmics_noDrop)
+OutALCARECOMuAlGlobalCosmics.outputCommands.insert(0, "drop *")
