@@ -7,9 +7,9 @@
 /// Description : calls alignment algorithms
 ///
 ///  \author    : Frederic Ronga
-///  Revision   : $Revision: 1.16 $
-///  last update: $Date: 2009/10/02 12:46:53 $
-///  by         : $Author: bonato $
+///  Revision   : $Revision: 1.14 $
+///  last update: $Date: 2009/05/11 09:31:38 $
+///  by         : $Author: flucke $
 
 #include <vector>
 
@@ -160,8 +160,6 @@ class AlignmentProducer : public edm::ESProducerLooper
   const edm::InputTag tjTkAssociationMapTag_; // map with tracks/trajectories
   const edm::InputTag beamSpotTag_;           // beam spot
   const edm::InputTag tkLasBeamTag_;          // LAS beams in edm::Run (ignore if empty)
-  const edm::InputTag clusterValueMapTag_;              // ValueMap containing associtaion cluster - flag
-
 
   // ESWatcher
   edm::ESWatcher<TrackerSurveyRcd> watchTkSurveyRcd_;
