@@ -5,10 +5,6 @@
 #include "FWCore/ParameterSet/interface/InputTag.h"
 #include <vector>
 
-#include "DataFormats/Alignment/interface/AlignmentClusterFlag.h"
-#include "DataFormats/Alignment/interface/AliClusterValueMap.h"
-#include "DataFormats/TrackerRecHit2D/interface/SiStripRecHit2D.h"
-#include "DataFormats/TrackerRecHit2D/interface/SiPixelRecHit.h"
 namespace edm {
   class Event;
   class ParameterSet;
@@ -52,9 +48,6 @@ class AlignmentTrackSelector
   /// filter the n highest pt tracks
   Tracks theNHighestPtTracks(const Tracks& tracks) const;
 
-  //filter tracks that do not have a min # of hits taken by the Skim&Prescale workflow
-  Tracks checkPrescaledHits(const Tracks& tracks, const edm::Event& evt) const;
-
   /// compare two tracks in pt (used by theNHighestPtTracks)
   struct ComparePt {
     bool operator()( const reco::Track* t1, const reco::Track* t2 ) const {
@@ -73,13 +66,20 @@ class AlignmentTrackSelector
   const edm::InputTag matchedrecHitsTag_;
   const bool countStereoHitAs2D_; // count hits on stereo components of GluedDet for nHitMin2D_?
   const unsigned int nHitMin2D_;
-  const int minHitsinTIB_, minHitsinTOB_, minHitsinTID_, minHitsinTEC_, minHitsinBPIX_, minHitsinFPIX_, minHitsinPIX_;
+  const int minHitsinTIB_, minHitsinTOB_, minHitsinTID_, minHitsinTEC_, minHitsinBPIX_, minHitsinFPIX_;
 
-  const edm::InputTag clusterValueMapTag_;  // ValueMap containing association cluster - flag
-  const int minPrescaledHits_;
-  const bool applyPrescaledHitsFilter_;
+<<<<<<< AlignmentTrackSelector.h
+ std::vector<reco::TrackBase::TrackQuality> trkQualities_;
+  std::vector<reco::TrackBase::TrackAlgorithm> trkSteps_;
+  bool applyTrkQualityCheck_;
+  bool applyIterStepCheck_;
 
+=======
   std::vector<reco::TrackBase::TrackQuality> trkQualities_;
+  std::vector<reco::TrackBase::TrackAlgorithm> trkSteps_;
+  bool applyTrkQualityCheck_;
+  bool applyIterStepCheck_;
+>>>>>>> 1.19
 };
 
 #endif
