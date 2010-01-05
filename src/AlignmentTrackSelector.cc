@@ -66,31 +66,15 @@ AlignmentTrackSelector::AlignmentTrackSelector(const edm::ParameterSet & cfg) :
   clusterValueMapTag_(cfg.getParameter<edm::InputTag>("hitPrescaleMapTag")),
   minPrescaledHits_( cfg.getParameter<int>("minPrescaledHits")),
   applyPrescaledHitsFilter_(clusterValueMapTag_.encode().size() && minPrescaledHits_ > 0)
-
 {
-
   //convert track quality from string to enum
-  std::vector<std::string> trkQualityStrings(cfg.getParameter<std::vector<std::string> >("trackQualities"));
+  std::vector<std::string> trkQualityStrings
+    (cfg.getParameter<std::vector<std::string> >("trackQualities"));
   std::string qualities;
-  if(trkQualityStrings.size()>0){
-    applyTrkQualityCheck_=true;
-    for (unsigned int i = 0; i < trkQualityStrings.size(); ++i) {
-      (qualities += trkQualityStrings[i]) += ", ";
-      trkQualities_.push_back(reco::TrackBase::qualityByName(trkQualityStrings[i]));
-    }
+  for (unsigned int i = 0; i < trkQualityStrings.size(); ++i) {
+    (qualities += trkQualityStrings[i]) += ", ";
+    trkQualities_.push_back(reco::TrackBase::qualityByName(trkQualityStrings[i]));
   }
-  else applyTrkQualityCheck_=false;
-
-  std::vector<std::string> trkIterStrings(cfg.getParameter<std::vector<std::string> >("iterativeTrackingSteps"));
-  if(trkIterStrings.size()>0){
-    applyIterStepCheck_=true;
-    std::string tracksteps;
-    for (unsigned int i = 0; i < trkIterStrings.size(); ++i) {
-      (tracksteps += trkIterStrings[i]) += ", ";
-      trkSteps_.push_back(reco::TrackBase::algoByName(trkIterStrings[i]));
-    }
-  }
-  else   applyIterStepCheck_=false;
 
   if (applyBasicCuts_){
       edm::LogInfo("AlignmentTrackSelector") 
@@ -113,7 +97,7 @@ AlignmentTrackSelector::AlignmentTrackSelector(const edm::ParameterSet & cfg) :
 	edm::LogInfo("AlignmentTrackSelector") 
 	  << "only retain hits with at least " << minHitChargeStrip_ <<  
 	  " ADC counts of total cluster charge"; 
-   
+      
       edm::LogInfo("AlignmentTrackSelector") 
 	<< "Minimum number of hits in TIB/TID/TOB/TEC/BPIX/FPIX/PIXEL = " 
 	<< minHitsinTIB_ << "/" << minHitsinTID_ << "/" << minHitsinTOB_
@@ -122,8 +106,8 @@ AlignmentTrackSelector::AlignmentTrackSelector(const edm::ParameterSet & cfg) :
       if (trkQualityStrings.size()) {
 	edm::LogInfo("AlignmentTrackSelector")
 	  << "Select tracks with these qualities: " << qualities;
-      }    
-  }
+      }
+    }
   
   if (applyNHighestPt_)
 	edm::LogInfo("AlignmentTrackSelector") 
@@ -138,7 +122,7 @@ AlignmentTrackSelector::AlignmentTrackSelector(const edm::ParameterSet & cfg) :
     edm::LogInfo("AlignmentTrackSelector") 
       << "apply cut on number of prescaled hits N>= " << minPrescaledHits_
       << " (prescale info from " << clusterValueMapTag_ << ")";
-    
+
   }
 
 }
@@ -176,7 +160,7 @@ AlignmentTrackSelector::select(const Tracks& tracks, const edm::Event& evt) cons
       result.clear();
     }
   }
-
+  
   if(applyPrescaledHitsFilter_){
     result = this->checkPrescaledHits(result, evt);
   }
@@ -188,7 +172,6 @@ AlignmentTrackSelector::select(const Tracks& tracks, const edm::Event& evt) cons
 bool AlignmentTrackSelector::useThisFilter()
 {
   return applyMultiplicityFilter_ || applyBasicCuts_ || applyNHighestPt_ || applyPrescaledHitsFilter_;
-
 }
 
 
@@ -217,13 +200,10 @@ AlignmentTrackSelector::basicCuts(const Tracks& tracks, const edm::Event& evt) c
        && phi>phiMin_ && phi<phiMax_ 
        && nhit>=nHitMin_ && nhit<=nHitMax_
        && chi2n<chi2nMax_) {
-      bool trkQualityOk=false ;
-      if (!applyTrkQualityCheck_ &&!applyIterStepCheck_)trkQualityOk=true ; // nothing required
-      else trkQualityOk = this->isOkTrkQuality(trackp);
-
+      bool trkQualityOk = this->isOkTrkQuality(trackp);
       bool hitsCheckOk=this->detailedHitsCheck(trackp, evt);
  
-      if (trkQualityOk && hitsCheckOk )  result.push_back(trackp);
+      if (trkQualityOk && hitsCheckOk ) result.push_back(trackp); // make more efficient!
     }
   }
 
@@ -237,7 +217,7 @@ bool AlignmentTrackSelector::detailedHitsCheck(const reco::Track *trackp, const 
   // checking hit requirements beyond simple number of valid hits
 
   if (minHitsinTIB_ || minHitsinTOB_ || minHitsinTID_ || minHitsinTEC_
-      || minHitsinFPIX_ || minHitsinBPIX_ || nHitMin2D_ || chargeCheck_
+      || minHitsinFPIX_ || minHitsinBPIX_ || minHitsinPIX_ || nHitMin2D_ || chargeCheck_
       || applyIsolation_ || (seedOnlyFromAbove_ == 1 || seedOnlyFromAbove_ == 2)) {
     // any detailed hit cut is active, so have to check
     
@@ -282,7 +262,7 @@ bool AlignmentTrackSelector::detailedHitsCheck(const reco::Track *trackp, const 
       // Do not call isHit2D(..) if already enough 2D hits for performance reason:
       if (nHit2D < nHitMin2D_ && this->isHit2D(**iHit)) ++nHit2D;
     } // end loop on hits
-    
+
     return (nhitinTIB >= minHitsinTIB_ && nhitinTOB >= minHitsinTOB_ 
             && nhitinTID >= minHitsinTID_ && nhitinTEC >= minHitsinTEC_ 
             && nhitinBPIX >= minHitsinBPIX_ 
@@ -291,7 +271,6 @@ bool AlignmentTrackSelector::detailedHitsCheck(const reco::Track *trackp, const 
   } else { // no cuts set, so we are just fine and can avoid loop on hits
     return true;
   }
-  
 }
 
 //-----------------------------------------------------------------------------
@@ -399,7 +378,6 @@ bool AlignmentTrackSelector::isOkCharge(const TrackingRecHit* hit) const
   return true;
 } 
 
-
 //-----------------------------------------------------------------------------
 
 bool AlignmentTrackSelector::isOkChargeStripHit(const SiStripRecHit2D *siStripRecHit2D) const
@@ -476,7 +454,6 @@ bool AlignmentTrackSelector::isIsolated(const TrackingRecHit* therechit, const e
   }
   return true;
 }
-
 //-----------------------------------------------------------------------------
 
 AlignmentTrackSelector::Tracks 
@@ -498,8 +475,7 @@ AlignmentTrackSelector::theNHighestPtTracks(const Tracks& tracks) const
   return result;
 }
 
-//---------
-
+//-----------------------------------------------------------------------------
 AlignmentTrackSelector::Tracks 
 AlignmentTrackSelector::checkPrescaledHits(const Tracks& tracks, const edm::Event& evt) const 
 {
@@ -571,32 +547,15 @@ AlignmentTrackSelector::checkPrescaledHits(const Tracks& tracks, const edm::Even
   return result;
 }//end checkPrescaledHits
 
-//-----------------------------------------------------------------
-
+//---------
 bool AlignmentTrackSelector::isOkTrkQuality(const reco::Track* track) const
 {
-  bool qualityOk=false;
-  bool iterStepOk=false;
-
-  //check iterative step
-  if(applyIterStepCheck_){
-    for (unsigned int i = 0; i < trkSteps_.size(); ++i) {
-      if (track->algo()==(trkSteps_[i])) {
-	iterStepOk=true;
-      }
+  if (trkQualities_.size() == 0) return true; // nothing required
+  
+  for (unsigned int i = 0; i < trkQualities_.size(); ++i) {
+    if (track->quality(trkQualities_[i])) {
+      return true;
     }
   }
-  else iterStepOk=true;
-
-  //check track quality
-  if(applyTrkQualityCheck_){
-    for (unsigned int i = 0; i < trkQualities_.size(); ++i) {
-      if (track->quality(trkQualities_[i])) {
-	qualityOk=true;
-      }
-    }
-  }
-  else 	qualityOk=true;
-
-  return qualityOk&&iterStepOk;
+  return false;
 }//end check on track quality
