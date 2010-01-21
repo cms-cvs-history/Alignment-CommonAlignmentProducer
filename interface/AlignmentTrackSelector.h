@@ -78,11 +78,6 @@ class AlignmentTrackSelector
   const bool applyPrescaledHitsFilter_;
 
   std::vector<reco::TrackBase::TrackQuality> trkQualities_;
-
-  std::vector<reco::TrackBase::TrackAlgorithm> trkSteps_;
-  bool applyTrkQualityCheck_;
-  bool applyIterStepCheck_;
-
 };
 
 #endif
