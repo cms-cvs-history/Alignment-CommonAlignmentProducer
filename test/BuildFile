@@ -11,6 +11,11 @@
   <flags EDM_PLUGIN=1>
 </library>
 
+<library file=AlignmentRcdScan.cpp name=CommonAlignmentProducerAlignmentRcd>
+  <use name=CondFormats/Alignment>
+  <flags EDM_PLUGIN=1>
+</library>
+
 <library file=TestAccessGeom.cc>
   <use name=Geometry/TrackerGeometryBuilder>
   <use name=Geometry/DTGeometry>
