@@ -15,12 +15,16 @@ looper = cms.Looper("AlignmentProducer",
                     maxLoops = cms.untracked.uint32(1),
                     doTracker = cms.untracked.bool(True),
                     doMuon = cms.untracked.bool(False),
+                    useExtras = cms.untracked.bool(False),
                     # Read survey info from DB: true requires configuration of PoolDBESSource
                     # See Alignment/SurveyAnalysis/test/readDB.cfg for an example
                     useSurvey = cms.bool(False),
                     
                     # (Mis-)alignment from database: true requires configuration of PoolDBESSource
                     applyDbAlignment = cms.untracked.bool(False),
+                    # apply surface deformations from database: true requires configuration of PoolDBESSource
+                    applyDbDeformations = cms.untracked.bool(False),
+                    
                     # misalignment scenario
                     MisalignmentScenario = cms.PSet(NoMovementsScenario), # why not by reference?
                     doMisalignmentScenario = cms.bool(False),
@@ -50,8 +54,9 @@ looper = cms.Looper("AlignmentProducer",
                     monitorConfig = cms.PSet(monitors = cms.untracked.vstring()),
 
                     # Save alignment to DB: true requires configuration of PoolDBOutputService
-                    saveToDB = cms.bool(False),    # save alignment?
-                    saveApeToDB = cms.bool(False) # save APE?
+                    saveToDB = cms.bool(False),            # save alignment?
+                    saveApeToDB = cms.bool(False),         # save APE?
+                    saveDeformationsToDB = cms.bool(False) # save surface deformations (bows, etc.)?
                     )
 
 

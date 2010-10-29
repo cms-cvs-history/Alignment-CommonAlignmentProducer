@@ -7,9 +7,9 @@
 /// Description : calls alignment algorithms
 ///
 ///  \author    : Frederic Ronga
-///  Revision   : $Revision: 1.16 $
-///  last update: $Date: 2009/10/02 12:46:53 $
-///  by         : $Author: bonato $
+///  Revision   : $Revision: 1.18 $
+///  last update: $Date: 2010/09/10 11:46:17 $
+///  by         : $Author: mussgill $
 
 #include <vector>
 
@@ -28,10 +28,12 @@
 #include "Alignment/CommonAlignmentMonitor/interface/AlignmentMonitorBase.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h" 
 #include <Geometry/Records/interface/MuonGeometryRecord.h> 
+#include "Alignment/CommonAlignment/interface/AlignableExtras.h"
 #include "Alignment/TrackerAlignment/interface/AlignableTracker.h"
 #include "Alignment/MuonAlignment/interface/AlignableMuon.h"
-#include <FWCore/Framework/interface/Frameworkfwd.h> 
+#include <FWCore/Framework/interface/Frameworkfwd.h>
 #include "CondFormats/Alignment/interface/Alignments.h"
+#include "CondFormats/Alignment/interface/AlignmentSurfaceDeformations.h"
 
 // for watcher
 #include "CondFormats/AlignmentRecord/interface/TrackerSurveyRcd.h"
@@ -106,17 +108,26 @@ class AlignmentProducer : public edm::ESProducerLooper
 
   /// Create tracker and muon geometries
   void createGeometries_( const edm::EventSetup& );
+
   /// Apply DB constants belonging to (Err)Rcd to geometry,
   /// taking into account 'globalPosition' correction.
   template<class G, class Rcd, class ErrRcd>
     void applyDB(G *geometry, const edm::EventSetup &iSetup,
 		 const AlignTransform &globalPosition) const;
+  /// Apply DB constants for surface deformations
+  template<class G, class DeformationRcd>
+    void applyDB(G *geometry, const edm::EventSetup &iSetup) const;
+
   /// Write alignment and/or errors to DB for record names
   /// (removes *globalCoordinates before writing if non-null...).
   /// Takes over ownership of alignments and alignmentErrrors.
   void writeDB(Alignments *alignments, const std::string &alignRcd,
 	       AlignmentErrors *alignmentErrors, const std::string &errRcd,
 	       const AlignTransform *globalCoordinates) const;
+  /// Write surface deformations (bows & kinks) to DB for given record name
+  /// Takes over ownership of alignmentsurfaceDeformations.
+  void writeDB(AlignmentSurfaceDeformations *alignmentSurfaceDeformations,
+	       const std::string &surfaceDeformationRcd) const;
 
   /// Add survey info to an alignable
   void addSurveyInfo_(Alignable*);
@@ -134,6 +145,7 @@ class AlignmentProducer : public edm::ESProducerLooper
   std::vector<AlignmentMonitorBase*> theMonitors;
   AlignmentParameterStore* theAlignmentParameterStore;
 
+  AlignableExtras* theAlignableExtras;
   AlignableTracker* theAlignableTracker;
   AlignableMuon* theAlignableMuon;
 
@@ -152,8 +164,9 @@ class AlignmentProducer : public edm::ESProducerLooper
 
   const int stNFixAlignables_;
   const double stRandomShift_,stRandomRotation_;
-  const bool applyDbAlignment_,doMisalignmentScenario_,saveToDB_, saveApeToDB_;
-  const bool doTracker_,doMuon_;
+  const bool applyDbAlignment_,applyDbDeformations_,doMisalignmentScenario_;
+  const bool saveToDB_, saveApeToDB_,saveDeformationsToDB_;
+  const bool doTracker_,doMuon_,useExtras_;
   const bool useSurvey_; // true to read survey info from DB
 
   // event input tags
