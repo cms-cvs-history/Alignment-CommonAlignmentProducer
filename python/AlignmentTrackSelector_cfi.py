@@ -17,7 +17,6 @@ AlignmentTrackSelector = cms.EDFilter("AlignmentTrackSelectorModule",
     phiMax = cms.double(3.1416),
     phiMin = cms.double(-3.1416),
     chi2nMax = cms.double(999999.0),
-    theCharge = cms.int32(0),   ## -1 neg charge, +1 pos charge, 0 all charges 
     d0Min = cms.double(-999999.0),
     d0Max = cms.double(+999999.0),                                      
     dzMin = cms.double(-999999.0),
