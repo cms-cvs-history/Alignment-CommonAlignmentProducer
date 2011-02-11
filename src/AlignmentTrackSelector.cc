@@ -55,7 +55,6 @@ AlignmentTrackSelector::AlignmentTrackSelector(const edm::ParameterSet & cfg) :
   d0Max_(  cfg.getParameter<double>( "d0Max" ) ),
   dzMin_(  cfg.getParameter<double>( "dzMin" ) ),
   dzMax_(  cfg.getParameter<double>( "dzMax" ) ),
-  theCharge_( cfg.getParameter<int>( "theCharge" ) ),
   minHitChargeStrip_( cfg.getParameter<double>( "minHitChargeStrip" ) ),
   minHitIsolation_( cfg.getParameter<double>( "minHitIsolation" ) ),
   rphirecHitsTag_( cfg.getParameter<edm::InputTag>("rphirecHits") ),
@@ -240,13 +239,6 @@ AlignmentTrackSelector::basicCuts(const Tracks& tracks, const edm::Event& evt) c
     int nhit = trackp->numberOfValidHits(); 
     int nlosthit = trackp->numberOfLostHits(); 
     float chi2n = trackp->normalizedChi2();
-
-    int q = trackp->charge();
-    bool isChargeOk = false;
-    if(theCharge_==-1 && q<0)         isChargeOk = true; 
-    else if (theCharge_==1 && q>0)    isChargeOk = true; 
-    else if (theCharge_==0)           isChargeOk = true; 
-
     float d0    = trackp->d0();
     float dz    = trackp->dz();
 
@@ -260,7 +252,6 @@ AlignmentTrackSelector::basicCuts(const Tracks& tracks, const edm::Event& evt) c
        && nhit>=nHitMin_ && nhit<=nHitMax_
        && nlosthit<=nLostHitMax_
        && chi2n<chi2nMax_
-       && isChargeOk
        && d0>=d0Min_ && d0<=d0Max_
        && dz>=dzMin_ && dz<=dzMax_) {
       bool trkQualityOk=false ;
