@@ -1,8 +1,8 @@
 /// \file AlignmentProducer.cc
 ///
 ///  \author    : Frederic Ronga
-///  Revision   : $Revision: 1.43 $
-///  last update: $Date: 2010/09/10 11:46:17 $
+///  Revision   : $Revision: 1.46 $
+///  last update: $Date: 2011/01/17 09:54:46 $
 ///  by         : $Author: mussgill $
 
 #include "AlignmentProducer.h"
@@ -174,8 +174,6 @@ void AlignmentProducer::beginOfJob( const edm::EventSetup& iSetup )
 {
   edm::LogInfo("Alignment") << "@SUB=AlignmentProducer::beginOfJob";
 
-  nevent_ = 0;
-
   // Create the geometries from the ideal geometries (first time only)
   this->createGeometries_( iSetup );
   
@@ -291,47 +289,55 @@ void AlignmentProducer::endOfJob()
      (*monitor)->endOfJob();
   }
 
-  // Save alignments to database
-  if (saveToDB_ || saveApeToDB_) {
-    if ( doTracker_ ) { // first tracker
-      const AlignTransform *trackerGlobal = 0; // will be 'removed' from constants 
-      if (globalPositions_) { // i.e. applied before in applyDB
-	trackerGlobal = &align::DetectorGlobalPosition(*globalPositions_,
-						       DetId(DetId::Tracker));
-      }
-      // Get alignments+errors - ownership taken over by writeDB(..), so no delete
-      Alignments *alignments = theAlignableTracker->alignments();
-      AlignmentErrors *alignmentErrors = theAlignableTracker->alignmentErrors();
-      this->writeDB(alignments, "TrackerAlignmentRcd",
-		    alignmentErrors, "TrackerAlignmentErrorRcd", trackerGlobal);
-    }
+  if (0 == nevent_) {
+    edm::LogError("Alignment") << "@SUB=AlignmentProducer::endOfJob" << "Did not process any "
+                               << "events in last loop, do not dare to store to DB.";
+  } else {
     
-    if ( doMuon_ ) { // now muon
-      const AlignTransform *muonGlobal = 0; // will be 'removed' from constants 
-      if (globalPositions_) { // i.e. applied before in applyDB
-	muonGlobal = &align::DetectorGlobalPosition(*globalPositions_,
-						    DetId(DetId::Muon));
-      }
-      // Get alignments+errors, first DT - ownership taken over by writeDB(..), so no delete
-      Alignments      *alignments       = theAlignableMuon->dtAlignments();
-      AlignmentErrors *alignmentErrors  = theAlignableMuon->dtAlignmentErrors();
-      this->writeDB(alignments, "DTAlignmentRcd",
-		    alignmentErrors, "DTAlignmentErrorRcd", muonGlobal);
+    // Save alignments to database
+    if (saveToDB_ || saveApeToDB_) {
       
-      // Get alignments+errors, now CSC - ownership taken over by writeDB(..), so no delete
-      alignments       = theAlignableMuon->cscAlignments();
-      alignmentErrors  = theAlignableMuon->cscAlignmentErrors();
-      this->writeDB(alignments, "CSCAlignmentRcd",
-		    alignmentErrors, "CSCAlignmentErrorRcd", muonGlobal);
+      if ( doTracker_ ) { // first tracker
+	const AlignTransform *trackerGlobal = 0; // will be 'removed' from constants 
+	if (globalPositions_) { // i.e. applied before in applyDB
+	  trackerGlobal = &align::DetectorGlobalPosition(*globalPositions_,
+							 DetId(DetId::Tracker));
+	}
+	// Get alignments+errors - ownership taken over by writeDB(..), so no delete
+	Alignments *alignments = theAlignableTracker->alignments();
+	AlignmentErrors *alignmentErrors = theAlignableTracker->alignmentErrors();
+	this->writeDB(alignments, "TrackerAlignmentRcd",
+		      alignmentErrors, "TrackerAlignmentErrorRcd", trackerGlobal);
+      }
+      
+      if ( doMuon_ ) { // now muon
+	const AlignTransform *muonGlobal = 0; // will be 'removed' from constants 
+	if (globalPositions_) { // i.e. applied before in applyDB
+	  muonGlobal = &align::DetectorGlobalPosition(*globalPositions_,
+						      DetId(DetId::Muon));
+	}
+	// Get alignments+errors, first DT - ownership taken over by writeDB(..), so no delete
+	Alignments      *alignments       = theAlignableMuon->dtAlignments();
+	AlignmentErrors *alignmentErrors  = theAlignableMuon->dtAlignmentErrors();
+	this->writeDB(alignments, "DTAlignmentRcd",
+		      alignmentErrors, "DTAlignmentErrorRcd", muonGlobal);
+	
+	// Get alignments+errors, now CSC - ownership taken over by writeDB(..), so no delete
+	alignments       = theAlignableMuon->cscAlignments();
+	alignmentErrors  = theAlignableMuon->cscAlignmentErrors();
+	this->writeDB(alignments, "CSCAlignmentRcd",
+		      alignmentErrors, "CSCAlignmentErrorRcd", muonGlobal);
+      }
+      
+      // Save surface deformations to database
+      if (saveDeformationsToDB_ && doTracker_) {
+	AlignmentSurfaceDeformations *alignmentSurfaceDeformations = theAlignableTracker->surfaceDeformations();
+	this->writeDB(alignmentSurfaceDeformations, "TrackerSurfaceDeformationRcd");
+      }
+      
     }
   }
-
-  // Save surface deformations to database
-  if (saveDeformationsToDB_ && doTracker_) {
-    AlignmentSurfaceDeformations *alignmentSurfaceDeformations = theAlignableTracker->surfaceDeformations();
-    this->writeDB(alignmentSurfaceDeformations, "TrackerSurfaceDeformationRcd");
-  }
-
+  
   if (theAlignableExtras) theAlignableExtras->dump();
 }
 
@@ -341,6 +347,8 @@ void AlignmentProducer::startingNewLoop(unsigned int iLoop )
 {
   edm::LogInfo("Alignment") << "@SUB=AlignmentProducer::startingNewLoop" 
                             << "Starting loop number " << iLoop;
+
+  nevent_ = 0;
 
   theAlignmentAlgo->startNewLoop();
 
@@ -358,6 +366,9 @@ void AlignmentProducer::startingNewLoop(unsigned int iLoop )
     std::auto_ptr<Alignments> alignments(theAlignableTracker->alignments());
     std::auto_ptr<AlignmentErrors> alignmentErrors(theAlignableTracker->alignmentErrors());
     aligner.applyAlignments<TrackerGeometry>( &(*theTracker),&(*alignments),&(*alignmentErrors), AlignTransform() ); // don't apply global a second time!
+    std::auto_ptr<AlignmentSurfaceDeformations> aliDeforms(theAlignableTracker->surfaceDeformations());
+    aligner.attachSurfaceDeformations<TrackerGeometry>(&(*theTracker), &(*aliDeforms));
+
   }
   if ( doMuon_ ) {
     std::auto_ptr<Alignments>      dtAlignments(       theAlignableMuon->dtAlignments());
@@ -376,11 +387,22 @@ void AlignmentProducer::startingNewLoop(unsigned int iLoop )
 edm::EDLooper::Status 
 AlignmentProducer::endOfLoop(const edm::EventSetup& iSetup, unsigned int iLoop)
 {
-  edm::LogInfo("Alignment") << "@SUB=AlignmentProducer::endOfLoop" 
-                            << "Ending loop " << iLoop;
+
+  if (0 == nevent_) {
+    // beginOfJob is usually called by the framework in the first event of the first loop
+    // (a hack: beginOfJob needs the EventSetup that is not well defined without an event)
+    // and the algorithms rely on the initialisations done in beginOfJob. We cannot call 
+    // this->beginOfJob(iSetup); here either since that will access the EventSetup to get
+    // some geometry information that is not defined either without having seen an event.
+    edm::LogError("Alignment") << "@SUB=AlignmentProducer::endOfLoop" 
+                               << "Did not process any events in loop " << iLoop
+                               << ", stop processing without terminating algorithm.";
+    return kStop;
+  }
 
   edm::LogInfo("Alignment") << "@SUB=AlignmentProducer::endOfLoop" 
-                            << "Terminating algorithm.";
+                            << "Ending loop " << iLoop << ", terminating algorithm.";
+
   theAlignmentAlgo->terminate();
 
   for (std::vector<AlignmentMonitorBase*>::const_iterator monitor = theMonitors.begin();  monitor != theMonitors.end();  ++monitor) {
@@ -395,9 +417,9 @@ AlignmentProducer::endOfLoop(const edm::EventSetup& iSetup, unsigned int iLoop)
 // Called at each event
 edm::EDLooper::Status 
 AlignmentProducer::duringLoop( const edm::Event& event, 
-  const edm::EventSetup& setup )
+			       const edm::EventSetup& setup )
 {
-  nevent_++;
+  ++nevent_;
 
   // reading in survey records
   this->readInSurveyRcds(setup);
