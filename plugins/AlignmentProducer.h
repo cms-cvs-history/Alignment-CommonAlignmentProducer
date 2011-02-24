@@ -7,8 +7,8 @@
 /// Description : calls alignment algorithms
 ///
 ///  \author    : Frederic Ronga
-///  Revision   : $Revision: 1.19 $
-///  last update: $Date: 2010/10/29 12:32:49 $
+///  Revision   : $Revision: 1.18 $
+///  last update: $Date: 2010/09/10 11:46:17 $
 ///  by         : $Author: mussgill $
 
 #include <vector>
@@ -32,7 +32,6 @@
 #include "Alignment/TrackerAlignment/interface/AlignableTracker.h"
 #include "Alignment/MuonAlignment/interface/AlignableMuon.h"
 #include <FWCore/Framework/interface/Frameworkfwd.h>
-#include "CondCore/DBCommon/interface/Time.h"
 #include "CondFormats/Alignment/interface/Alignments.h"
 #include "CondFormats/Alignment/interface/AlignmentSurfaceDeformations.h"
 
@@ -59,11 +58,7 @@ class AlignmentProducer : public edm::ESProducerLooper
   typedef std::vector<Alignable*> Alignables;
   typedef std::pair<const Trajectory*, const reco::Track*> ConstTrajTrackPair; 
   typedef std::vector<ConstTrajTrackPair>  ConstTrajTrackPairCollection;
-
-  typedef AlignmentAlgorithmBase::RunNumber            RunNumber;
-  typedef AlignmentAlgorithmBase::RunRange             RunRange;
-  typedef std::vector<RunRange>                        RunRanges;
-
+  
   /// Constructor
   AlignmentProducer( const edm::ParameterSet& iConfig );
   
@@ -128,8 +123,7 @@ class AlignmentProducer : public edm::ESProducerLooper
   /// Takes over ownership of alignments and alignmentErrrors.
   void writeDB(Alignments *alignments, const std::string &alignRcd,
 	       AlignmentErrors *alignmentErrors, const std::string &errRcd,
-	       const AlignTransform *globalCoordinates,
-	       cond::Time_t time = cond::timeTypeSpecs[cond::runnumber].beginValue) const;
+	       const AlignTransform *globalCoordinates) const;
   /// Write surface deformations (bows & kinks) to DB for given record name
   /// Takes over ownership of alignmentsurfaceDeformations.
   void writeDB(AlignmentSurfaceDeformations *alignmentSurfaceDeformations,
@@ -140,8 +134,6 @@ class AlignmentProducer : public edm::ESProducerLooper
 	
   /// read in survey records
   void readInSurveyRcds( const edm::EventSetup& );
-
-  RunRanges makeNonOverlappingRunRanges(const edm::VParameterSet& RunRangeSelectionVPSet);
 
   // private data members
 
