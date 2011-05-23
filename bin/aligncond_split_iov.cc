@@ -119,8 +119,7 @@ int cond::AlignSplitIOV::execute()
 
     cond::DbScopedTransaction transaction(destdb);
     transaction.start(false);
-    if (counter==0) destdb.createDatabase();
-
+ 
     std::string objToken = destdb.storeObject(alignments.get(), "Alignments");
 
     cond::IOVEditor editor(destdb);
