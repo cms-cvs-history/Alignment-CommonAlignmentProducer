@@ -78,10 +78,10 @@ int cond::AlignSplitIOV::execute()
 
   std::string destiovtoken;
 
-  cond::DbSession sourcedb = openDbSession("sourceConnect", false);
+  cond::DbSession sourcedb = openDbSession("sourceConnect", true);
   cond::DbSession destdb = openDbSession("destConnect");
 
-  sourcedb.transaction().start(false);
+  sourcedb.transaction().start(true);
   cond::MetaData sourceMetadata(sourcedb);
   sourceiovtoken = sourceMetadata.getToken(sourceTag);
   if (sourceiovtoken.empty()) 
@@ -99,7 +99,7 @@ int cond::AlignSplitIOV::execute()
   since = std::max(since, cond::timeTypeSpecs[sourceiovtype].beginValue);
   till  = std::min(till,  cond::timeTypeSpecs[sourceiovtype].endValue);
   
-  cond::IOVProxy iov(sourcedb, sourceiovtoken);
+  cond::IOVProxy iov(sourcedb, sourceiovtoken, true, false);
   unsigned int counter = 0;
   for (cond::IOVProxy::const_iterator ioviterator = iov.begin();
        ioviterator != iov.end();
