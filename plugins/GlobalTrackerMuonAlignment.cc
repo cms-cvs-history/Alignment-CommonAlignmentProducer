@@ -16,7 +16,7 @@
 // Original Author:  Alexandre Spiridonov
 //         Created:  Fri Oct 16 15:59:05 CEST 2009
 //
-// $Id: GlobalTrackerMuonAlignment.cc,v 1.4 2010/10/13 12:24:01 mussgill Exp $
+// $Id: GlobalTrackerMuonAlignment.cc,v 1.8 2011/10/31 07:49:49 mussgill Exp $
 //
 
 // system include files
@@ -212,7 +212,7 @@ class GlobalTrackerMuonAlignment : public edm::EDAnalyzer {
   CLHEP::HepVector MuGlShift;   // evaluated global muon shifts  
   CLHEP::HepVector MuGlAngle;   // evaluated global muon angles  
 
-  char MuSelect[100];           // what part of muon system is selected for 1st hit 
+  std::string MuSelect;         // what part of muon system is selected for 1st hit 
 
   ofstream OutGlobalTxt;        // output the vector of global alignment as text     
 
@@ -825,10 +825,6 @@ void GlobalTrackerMuonAlignment::analyzeTrackTrack
 	  tpMuGlobal(refSurface.tangentPlane(innerMuTSOS.globalPosition()));
 	Nl = tpMuGlobal->normalVector();
 
-	Surface* surf = (Surface*)&refSurface;
-	const Plane* refPlane = dynamic_cast<Plane*>(surf); 
-	GlobalVector Nlp = refPlane->normalVector();
-
 	//                          extrapolation to innermost muon hit     
 	extrapolationT = alongSmPr.propagate(outerTrackTSOS, refSurface);
 	//extrapolationT = propagator->propagate(outerTrackTSOS, refSurface);
@@ -1071,25 +1067,24 @@ void GlobalTrackerMuonAlignment::analyzeTrackTrack
     //                                            select Barrel 
     //if(Rmuon < 400. || Rmuon > 450.) continue; 
     //if(Zmuon < -600. || Zmuon > 600.) continue;
-    //if(fabs(Nl.z()) > 0.95) continue;  
-    //std::sprintf(MuSelect, " Barrel");
+    //if(fabs(Nl.z()) > 0.95) continue;
+    //MuSelect = " Barrel";
     //                                                  EndCap1
     //if(Rmuon < 120. || Rmuon > 450.) continue;
     //if(Zmuon < -720.) continue;
     //if(Zmuon > -580.) continue;
     //if(fabs(Nl.z()) < 0.95) continue;  
-    //std::sprintf(MuSelect, " EndCap1");
+    //MuSelect = " EndCap1";
     //                                                  EndCap2
     //if(Rmuon < 120. || Rmuon > 450.) continue;
     //if(Zmuon >  720.) continue;
     //if(Zmuon <  580.) continue;
     //if(fabs(Nl.z()) < 0.95) continue;  
-    //std::sprintf(MuSelect, " EndCap2");
+    //MuSelect = " EndCap2";
     //                                                 select All
     if(Rmuon < 120. || Rmuon > 450.) continue;  
     if(Zmuon < -720. || Zmuon > 720.) continue;
-    std::sprintf(MuSelect, " Barrel+EndCaps");
-
+    MuSelect = " Barrel+EndCaps";
 
     
     if(debug_)
@@ -1563,10 +1558,6 @@ void GlobalTrackerMuonAlignment::analyzeTrackTrajectory
 	  tpMuGlobal(refSurface.tangentPlane(innerMuTSOS.globalPosition()));
 	Nl = tpMuGlobal->normalVector();
 
-	Surface* surf = (Surface*)&refSurface;
-	const Plane* refPlane = dynamic_cast<Plane*>(surf); 
-	GlobalVector Nlp = refPlane->normalVector();
-
 	//                          extrapolation to innermost muon hit     
 	//extrapolationT = alongSmPr.propagate(outerTrackTSOS, refSurface);
 	if(!refitTrack_)
@@ -1850,23 +1841,23 @@ void GlobalTrackerMuonAlignment::analyzeTrackTrajectory
     //if(Rmuon < 400. || Rmuon > 450.) continue; 
     //if(Zmuon < -600. || Zmuon > 600.) continue;
     //if(fabs(Nl.z()) > 0.95) continue;  
-    //std::sprintf(MuSelect, " Barrel");
+    //MuSelect = " Barrel";
     //                                                  EndCap1
     //if(Rmuon < 120. || Rmuon > 450.) continue;
     //if(Zmuon < -720.) continue;
     //if(Zmuon > -580.) continue;
     //if(fabs(Nl.z()) < 0.95) continue;  
-    //std::sprintf(MuSelect, " EndCap1");
+    //MuSelect = " EndCap1";
     //                                                  EndCap2
     //if(Rmuon < 120. || Rmuon > 450.) continue;
     //if(Zmuon >  720.) continue;
     //if(Zmuon <  580.) continue;
     //if(fabs(Nl.z()) < 0.95) continue;  
-    //std::sprintf(MuSelect, " EndCap2");
+    //MuSelect = " EndCap2";
     //                                                 select All
     if(Rmuon < 120. || Rmuon > 450.) continue;  
     if(Zmuon < -720. || Zmuon > 720.) continue;
-    std::sprintf(MuSelect, " Barrel+EndCaps");
+    MuSelect = " Barrel+EndCaps";
 
     if(debug_)
       std::cout<<" .............. passed all cuts"<<std::endl;
@@ -2989,11 +2980,11 @@ GlobalTrackerMuonAlignment::trackFitter(reco::TrackRef alongTr, reco::TransientT
   CovLoc(4,4) = 100. * firstTSOS.localError().matrix()(4,4);
   TrajectoryStateOnSurface initialTSOS(firstTSOS.localParameters(), LocalTrajectoryError(CovLoc),
 				       firstTSOS.surface(), &*magneticField_);
-  TrajectoryStateTransform transformer;
-  PTrajectoryStateOnDet* PTraj = 
-    transformer.persistentState(initialTSOS, trackDetId.rawId());
+  
+  PTrajectoryStateOnDet  PTraj = 
+    trajectoryStateTransform::persistentState(initialTSOS, trackDetId.rawId());
   //const TrajectorySeed seedT(*PTraj, recHit, alongMomentum);  
-  const TrajectorySeed seedT(*PTraj, recHit, direction);  
+  const TrajectorySeed seedT(PTraj, recHit, direction);  
 
   std::vector<Trajectory> trajVec;
   if(direction == alongMomentum) trajVec = theFitter->fit(seedT, recHitMu, initialTSOS);
@@ -3086,11 +3077,11 @@ GlobalTrackerMuonAlignment::muonFitter(reco::TrackRef alongTr, reco::TransientTr
   CovLoc(4,4) = 100. * firstTSOS.localError().matrix()(4,4);
   TrajectoryStateOnSurface initialTSOS(firstTSOS.localParameters(), LocalTrajectoryError(CovLoc),
 				       firstTSOS.surface(), &*magneticField_);
-  TrajectoryStateTransform transformer;
-  PTrajectoryStateOnDet* PTraj = 
-    transformer.persistentState(initialTSOS, trackDetId.rawId());
+  
+  PTrajectoryStateOnDet PTraj = 
+    trajectoryStateTransform::persistentState(initialTSOS, trackDetId.rawId());
   //const TrajectorySeed seedT(*PTraj, recHit, alongMomentum);  
-  const TrajectorySeed seedT(*PTraj, recHit, direction);  
+  const TrajectorySeed seedT(PTraj, recHit, direction);  
 
   std::vector<Trajectory> trajVec;
   if(direction == alongMomentum) trajVec = theFitter->fit(seedT, recHitMu, initialTSOS);
