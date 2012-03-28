@@ -24,7 +24,9 @@ ALCARECOTkAlUpsilonMuMuDCSFilter = DPGAnalysis.Skims.skim_detstatus_cfi.dcsstatu
 import Alignment.CommonAlignmentProducer.TkAlMuonSelectors_cfi
 ALCARECOTkAlUpsilonMuMuGoodMuons = Alignment.CommonAlignmentProducer.TkAlMuonSelectors_cfi.TkAlGoodIdMuonSelector.clone()
 ALCARECOTkAlUpsilonMuMuRelCombIsoMuons = Alignment.CommonAlignmentProducer.TkAlMuonSelectors_cfi.TkAlRelCombIsoMuonSelector.clone(
-    src = 'ALCARECOTkAlUpsilonMuMuGoodMuons'
+    src = 'ALCARECOTkAlUpsilonMuMuGoodMuons',
+    cut = '(isolationR03().sumPt + isolationR03().emEt + isolationR03().hadEt)/pt  < 0.3'
+
 )
 
 import Alignment.CommonAlignmentProducer.AlignmentTrackSelector_cfi
@@ -32,7 +34,7 @@ ALCARECOTkAlUpsilonMuMu = Alignment.CommonAlignmentProducer.AlignmentTrackSelect
 ALCARECOTkAlUpsilonMuMu.filter = True ##do not store empty events
 
 ALCARECOTkAlUpsilonMuMu.applyBasicCuts = True
-ALCARECOTkAlUpsilonMuMu.ptMin = 0.8 ##GeV
+ALCARECOTkAlUpsilonMuMu.ptMin = 3. ##GeV
 ALCARECOTkAlUpsilonMuMu.etaMin = -3.5
 ALCARECOTkAlUpsilonMuMu.etaMax = 3.5
 ALCARECOTkAlUpsilonMuMu.nHitMin = 0
@@ -50,6 +52,6 @@ ALCARECOTkAlUpsilonMuMu.TwoBodyDecaySelector.applyChargeFilter = True
 ALCARECOTkAlUpsilonMuMu.TwoBodyDecaySelector.charge = 0
 ALCARECOTkAlUpsilonMuMu.TwoBodyDecaySelector.applyAcoplanarityFilter = False
 ALCARECOTkAlUpsilonMuMu.TwoBodyDecaySelector.acoplanarDistance = 1 ##radian
-ALCARECOTkAlJpsiMuMu.TwoBodyDecaySelector.numberOfCandidates = 1	 
+ALCARECOTkAlUpsilonMuMu.TwoBodyDecaySelector.numberOfCandidates = 1	 
 
 seqALCARECOTkAlUpsilonMuMu = cms.Sequence(ALCARECOTkAlUpsilonMuMuHLT+ALCARECOTkAlUpsilonMuMuDCSFilter+ALCARECOTkAlUpsilonMuMuGoodMuons+ALCARECOTkAlUpsilonMuMuRelCombIsoMuons+ALCARECOTkAlUpsilonMuMu)
