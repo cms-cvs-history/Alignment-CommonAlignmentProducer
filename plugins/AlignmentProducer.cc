@@ -1,8 +1,8 @@
 /// \file AlignmentProducer.cc
 ///
 ///  \author    : Frederic Ronga
-///  Revision   : $Revision: 1.59 $
-///  last update: $Date: 2012/02/01 13:55:23 $
+///  Revision   : $Revision: 1.62 $
+///  last update: $Date: 2012/02/22 07:36:04 $
 ///  by         : $Author: mussgill $
 
 #include "AlignmentProducer.h"
@@ -101,6 +101,14 @@ AlignmentProducer::AlignmentProducer(const edm::ParameterSet& iConfig) :
 
   // Tell the framework what data is being produced
   if (doTracker_) {
+    m_ROWS_PER_ROC  = iConfig.getUntrackedParameter<int>( "ROWS_PER_ROC", m_ROWS_PER_ROC );
+    m_COLS_PER_ROC  = iConfig.getUntrackedParameter<int>( "COLS_PER_ROC", m_COLS_PER_ROC );
+    m_BIG_PIX_PER_ROC_X = iConfig.getUntrackedParameter<int>( "BIG_PIX_PER_ROC_X", m_BIG_PIX_PER_ROC_X );
+    m_BIG_PIX_PER_ROC_Y = iConfig.getUntrackedParameter<int>( "BIG_PIX_PER_ROC_Y", m_BIG_PIX_PER_ROC_Y );
+    m_ROCS_X = iConfig.getUntrackedParameter<int>( "ROCS_X", m_ROCS_X );
+    m_ROCS_Y = iConfig.getUntrackedParameter<int>( "ROCS_Y", m_ROCS_Y );
+    m_upgradeGeometry = iConfig.getUntrackedParameter<bool>( "upgradeGeometry", m_upgradeGeometry );
+
      setWhatProduced(this, &AlignmentProducer::produceTracker);
   }
   if (doMuon_) {
@@ -604,7 +612,13 @@ void AlignmentProducer::createGeometries_( const edm::EventSetup& iSetup )
      edm::ESHandle<GeometricDet> geometricDet;
      iSetup.get<IdealGeometryRecord>().get( geometricDet );
      TrackerGeomBuilderFromGeometricDet trackerBuilder;
-     theTracker = boost::shared_ptr<TrackerGeometry>( trackerBuilder.build(&(*geometricDet)) );
+     theTracker = boost::shared_ptr<TrackerGeometry>( trackerBuilder.build(&(*geometricDet),
+									   m_upgradeGeometry,
+									   m_ROWS_PER_ROC,
+									   m_COLS_PER_ROC,
+									   m_BIG_PIX_PER_ROC_X,
+									   m_BIG_PIX_PER_ROC_Y,
+									   m_ROCS_X, m_ROCS_Y ));
    }
 
    if (doMuon_) {
@@ -731,7 +745,7 @@ void AlignmentProducer::applyDB(G* geometry, const edm::EventSetup &iSetup,
     const edm::ValidityInterval & validity = record.validityInterval();
     const edm::IOVSyncValue first = validity.first();
     const edm::IOVSyncValue last = validity.last();
-    if (first!=edm::IOVSyncValue::beginOfTime() &&
+    if (first!=edm::IOVSyncValue::beginOfTime() ||
 	last!=edm::IOVSyncValue::endOfTime()) {
       throw cms::Exception("DatabaseError")
 	<< "@SUB=AlignmentProducer::applyDB"
@@ -769,7 +783,7 @@ void AlignmentProducer::applyDB(G* geometry, const edm::EventSetup &iSetup) cons
     const edm::ValidityInterval & validity = record.validityInterval();
     const edm::IOVSyncValue first = validity.first();
     const edm::IOVSyncValue last = validity.last();
-    if (first!=edm::IOVSyncValue::beginOfTime() &&
+    if (first!=edm::IOVSyncValue::beginOfTime() ||
 	last!=edm::IOVSyncValue::endOfTime()) {
       throw cms::Exception("DatabaseError")
 	<< "@SUB=AlignmentProducer::applyDB"
