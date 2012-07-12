@@ -1,9 +1,9 @@
 /// \file AlignmentProducer.cc
 ///
 ///  \author    : Frederic Ronga
-///  Revision   : $Revision: 1.59 $
-///  last update: $Date: 2012/02/01 13:55:23 $
-///  by         : $Author: mussgill $
+///  Revision   : $Revision: 1.64 $
+///  last update: $Date: 2012/06/13 16:23:30 $
+///  by         : $Author: yana $
 
 #include "AlignmentProducer.h"
 #include "FWCore/Framework/interface/LooperFactory.h" 
@@ -601,10 +601,15 @@ void AlignmentProducer::createGeometries_( const edm::EventSetup& iSetup )
    iSetup.get<IdealGeometryRecord>().get( cpv );
 
    if (doTracker_) {
+     const edm::ParameterSet tkGeomConsts( theParameterSet.getParameter<edm::ParameterSet>( "trackerGeometryConstants" ));
+     
      edm::ESHandle<GeometricDet> geometricDet;
      iSetup.get<IdealGeometryRecord>().get( geometricDet );
      TrackerGeomBuilderFromGeometricDet trackerBuilder;
-     theTracker = boost::shared_ptr<TrackerGeometry>( trackerBuilder.build(&(*geometricDet)) );
+     theTracker = boost::shared_ptr<TrackerGeometry>( trackerBuilder.build(&(*geometricDet),
+									   tkGeomConsts.getParameter<bool>("upgradeGeometry"),
+									   tkGeomConsts.getParameter<int>( "BIG_PIX_PER_ROC_X" ),
+									   tkGeomConsts.getParameter<int>( "BIG_PIX_PER_ROC_Y" )));
    }
 
    if (doMuon_) {
@@ -731,7 +736,7 @@ void AlignmentProducer::applyDB(G* geometry, const edm::EventSetup &iSetup,
     const edm::ValidityInterval & validity = record.validityInterval();
     const edm::IOVSyncValue first = validity.first();
     const edm::IOVSyncValue last = validity.last();
-    if (first!=edm::IOVSyncValue::beginOfTime() &&
+    if (first!=edm::IOVSyncValue::beginOfTime() ||
 	last!=edm::IOVSyncValue::endOfTime()) {
       throw cms::Exception("DatabaseError")
 	<< "@SUB=AlignmentProducer::applyDB"
@@ -769,7 +774,7 @@ void AlignmentProducer::applyDB(G* geometry, const edm::EventSetup &iSetup) cons
     const edm::ValidityInterval & validity = record.validityInterval();
     const edm::IOVSyncValue first = validity.first();
     const edm::IOVSyncValue last = validity.last();
-    if (first!=edm::IOVSyncValue::beginOfTime() &&
+    if (first!=edm::IOVSyncValue::beginOfTime() ||
 	last!=edm::IOVSyncValue::endOfTime()) {
       throw cms::Exception("DatabaseError")
 	<< "@SUB=AlignmentProducer::applyDB"
