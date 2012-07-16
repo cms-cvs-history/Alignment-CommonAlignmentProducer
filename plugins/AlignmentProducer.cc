@@ -1,9 +1,9 @@
 /// \file AlignmentProducer.cc
 ///
 ///  \author    : Frederic Ronga
-///  Revision   : $Revision: 1.59 $
-///  last update: $Date: 2012/02/01 13:55:23 $
-///  by         : $Author: mussgill $
+///  Revision   : $Revision: 1.65 $
+///  last update: $Date: 2012/07/12 14:54:21 $
+///  by         : $Author: yana $
 
 #include "AlignmentProducer.h"
 #include "FWCore/Framework/interface/LooperFactory.h" 
@@ -604,7 +604,7 @@ void AlignmentProducer::createGeometries_( const edm::EventSetup& iSetup )
      edm::ESHandle<GeometricDet> geometricDet;
      iSetup.get<IdealGeometryRecord>().get( geometricDet );
      TrackerGeomBuilderFromGeometricDet trackerBuilder;
-     theTracker = boost::shared_ptr<TrackerGeometry>( trackerBuilder.build(&(*geometricDet)) );
+     theTracker = boost::shared_ptr<TrackerGeometry>( trackerBuilder.build(&(*geometricDet), theParameterSet ));
    }
 
    if (doMuon_) {
@@ -731,7 +731,7 @@ void AlignmentProducer::applyDB(G* geometry, const edm::EventSetup &iSetup,
     const edm::ValidityInterval & validity = record.validityInterval();
     const edm::IOVSyncValue first = validity.first();
     const edm::IOVSyncValue last = validity.last();
-    if (first!=edm::IOVSyncValue::beginOfTime() &&
+    if (first!=edm::IOVSyncValue::beginOfTime() ||
 	last!=edm::IOVSyncValue::endOfTime()) {
       throw cms::Exception("DatabaseError")
 	<< "@SUB=AlignmentProducer::applyDB"
@@ -769,7 +769,7 @@ void AlignmentProducer::applyDB(G* geometry, const edm::EventSetup &iSetup) cons
     const edm::ValidityInterval & validity = record.validityInterval();
     const edm::IOVSyncValue first = validity.first();
     const edm::IOVSyncValue last = validity.last();
-    if (first!=edm::IOVSyncValue::beginOfTime() &&
+    if (first!=edm::IOVSyncValue::beginOfTime() ||
 	last!=edm::IOVSyncValue::endOfTime()) {
       throw cms::Exception("DatabaseError")
 	<< "@SUB=AlignmentProducer::applyDB"
